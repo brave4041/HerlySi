@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Latihan HTML - Herly</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+
+        .gerakan {
+            font-size: 30px;
+            font-weight: bold;
+            color: #2c3e50;
+            display: inline-block;
+            animation: GerakanTeks 3s infinite alternate ease-in-out;
+        }
+
+        @keyframes GerakanTeks {
+            from {
+                transform: translateX(-30px);
+                color: #3498db;
+            }
+
+            to {
+                transform: translateX(30px);
+                color: #e74c3c;
+            }
+        }
+
+        .link {
+            margin-top: 30px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gerakan">HERLY AFRIZAL</div>
+
+    <div class="link">
+        <p>ini coding latihan 1 <a href="https://gist.github.com/brave4041/d41de2706d0e1184df18f845387aaa41">source
+                code</a></p>
+        <p>ini di dartpad <a href="https://dartpad.dev/d41de2706d0e1184df18f845387aaa41">source code</a></p>
+    </div>
+
+</body>
+
+</html>
