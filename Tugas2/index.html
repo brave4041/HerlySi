@@ -310,10 +310,16 @@
         <li><b>Attribute</b>: Representasi data melalui variabel di dalam class.</li>
         <li><b>Method</b>: Logika fungsional atau fungsi di dalam class.</li>
       </ul>
+      <p style="margin-top: 15px; color: var(--text-dim); font-size: 0.9rem;">
+        Empat pilar utama ini membentuk struktur dasar dalam pengembangan aplikasi berbasis objek di Dart, memungkinkan
+        pengembang untuk memodelkan entitas dunia nyata ke dalam kode digital.
+      </p>
     </div>
 
     <div class="cyber-card">
       <h3><span>03</span> CONTOH CLASS SEDERHANA (CAR)</h3>
+      <p>Di bawah ini adalah contoh pendefinisian class <b>Car</b>. Class ini memiliki dua <b>attribute</b> (model dan
+        color) serta dua <b>method</b> (start dan stop) yang merepresentasikan perilaku dasar sebuah mobil.</p>
       <div class="code-container" id="code-car">
         <div class="code-header">
           <span class="lang">DART // CLASS</span>
@@ -339,6 +345,8 @@
 
     <div class="cyber-card">
       <h3><span>04</span> OBJECT INSTANTIATION</h3>
+      <p>Setelah class didefinisikan, kita dapat membuat <b>Object</b> atau instance dari class tersebut di dalam fungsi
+        <code>main()</code>. Proses ini disebut instansiasi, di mana objek dialokasikan ke dalam memori.</p>
       <div class="code-container" id="code-instance">
         <div class="code-header">
           <span class="lang">DART // RUNTIME</span>
@@ -362,8 +370,9 @@
     <div class="cyber-card">
       <h3><span>05</span> CONSTRUCTORS</h3>
       <p>
-        Constructor adalah metode inisialisasi yang dipanggil secara otomatis saat objek baru diciptakan dalam memori
-        sistem.
+        <b>Constructor</b> adalah metode inisialisasi yang dipanggil secara otomatis saat objek baru diciptakan dalam
+        memori sistem. Di Dart, kita bisa menggunakan <i>formal parameters</i> (<code>this.attribute</code>) untuk
+        menyederhanakan proses pengisian nilai attribute.
       </p>
       <div class="code-container" id="code-constructor">
         <div class="code-header">
@@ -389,6 +398,9 @@
 
     <div class="cyber-card">
       <h3><span>06</span> PRACTICE: MAHASISWA CLASS</h3>
+      <p>Latihan mandiri dalam membuat class <b>Mahasiswa</b> yang menampung data akademik. Class ini
+        mengimplementasikan constructor untuk memastikan setiap objek mahasiswa memiliki data yang lengkap saat dibuat.
+      </p>
       <div class="code-container" id="code-mhs">
         <div class="code-header">
           <span class="lang">DART // OBJECT</span>
@@ -414,7 +426,9 @@
 
     <div class="cyber-card">
       <h3><span>07</span> ENCAPSULATION</h3>
-      <p>Mengamankan integritas data dengan akses private (underscore <code>_</code>):</p>
+      <p><b>Encapsulation</b> adalah teknik untuk menyembunyikan detail implementasi internal. Di Dart, kita menggunakan
+        awalan underscore (<code>_</code>) untuk membuat attribute bersifat <b>private</b>, sehingga hanya bisa diakses
+        melalui <b>getter</b> dan <b>setter</b>.</p>
       <div class="code-container" id="code-encap">
         <div class="code-header">
           <span class="lang">DART // PRIVATE</span>
@@ -438,6 +452,9 @@
 
     <div class="cyber-card">
       <h3><span>08</span> THIS KEYWORD</h3>
+      <p>Kata kunci <code>this</code> digunakan untuk merujuk pada instance saat ini dari sebuah class. Ini sangat
+        berguna untuk menghindari ambiguitas ketika nama parameter pada constructor sama dengan nama attribute di dalam
+        class.</p>
       <div class="code-container" id="code-this">
         <div class="code-header">
           <span class="lang">DART // REFERENCE</span>
@@ -456,6 +473,9 @@
 
     <div class="cyber-card">
       <h3><span>09</span> PRACTICE 2: PRODUK CLASS</h3>
+      <p>Latihan lanjutan menggunakan <b>Named Parameters</b> dan operator <code>required</code>. Teknik ini membuat
+        pembuatan objek menjadi lebih deskriptif dan aman karena compiler akan memberikan peringatan jika data wajib
+        tidak diisi.</p>
       <div class="code-container" id="code-produk-adv">
         <div class="code-header">
           <span class="lang">DART // STRUCT</span>
