@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herly Afrizal - OOP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050505;
+      --card-bg: #0f0f0f;
+      --accent-red: #ff003c;
+      --accent-red-glow: rgba(255, 0, 60, 0.5);
+      --text-main: #e0e0e0;
+      --text-dim: #a0a0a0;
+      --code-bg: #000000;
+      --border-color: #222;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(rgba(255, 0, 60, 0.03) 1px, transparent 1px),
+        linear-gradient(90px, rgba(255, 0, 60, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--accent-red);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      text-shadow: 0 0 20px var(--accent-red-glow);
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 10px;
+    }
+
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      margin-bottom: 40px;
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cyber-card::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 20px;
+      height: 20px;
+      border-top: 2px solid var(--accent-red);
+      border-left: 2px solid var(--accent-red);
+    }
+
+    .cyber-card::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 20px;
+      height: 20px;
+      border-bottom: 2px solid var(--accent-red);
+      border-right: 2px solid var(--accent-red);
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 15px rgba(255, 0, 60, 0.1);
+    }
+
+    h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent-red);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h3 span {
+      font-size: 0.8rem;
+      background: var(--accent-red);
+      color: black;
+      padding: 2px 8px;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 15px;
+    }
+
+    ul li {
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: "▶";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+      font-size: 0.8rem;
+    }
+
+    b {
+      color: var(--accent-red);
+    }
+
+    .code-container {
+      margin-top: 25px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .code-header {
+      background: #1a1a1a;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .code-header .lang {
+      color: var(--text-dim);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 5px 15px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    }
+
+    .btn:hover {
+      background: var(--accent-red);
+      color: black;
+      box-shadow: 0 0 10px var(--accent-red-glow);
+    }
+
+    .btn.run {
+      background: var(--accent-red);
+      color: black;
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      color: #00ff88;
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+    }
+
+    .output-panel {
+      display: none;
+      background: #000;
+      border-top: 1px solid #333;
+      padding: 0;
+    }
+
+    .output-panel iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+
+    .status-bar {
+      margin-top: 80px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+
+    .glow {
+      text-shadow: 0 0 10px var(--accent-red-glow);
+    }
+
+    .gerakan {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 60px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px var(--accent-red), -2px -2px #00f3ff;
+      animation: glitch 3s infinite;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+
+      5% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px -2px var(--accent-red), 2px 2px #00f3ff;
+      }
+
+      10% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 2px var(--accent-red), -2px -2px #00f3ff;
+      }
+
+      15% {
+        transform: translate(0);
+      }
+
+      100% {
+        transform: translate(0);
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-red);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="gerakan">Herly Afrizal</h1>
+    <div class="cyber-card">
+      <h3><span>01</span> PENGERTIAN OOP</h3>
+      <p>
+        <b class="glow">Object Oriented Programming (OOP)</b> adalah paradigma pemrograman yang berfokus pada objek
+        sebagai unit utama.
+        Setiap objek memiliki <b>state</b> (data) dan <b>behavior</b> (perilaku).
+        Tujuan OOP adalah membuat kode yang modular, reusable, dan mudah dipelihara dalam arsitektur sistem yang
+        kompleks.
+      </p>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>02</span> KONSEP DASAR</h3>
+      <ul>
+        <li><b>Class</b>: Blueprint atau cetakan protokol untuk membuat objek.</li>
+        <li><b>Object</b>: Manifestasi runtime atau instance nyata dari sebuah class.</li>
+        <li><b>Attribute</b>: Representasi data melalui variabel di dalam class.</li>
+        <li><b>Method</b>: Logika fungsional atau fungsi di dalam class.</li>
+      </ul>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>03</span> CONTOH CLASS SEDERHANA (CAR)</h3>
+      <div class="code-container" id="code-car">
+        <div class="code-header">
+          <span class="lang">DART // CLASS</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-car', '8f3627510d64b42cab35e6cd91949b40')">RUN CODE</button>
+          </div>
+        </div>
+        <pre><code>class Car {
+  String? model;
+  String? color;
+
+  void start() {
+    print('Car started!');
+  }
+
+  void stop() {
+    print('Car stopped!');
+  }
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>04</span> OBJECT INSTANTIATION</h3>
+      <div class="code-container" id="code-instance">
+        <div class="code-header">
+          <span class="lang">DART // RUNTIME</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-instance', 'ab55d3390bcc10e7da6e19bb7dd6b37c')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>void main() {
+  Car myCar = Car();
+  myCar.model = "Sedan";
+  myCar.color = "Merah";
+
+  myCar.start();
+  myCar.stop();
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>05</span> CONSTRUCTORS</h3>
+      <p>
+        Constructor adalah metode inisialisasi yang dipanggil secara otomatis saat objek baru diciptakan dalam memori
+        sistem.
+      </p>
+      <div class="code-container" id="code-constructor">
+        <div class="code-header">
+          <span class="lang">DART // INIT</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-constructor', '3947e3d1fdf39788ba11363312a67a93')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Car {
+  String? model;
+  String? color;
+
+  Car(this.model, this.color);
+
+  void start() {
+    print('Engine Online: $model');
+  }
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>06</span> PRACTICE: MAHASISWA CLASS</h3>
+      <div class="code-container" id="code-mhs">
+        <div class="code-header">
+          <span class="lang">DART // OBJECT</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-mhs', '7bc3487bd4fceb57464bf1f25d092a8e')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Mahasiswa {
+  String nama;
+  String nim;
+  double ipk;
+
+  Mahasiswa(this.nama, this.nim, this.ipk);
+
+  void tampilkanData() {
+    print('NAMA : $nama | NIM : $nim | IPK : $ipk');
+  }
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>07</span> ENCAPSULATION</h3>
+      <p>Mengamankan integritas data dengan akses private (underscore <code>_</code>):</p>
+      <div class="code-container" id="code-encap">
+        <div class="code-header">
+          <span class="lang">DART // PRIVATE</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-encap', 'c59169f43ea6300d62fa22c8a79cee07')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Person {
+  String _name;
+  int age;
+
+  Person(this._name, this.age);
+
+  void setName(String name) => _name = name;
+  String getName() => _name;
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>08</span> THIS KEYWORD</h3>
+      <div class="code-container" id="code-this">
+        <div class="code-header">
+          <span class="lang">DART // REFERENCE</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-this', 'b46d62a6f572c3e8b0da7fbe46d7c12d')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Product {
+  String nama;
+  Product(this.nama);
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>09</span> PRACTICE 2: PRODUK CLASS</h3>
+      <div class="code-container" id="code-produk-adv">
+        <div class="code-header">
+          <span class="lang">DART // STRUCT</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-produk-adv', '9994d491f57e635dfcd631521283771f')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Produk {
+  final String id, nama;
+  final double harga;
+  final int stok;
+  final String kategori;
+
+  Produk({
+    required this.id,
+    required this.nama,
+    required this.harga,
+    this.stok = 0,
+    this.kategori = 'Umum',
+  });
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+    <!-- Bonus Section -->
+    <div class="cyber-card">
+      <h3><span>11</span> QUIZ BONUS: HEWAN CLASS</h3>
+      <p>Implementasi kelas <b>Hewan</b> sesuai instruksi diskusi untuk pendefinisian atribut dan metode dasar:</p>
+      <div class="code-container" id="code-hewan">
+        <div class="code-header">
+          <span class="lang">DART // BONUS</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-hewan', '826e1808d917c21609420d527de17e06')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>class Hewan {
+  String nama;
+
+  Hewan(this.nama);
+
+  void bersuara() {
+    print('$nama sedang bersuara...');
+    print('Sound Protocol: [DATA_SOUND_GENERATED]');
+  }
+}
+void main() {
+  var myPet = Hewan('Kucing');
+  print('Nama Hewan: ${myPet.nama}');
+  myPet.bersuara();
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>10</span> KESIMPULAN</h3>
+      <ul>
+        <li>OOP mempermudah pengelolaan kode melalui enkapsulasi logika dalam <b>Object</b>.</li>
+        <li><b>Constructor</b> digunakan untuk inisialisasi data primer secara otomatis.</li>
+        <li><b>Encapsulation</b> menjaga keamanan data dari akses runtime ilegal.</li>
+        <li>Dart mendukung OOP secara native, menjadi fondasi utama framework <b>Flutter</b>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    function copyCode(id) {
+      const code = document.querySelector(`#${id} code`).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector(`#${id} .btn`);
+        const originalText = btn.innerText;
+        btn.innerText = 'COPIED!';
+        btn.style.color = '#00ff88';
+        btn.style.borderColor = '#00ff88';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2000);
+      });
+    }
+
+    function runCode(id, dartPadId) {
+      const container = document.getElementById(id);
+      const outputPanel = container.querySelector('.output-panel');
+
+      if (outputPanel.style.display === 'block') {
+        outputPanel.style.display = 'none';
+        outputPanel.innerHTML = '';
+        container.querySelector('.run').innerText = 'RUN CODE';
+        return;
+      }
+
+      outputPanel.style.display = 'block';
+      container.querySelector('.run').innerText = 'STOP CODE';
+
+      const iframe = document.createElement('iframe');
+      if (dartPadId) {
+        iframe.src = `https://dartpad.dev/embed-inline.html?id=${dartPadId}&theme=dark`;
+      } else {
+        const code = container.querySelector('code').innerText;
+        const encodedCode = encodeURIComponent(code);
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      }
+      outputPanel.appendChild(iframe);
+    }
+  </script>
+</body>
+
+</html>
