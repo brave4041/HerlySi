@@ -334,19 +334,20 @@
             <button class="btn run" onclick="runCode('code-car', '8f3627510d64b42cab35e6cd91949b40')">RUN CODE</button>
           </div>
         </div>
-        <pre><code>// Mendefinisikan class Car
-class Car {
-  String? model; // Atribut untuk menyimpan model mobil (contoh: Toyota)
-  String? color; // Atribut untuk menyimpan warna mobil (contoh: Merah)
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-  // Method untuk menyalakan mobil
+class Car {
+  String? model;
+  String? color;
+
   void start() {
-    print('Car started!'); // Mencetak status mobil dinyalakan
+    print('Car started!');
   }
 
-  // Method untuk menghentikan mobil
   void stop() {
-    print('Car stopped!'); // Mencetak status mobil dihentikan
+    print('Car stopped!');
   }
 }</code></pre>
         <div class="output-panel"></div>
@@ -366,17 +367,18 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>void main() {
-  // Membuat objek myCar dari class Car
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+void main() {
   Car myCar = Car();
   
-  // Mengisi nilai atribut objek
-  myCar.model = "Sedan"; // Mengatur model menjadi Sedan
-  myCar.color = "Merah"; // Mengatur warna menjadi Merah
+  myCar.model = "Sedan";
+  myCar.color = "Merah";
 
-  // Memanggil method objek
-  myCar.start(); // Menjalankan fungsi start
-  myCar.stop();  // Menjalankan fungsi stop
+  myCar.start();
+  myCar.stop();
 }</code></pre>
         <div class="output-panel"></div>
       </div>
@@ -397,15 +399,18 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Car {
-  String? model; // Properti model
-  String? color; // Properti warna
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-  // Constructor untuk inisialisasi model dan color secara langsung
+class Car {
+  String? model;
+  String? color;
+
   Car(this.model, this.color);
 
   void start() {
-    print('Engine Online: $model'); // Menampilkan pesan dengan nama model
+    print('Engine Online: $model');
   }
 }</code></pre>
         <div class="output-panel"></div>
@@ -425,15 +430,17 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Mahasiswa {
-  String nama; // nama : herly afrizal
-  String nim;  // nim : 251410002
-  double ipk;  // ipk : 3.87
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-  // Constructor Mahasiswa (Menginisialisasi data input)
+class Mahasiswa {
+  String nama;
+  String nim;
+  double ipk;
+
   Mahasiswa(this.nama, this.nim, this.ipk);
 
-  // Method untuk menampilkan data mahasiswa ke konsol
   void tampilkanData() {
     print('NAMA : $nama | NIM : $nim | IPK : $ipk');
   }
@@ -455,16 +462,18 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Person {
-  String _name; // Atribut private (diawali dengan underscore)
-  int age;      // Atribut umur (contoh: 20)
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Person {
+  String _name;
+  int age;
 
   Person(this._name, this.age);
 
-  // Setter untuk mengubah nilai _name secara aman
   void setName(String name) => _name = name;
   
-  // Getter untuk mengambil nilai _name dari luar class
   String getName() => _name;
 }</code></pre>
         <div class="output-panel"></div>
@@ -484,9 +493,12 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Product {
-  String nama; // Nama produk (contoh: Laptop)
-  // Keyword 'this' merujuk pada atribut nama di dalam class ini
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Product {
+  String nama;
   Product(this.nama);
 }</code></pre>
         <div class="output-panel"></div>
@@ -506,14 +518,16 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Produk {
-  // Atribut final (nilainya tidak bisa diubah setelah diinisialisasi)
-  final String id, nama; // id : P001, nama : Monitor
-  final double harga;    // harga : 2500000.0
-  final int stok;        // stok : 10
-  final String kategori; // kategori : Elektronik
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-  // Constructor dengan Named Parameters ({}) dan required
+class Produk {
+  final String id, nama;
+  final double harga;
+  final int stok;
+  final String kategori;
+
   Produk({
     required this.id,
     required this.nama,
@@ -547,24 +561,25 @@ class Car {
               CODE</button>
           </div>
         </div>
-        <pre><code>class Hewan {
-  String nama; // Nama hewan (contoh: Kucing)
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-  // Constructor Hewan
+class Hewan {
+  String nama;
+
   Hewan(this.nama);
 
-  // Method bersuara
   void bersuara() {
-    print('$nama sedang bersuara...'); // Menampilkan aksi suara
-    print('Sound Protocol: [DATA_SOUND_GENERATED]'); // Simulasi suara komputer
+    print('$nama sedang bersuara...');
+    print('Sound Protocol: [DATA_SOUND_GENERATED]');
   }
 }
 
 void main() {
-  // Membuat objek myPet dengan nama Kucing
   var myPet = Hewan('Kucing');
-  print('Nama Hewan: ${myPet.nama}'); // Menampilkan atribut nama
-  myPet.bersuara(); // Memanggil method bersuara
+  print('Nama Hewan: ${myPet.nama}');
+  myPet.bersuara();
 }</code></pre>
         <div class="output-panel"></div>
       </div>
