@@ -1,1 +1,710 @@
 
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herly Afrizal - OOP</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050505;
+      --card-bg: #0f0f0f;
+      --accent-red: #ff003c;
+      --accent-red-glow: rgba(255, 0, 60, 0.5);
+      --text-main: #e0e0e0;
+      --text-dim: #a0a0a0;
+      --code-bg: #000000;
+      --border-color: #222;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(rgba(255, 0, 60, 0.03) 1px, transparent 1px),
+        linear-gradient(90px, rgba(255, 0, 60, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--accent-red);
+      text-transform: uppercase;
+      letter-spacing: 5px;
+      text-shadow: 0 0 20px var(--accent-red-glow);
+    }
+
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-top: 10px;
+    }
+
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      margin-bottom: 40px;
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cyber-card::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 20px;
+      height: 20px;
+      border-top: 2px solid var(--accent-red);
+      border-left: 2px solid var(--accent-red);
+    }
+
+    .cyber-card::after {
+      content: "";
+      position: absolute;
+      bottom: -1px;
+      right: -1px;
+      width: 20px;
+      height: 20px;
+      border-bottom: 2px solid var(--accent-red);
+      border-right: 2px solid var(--accent-red);
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 15px rgba(255, 0, 60, 0.1);
+    }
+
+    h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem;
+      color: var(--accent-red);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h3 span {
+      font-size: 0.8rem;
+      background: var(--accent-red);
+      color: black;
+      padding: 2px 8px;
+    }
+
+    ul {
+      list-style: none;
+      margin-top: 15px;
+    }
+
+    ul li {
+      margin-bottom: 12px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    ul li::before {
+      content: "▶";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+      font-size: 0.8rem;
+    }
+
+    b {
+      color: var(--accent-red);
+    }
+
+    .code-container {
+      margin-top: 25px;
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .code-header {
+      background: #1a1a1a;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .code-header .lang {
+      color: var(--text-dim);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .btn {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      padding: 5px 15px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    }
+
+    .btn:hover {
+      background: var(--accent-red);
+      color: black;
+      box-shadow: 0 0 10px var(--accent-red-glow);
+    }
+
+    .btn.run {
+      background: var(--accent-red);
+      color: black;
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      color: #00ff88;
+      padding: 20px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+    }
+
+    .status-bar {
+      margin-top: 80px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      width: 95%;
+      max-width: 1100px;
+      height: 85vh;
+      background: #050505;
+      border: 1px solid var(--accent-red);
+      position: relative;
+      box-shadow: 0 0 50px rgba(255, 0, 60, 0.3);
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      background: #000;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #111;
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-red);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: bold;
+      transition: all 0.3s;
+      clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    }
+
+    .close-modal:hover {
+      background: var(--accent-red);
+      color: black;
+      box-shadow: 0 0 15px var(--accent-red-glow);
+    }
+
+    .modal-body {
+      flex: 1;
+      background: #000;
+      position: relative;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-content::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 40px;
+      height: 40px;
+      border-top: 3px solid var(--accent-red);
+      border-left: 3px solid var(--accent-red);
+      pointer-events: none;
+    }
+
+    .glow {
+      text-shadow: 0 0 10px var(--accent-red-glow);
+    }
+
+    .gerakan {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 60px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px var(--accent-red), -2px -2px #00f3ff;
+      animation: glitch 3s infinite;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+
+      5% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px -2px var(--accent-red), 2px 2px #00f3ff;
+      }
+
+      10% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 2px var(--accent-red), -2px -2px #00f3ff;
+      }
+
+      15% {
+        transform: translate(0);
+      }
+
+      100% {
+        transform: translate(0);
+      }
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-color);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #333;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-red);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 class="gerakan">Herly Afrizal</h1>
+    <div
+      style="text-align: center; margin-top: -30px; margin-bottom: 50px; font-family: 'Share Tech Mono', monospace; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem;">
+      <span style="color: var(--accent-red);">[</span>
+      NIM: 251410002 <span style="color: #444;">|</span>
+      Kelas: SI2A
+      <span style="color: var(--accent-red);">]</span>
+    </div>
+    <div class="cyber-card">
+      <h3><span>01</span> RESUME: KONSTRUKTOR & ENKAPSULASI</h3>
+      <p>
+        Materi ini membahas dua pilar penting dalam pemrograman berorientasi objek menggunakan bahasa <b>Dart</b>:
+        bagaimana objek diinisialisasi melalui konstruktor dan bagaimana data dilindungi melalui enkapsulasi.
+      </p>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>02</span> KONSTRUKTOR (CONSTRUCTOR)</h3>
+      <p>Konstruktor adalah method khusus yang dipanggil saat objek dibuat. Dart menyediakan beberapa jenis konstruktor:
+      </p>
+      <ul>
+        <li><b>Default Constructor</b>: Dibuat otomatis jika tidak didefinisikan secara manual.</li>
+        <li><b>Parameterized Constructor</b>: Menerima parameter untuk menginisialisasi field secara langsung.</li>
+        <li><b>Named Constructor</b>: Memberikan nama tambahan untuk cara alternatif pembuatan objek.</li>
+        <li><b>Constant Constructor</b>: Membuat objek <i>immutable</i> untuk efisiensi memori.</li>
+        <li><b>Initializer List</b>: Digunakan untuk validasi field sebelum body konstruktor dijalankan.</li>
+      </ul>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>03</span> ENKAPSULASI (ENCAPSULATION)</h3>
+      <p>Konsep menyembunyikan detail implementasi untuk keamanan dan kontrol data.</p>
+      <ul>
+        <li><b>Private Field</b>: Menggunakan prefix underscore (<code>_</code>) untuk membatasi akses hanya dalam satu
+          file.</li>
+        <li><b>Kontrol Akses</b>: Memastikan integritas data melalui mekanisme internal.</li>
+        <li><b>Fleksibilitas</b>: Mempermudah perubahan logika internal tanpa merusak kode luar.</li>
+      </ul>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>04</span> GETTER DAN SETTER</h3>
+      <p>Mekanisme untuk mengakses dan memodifikasi data private dengan kontrol tambahan.</p>
+      <ul>
+        <li><b>Getter</b>: Mengambil nilai data private (Contoh: <code>get nama => _name;</code>).</li>
+        <li><b>Setter</b>: Mengubah nilai data private dengan validasi (Contoh: <code>set nama(val) { ... }</code>).
+        </li>
+      </ul>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>05</span> STUDI KASUS: SISTEM LOGIN</h3>
+      <p>Implementasi kelas <code>User</code> dengan field private <code>_username</code> dan <code>_password</code>,
+        serta metode validasi untuk proses login dan perubahan kredensial secara aman.</p>
+      <div class="note"
+        style="margin-top: 20px; padding: 15px; border-left: 4px solid var(--accent-red); background: rgba(255,0,60,0.05);">
+        <b style="color: var(--accent-red);">RINGKASAN:</b>
+        <ol style="margin-top: 10px; margin-left: 20px; color: var(--text-dim); font-size: 0.9rem;">
+          <li>Fleksibilitas inisialisasi melalui berbagai jenis konstruktor.</li>
+          <li>Perlindungan data menggunakan private field (<code>_</code>).</li>
+          <li>Keamanan akses melalui Getter dan Setter dengan validasi.</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>06</span> PRAKTIK 1: KELAS MAHASISWA</h3>
+      <p>Implementasi kelas <b>Mahasiswa</b> menggunakan multiple constructors (default, named <code>dariMap</code>, dan
+        <code>tanpaNama</code>).
+      </p>
+      <div class="code-container" id="code-mhs-new">
+        <div class="code-header">
+          <span class="lang">DART // CONSTRUCTORS</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-mhs-new', 'fe97897a367a2f452dfee7262d714a8c')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Mahasiswa {
+  String? nama;
+  int? umur;
+
+  // Parameterized constructor
+  Mahasiswa(this.nama, this.umur);
+
+  // Named constructor dari Map
+  Mahasiswa.dariMap(Map&lt;String, dynamic&gt; map) {
+    nama = map['nama'];
+    umur = map['umur'];
+  }
+
+  // Named constructor tanpa nama
+  Mahasiswa.tanpaNama() {
+    nama = 'Anonymous';
+    umur = 0;
+  }
+
+  @override
+  String toString() =&gt; 'Mahasiswa{nama: $nama, umur: $umur}';
+}
+
+void main() {
+  print('--- Praktik 1: Kelas Mahasiswa ---');
+  var m1 = Mahasiswa('Herly', 20);
+  var m2 = Mahasiswa.dariMap({'nama': 'Afrizal', 'umur': 22});
+  var m3 = Mahasiswa.tanpaNama();
+
+  print(m1);
+  print(m2);
+  print(m3);
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>07</span> PRAKTIK 2: ENKAPSULASI & VALIDASI</h3>
+      <p>Implementasi kelas <code>User</code> dengan field private dan validasi ketat pada setter.</p>
+      <div class="code-container" id="code-user-new">
+        <div class="code-header">
+          <span class="lang">DART // ENCAPSULATION</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-user-new', '6eab268b4ed27b7d6f6f06b3ff06a6aa')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class User {
+  String _username;
+  String _password;
+  String _email;
+
+  User(this._username, this._password, this._email) {
+    if (_username.length &lt; 5) _username = 'invalid';
+    if (_password.length &lt; 8) _password = 'invalid';
+    if (!_email.contains('@')) _email = 'invalid';
+  }
+
+  String get username =&gt; _username;
+  String get email =&gt; _email;
+
+  set username(String value) {
+    if (value.length &gt;= 5) _username = value;
+    else print('Username harus minimal 5 karakter.');
+  }
+
+  set password(String value) {
+    if (value.length &gt;= 8) _password = value;
+    else print('Password harus minimal 8 karakter.');
+  }
+
+  set email(String value) {
+    if (value.contains('@')) _email = value;
+    else print('Email harus mengandung @.');
+  }
+
+  void info() {
+    print('Username: $_username, Email: $_email');
+  }
+}
+
+void main() {
+  print('\n--- Praktik 2: Kelas User dengan Validasi ---');
+  var user = User('herly', 'rahasia123', 'herly@mail.com');
+  user.info();
+
+  print('\nMengubah username menjadi "her" (gagal)');
+  user.username = 'her';
+  
+  print('\nMengubah username menjadi "herlyafrizal" (berhasil)');
+  user.username = 'herlyafrizal';
+  user.info();
+
+  print('\nMengubah password menjadi "short" (gagal)');
+  user.password = 'short';
+
+  print('\nMengubah email menjadi "herly.mail.com" (tanpa @ - gagal)');
+  user.email = 'herly.mail.com';
+
+  print('\nMengubah email menjadi "herly@mail.com" (berhasil)');
+  user.email = 'herly@mail.com';
+  user.info();
+}</code></pre>
+        <div class="output-panel"></div>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>08</span> BONUS: LATIHAN REKENING BANK</h3>
+      <p>Simulasi sistem perbankan dengan validasi transaksi dan perlindungan saldo.</p>
+      <div class="code-container" id="code-bank-new">
+        <div class="code-header">
+          <span class="lang">DART // LOGIC</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-bank-new', 'deadfb7a717c7724a1475dcc8f33aa70')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class RekeningBank {
+  String _nomorRekening;
+  double _saldo;
+
+  RekeningBank(this._nomorRekening, this._saldo) {
+    if (_saldo &lt; 0) _saldo = 0;
+  }
+
+  String get nomorRekening =&gt; _nomorRekening;
+  double get saldo =&gt; _saldo;
+
+  void deposit(double jumlah) {
+    if (jumlah &gt; 0) {
+      _saldo += jumlah;
+      print('Deposit Rp $jumlah berhasil. Saldo: Rp $_saldo');
+    }
+  }
+
+  void tarik(double jumlah) {
+    if (jumlah &gt; 0 && _saldo &gt;= jumlah) {
+      _saldo -= jumlah;
+      print('Tarik Rp $jumlah berhasil. Saldo: Rp $_saldo');
+    } else {
+      print('Transaksi gagal: Saldo tidak mencukupi atau jumlah tidak valid.');
+    }
+  }
+
+  void cekSaldo() {
+    print('Saldo rekening $_nomorRekening: Rp $_saldo');
+  }
+}
+
+void main() {
+  print('\n--- Latihan: RekeningBank ---');
+  var rek = RekeningBank('123-456-789', 500000);
+  rek.cekSaldo();
+  rek.deposit(200000);
+  rek.tarik(100000);
+  rek.cekSaldo();
+}</code></pre>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Structure -->
+  <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">RUNNING SYSTEM // ANALYZING_CODE</div>
+        <button class="close-modal" onclick="closeModal()">X</button>
+      </div>
+      <div class="modal-body" id="modalIframeContainer">
+        <!-- Iframe injected here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // SECURITY PROTOCOL: ANTI-VANDALISM & ANTI-VIEWSOURCE
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123) return false; // F12
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false; // Ctrl+Shift+I/J/C
+      if (e.ctrlKey && e.keyCode == 85) return false; // Ctrl+U
+      if (e.ctrlKey && e.keyCode == 83) return false; // Ctrl+S
+    };
+    document.onselectstart = function () { return false; };
+  </script>
+
+  <script>
+    function copyCode(id) {
+      const code = document.querySelector(`#${id} code`).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector(`#${id} .btn`);
+        const originalText = btn.innerText;
+        btn.innerText = 'COPIED!';
+        btn.style.color = '#00ff88';
+        btn.style.borderColor = '#00ff88';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.color = '';
+          btn.style.borderColor = '';
+        }, 2000);
+      });
+    }
+
+    function runCode(id, dartPadId) {
+      const modal = document.getElementById('codeModal');
+      const iframeContainer = document.getElementById('modalIframeContainer');
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden'; // Stop background scrolling
+
+      const iframe = document.createElement('iframe');
+      if (dartPadId) {
+        iframe.src = `https://dartpad.dev/embed-inline.html?id=${dartPadId}&theme=dark`;
+      } else {
+        const container = document.getElementById(id);
+        const code = container.querySelector('code').innerText;
+        const encodedCode = encodeURIComponent(code);
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      }
+
+      iframeContainer.innerHTML = '';
+      iframeContainer.appendChild(iframe);
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('codeModal');
+      modal.classList.remove('active');
+      document.body.style.overflow = ''; // Restore scrolling
+      document.getElementById('modalIframeContainer').innerHTML = '';
+    }
+  </script>
+</body>
+
+</html>
