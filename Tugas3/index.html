@@ -651,17 +651,15 @@ void main() {
 // Kelas  : Si2A
 
 class Person {
-  String _name; // Private: Hanya bisa diakses di file ini
-  int age;      // Public: Dapat diakses bebas
-
+  String _name;
+  int age;
   Person(this._name, this.age);
-
-  void info() => print('Nama: $_name, Umur: $age');
 }
 
 void main() {
-  var p = Person('Herly Afrizal', 20);
-  p.info();
+  Person person = Person("Herly", 20);
+  print('Umur: ${person.age}');
+  // print(person._name); // error karena private
 }</code></pre>
       </div>
     </div>
@@ -698,28 +696,38 @@ class Person {
   int age;
   Person(this._name, this.age);
   
+  // GETTER (Slide 9)
+  // 1. Menggunakan Arrow Syntax
+  String get getName1 =&gt; _name;
+  
+  // 2. Menggunakan Block Syntax
+  String get getName2 {
+    return _name;
+  }
+
+  // SETTER (Slide 10)
+  // 1. Menggunakan Keyword 'set'
   set setName1(String name) {
     _name = name;
   }
 
-  void setName(String name) {
+  // 2. Menggunakan Method Approach
+  void setNameManual(String name) {
     _name = name;
-  }
-
-  String getName() {
-    return _name;
   }
 }
 
 void main() {
-  Person person = Person("Herly", 20);
-  print('Umur: ${person.age}');
+  Person p = Person("Herly", 20);
+  print('Umur Awal: ${p.age}');
   
-  person.setName('Afrizal');
-  print('Nama (via Method): ${person.getName()}');
-  
-  person.setName1 = 'Herly Afrizal';
-  print('Nama (via Setter): ${person.getName()}');
+  // Test Setters
+  p.setName1 = 'Afrizal';
+  p.setNameManual('Herly Afrizal');
+
+  // Test Getters
+  print('Hasil Getter 1: ${p.getName1}');
+  print('Hasil Getter 2: ${p.getName2}');
 }</code></pre>
       </div>
     </div>
@@ -785,7 +793,10 @@ void main() {
 
   print('\n--- Menguji Validasi Setter ---');
   produk1.nama = 'TV'; // Gagal
+  print('Nama tetap: ${produk1.nama}');
+  
   produk1.harga = -100.0; // Gagal
+  print('Harga tetap: Rp ${produk1.harga}');
 }</code></pre>
       </div>
     </div>
@@ -896,15 +907,18 @@ class User {
 void main() {
   print('--- Inisialisasi User ---');
   final User user1 = User('admin_herly', 'securePass123');
+  print('Username Created: ${user1.username}');
   
-  print('--- Uji Coba Login ---');
-  if (user1.login('admin_herly', 'securePass123')) {
-    print('Login Berhasil!');
-  }
+  print('\n--- Uji Coba Login ---');
+  bool isLogin = user1.login('admin_herly', 'securePass123');
+  print('Login status: $isLogin');
 
   print('\n--- Uji Coba Ganti Password ---');
+  print('Mencoba ganti dengan password lama salah:');
+  user1.gantiPassword('wrongPass', 'newPass12345'); 
+
+  print('\nMencoba ganti dengan password benar:');
   user1.gantiPassword('securePass123', 'newSecurePass456');
-  user1.gantiPassword('wrongPass', 'anyPass'); // Gagal
 }</code></pre>
       </div>
     </div>
@@ -983,7 +997,7 @@ void main() {
     </div>
   </div>
 
-   <script>
+  <!-- <script>
     // SECURITY PROTOCOL: ANTI-VANDALISM & ANTI-VIEWSOURCE
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
@@ -993,7 +1007,7 @@ void main() {
       if (e.ctrlKey && e.keyCode == 83) return false; // Ctrl+S
     };
     document.onselectstart = function () { return false; };
-  </script> 
+  </script> -->
 
   <script>
     function copyCode(id) {
@@ -1021,7 +1035,7 @@ void main() {
 
       const iframe = document.createElement('iframe');
       if (dartPadId) {
-        iframe.src = `https://dartpad.dev/embed-inline.html?id=${dartPadId}&theme=dark`;
+        iframe.src = `https://dartpad.dev/embed-inline.html?id=${dartPadId}&theme=dark&run=true`;
       } else {
         const container = document.getElementById(id);
         const code = container.querySelector('code').innerText;
