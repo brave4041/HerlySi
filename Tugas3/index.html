@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 
@@ -390,72 +389,202 @@
       <span style="color: var(--accent-red);">]</span>
     </div>
     <div class="cyber-card">
-      <h3><span>01</span> RESUME: KONSTRUKTOR & ENKAPSULASI</h3>
-      <p>
-        Materi ini membahas dua pilar penting dalam pemrograman berorientasi objek menggunakan bahasa <b>Dart</b>:
-        bagaimana objek diinisialisasi melalui konstruktor dan bagaimana data dilindungi melalui enkapsulasi.
-      </p>
-    </div>
-
-    <div class="cyber-card">
-      <h3><span>02</span> KONSTRUKTOR (CONSTRUCTOR)</h3>
-      <p>Konstruktor adalah method khusus yang dipanggil saat objek dibuat. Dart menyediakan beberapa jenis konstruktor:
+      <h3><span>01</span> REVIEW SESI 1</h3>
+      <p>Mengingat kembali pilar dasar pemrograman berorientasi objek dalam bahasa Dart sebelum masuk ke topik utama:
       </p>
       <ul>
-        <li><b>Default Constructor</b>: Dibuat otomatis jika tidak didefinisikan secara manual.</li>
-        <li><b>Parameterized Constructor</b>: Menerima parameter untuk menginisialisasi field secara langsung.</li>
-        <li><b>Named Constructor</b>: Memberikan nama tambahan untuk cara alternatif pembuatan objek.</li>
-        <li><b>Constant Constructor</b>: Membuat objek <i>immutable</i> untuk efisiensi memori.</li>
-        <li><b>Initializer List</b>: Digunakan untuk validasi field sebelum body konstruktor dijalankan.</li>
+        <li><b>OOP</b>: Paradigma yang berfokus pada objek sebagai unit utama.</li>
+        <li><b>Class</b>: Blueprint atau cetakan protokol untuk membuat objek.</li>
+        <li><b>Object</b>: Manifestasi runtime atau instance nyata dari sebuah class.</li>
+        <li><b>Constructor</b>: Method khusus yang digunakan untuk inisialisasi objek.</li>
       </ul>
-    </div>
+      <div class="code-container" id="code-review">
+        <div class="code-header">
+          <span class="lang">DART // REVIEW</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-review', 'fe97897a367a2f452dfee7262d714a8c')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
 
-    <div class="cyber-card">
-      <h3><span>03</span> ENKAPSULASI (ENCAPSULATION)</h3>
-      <p>Konsep menyembunyikan detail implementasi untuk keamanan dan kontrol data.</p>
-      <ul>
-        <li><b>Private Field</b>: Menggunakan prefix underscore (<code>_</code>) untuk membatasi akses hanya dalam satu
-          file.</li>
-        <li><b>Kontrol Akses</b>: Memastikan integritas data melalui mekanisme internal.</li>
-        <li><b>Fleksibilitas</b>: Mempermudah perubahan logika internal tanpa merusak kode luar.</li>
-      </ul>
-    </div>
+class Buku {
+  String judul;
+  Buku(this.judul);
+}
 
-    <div class="cyber-card">
-      <h3><span>04</span> GETTER DAN SETTER</h3>
-      <p>Mekanisme untuk mengakses dan memodifikasi data private dengan kontrol tambahan.</p>
-      <ul>
-        <li><b>Getter</b>: Mengambil nilai data private (Contoh: <code>get nama => _name;</code>).</li>
-        <li><b>Setter</b>: Mengubah nilai data private dengan validasi (Contoh: <code>set nama(val) { ... }</code>).
-        </li>
-      </ul>
-    </div>
-
-    <div class="cyber-card">
-      <h3><span>05</span> STUDI KASUS: SISTEM LOGIN</h3>
-      <p>Implementasi kelas <code>User</code> dengan field private <code>_username</code> dan <code>_password</code>,
-        serta metode validasi untuk proses login dan perubahan kredensial secara aman.</p>
-      <div class="note"
-        style="margin-top: 20px; padding: 15px; border-left: 4px solid var(--accent-red); background: rgba(255,0,60,0.05);">
-        <b style="color: var(--accent-red);">RINGKASAN:</b>
-        <ol style="margin-top: 10px; margin-left: 20px; color: var(--text-dim); font-size: 0.9rem;">
-          <li>Fleksibilitas inisialisasi melalui berbagai jenis konstruktor.</li>
-          <li>Perlindungan data menggunakan private field (<code>_</code>).</li>
-          <li>Keamanan akses melalui Getter dan Setter dengan validasi.</li>
-        </ol>
+void main() {
+  var buku1 = Buku('Belajar Dart OOP');
+  print('Judul Buku: ${buku1.judul}');
+}</code></pre>
       </div>
     </div>
 
     <div class="cyber-card">
-      <h3><span>06</span> PRAKTIK 1: KELAS MAHASISWA</h3>
-      <p>Implementasi kelas <b>Mahasiswa</b> menggunakan multiple constructors (default, named <code>dariMap</code>, dan
-        <code>tanpaNama</code>).
-      </p>
-      <div class="code-container" id="code-mhs-new">
+      <h3><span>02</span> JENIS-JENIS CONSTRUCTOR</h3>
+      <p>Dart menyediakan beberapa mekanisme inisialisasi objek untuk berbagai kebutuhan arsitektur:</p>
+      <ol style="margin-left: 20px; color: var(--text-dim);">
+        <li><b>Default Constructor</b>: <code>ClassName()</code></li>
+        <li><b>Named Constructor</b>: <code>ClassName.nama()</code></li>
+        <li><b>Parameterized Constructor</b>: <code>ClassName(this.param)</code></li>
+        <li><b>Constant Constructor</b>: <code>const ClassName()</code></li>
+        <li><b>Factory Constructor</b>: (Akan dibahas pada sesi lanjut)</li>
+      </ol>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>03</span> NAMED CONSTRUCTOR – CONTOH DETAIL</h3>
+      <p>Dart memungkinkan pembuatan lebih dari satu konstruktor dalam satu kelas menggunakan <b>Named Constructor</b>.
+        Ini sangat berguna untuk memberikan cara alternatif dalam menginisialisasi objek, seperti dari data JSON.</p>
+      <div class="code-container" id="code-mobil-named">
         <div class="code-header">
-          <span class="lang">DART // CONSTRUCTORS</span>
+          <span class="lang">DART // NAMED CONSTRUCTOR</span>
           <div class="code-actions">
-            <button class="btn run" onclick="runCode('code-mhs-new', 'fe97897a367a2f452dfee7262d714a8c')">RUN
+            <button class="btn run" onclick="runCode('code-mobil-named', '6eab268b4ed27b7d6f6f06b3ff06a6aa')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+import 'dart:convert';
+
+class Mobil {
+  String? merk;
+  int? tahun;
+
+  // Parameterized constructor
+  Mobil(this.merk, this.tahun);
+
+  // Named constructor
+  Mobil.baru() {
+    merk = 'Toyota';
+    tahun = 2023;
+  }
+
+  // Named constructor dengan parameter
+  Mobil.dariJson(Map&lt;String, dynamic&gt; json) {
+    merk = json['merk'];
+    tahun = json['tahun'];
+  }
+
+  // Override toString for better print output
+  @override
+  String toString() {
+    return 'Mobil{merk: $merk, tahun: $tahun}';
+  }
+}
+
+void main() {
+  print('--- Demonstrasi Class Mobil ---');
+
+  // 1. Menggunakan constructor default (parameterized constructor)
+  var mobilA = Mobil('Honda', 2020);
+  print('Mobil A (constructor default): $mobilA');
+
+  // 2. Menggunakan named constructor Mobil.baru()
+  var mobilB = Mobil.baru();
+  print('Mobil B (named constructor .baru): $mobilB');
+
+  // 3. Menggunakan named constructor Mobil.dariJson()
+  String jsonString = '{"merk": "Suzuki", "tahun": 2021}';
+  Map&lt;String, dynamic&gt; jsonData = jsonDecode(jsonString);
+  var mobilC = Mobil.dariJson(jsonData);
+  print('Mobil C (named constructor .dariJson): $mobilC');
+
+  print('\n--- Akhir Demonstrasi ---');
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>04</span> CONSTANT CONSTRUCTOR</h3>
+      <p>Konstruktor konstan digunakan untuk membuat objek yang <i>immutable</i> (tidak bisa diubah). Objek yang dibuat
+        dengan <code>const</code> dan nilai yang sama akan menggunakan instance yang sama di memori, sehingga lebih
+        efisien.</p>
+      <div class="code-container" id="code-warna-const">
+        <div class="code-header">
+          <span class="lang">DART // CONSTANT</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-warna-const', 'deadfb7a717c7724a1475dcc8f33aa70')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Warna {
+  final int r, g, b;
+  const Warna(this.r, this.g, this.b);
+
+  @override
+  String toString() {
+    return 'Warna(r: $r, g: $g, b: $b)';
+  }
+}
+
+void main() {
+  const merah = Warna(255, 0, 0);
+  const merahLagi = Warna(255, 0, 0); // Menggunakan instance yang sama di memory
+
+  print(merah);
+  print(merahLagi);
+  print('Apakah identik? ${identical(merah, merahLagi)}');
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>05</span> CONSTRUCTOR DENGAN INITIALIZER LIST</h3>
+      <p><b>Initializer List</b> digunakan untuk menginisialisasi field sebelum body konstruktor dijalankan. Ini sering
+        digunakan untuk melakukan validasi atau transformasi data pada field <code>final</code>.</p>
+      <div class="code-container" id="code-titik-init">
+        <div class="code-header">
+          <span class="lang">DART // INITIALIZER</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-titik-init', '335b4d1bb225d1b1f56aba9f7a8cd04a')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Titik {
+  final double x, y;
+
+  Titik(double x, double y)
+    : x = x.abs(),
+      y = y.abs() {
+    print('Titik dibuat di (${this.x}, ${this.y})');
+  }
+}
+
+void main(){
+  print('Membuat objek Titik pertama:');
+  var titik1 = Titik(3.0, 4.0);
+  print('Titik 1: x = ${titik1.x}, y = ${titik1.y}');
+
+  print('\nMembuat objek Titik kedua dengan nilai negatif:');
+  var titik2 = Titik(-5.0, 10.0);
+  print('Titik 2: x = ${titik2.x}, y = ${titik2.y}');
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>06</span> PRAKTIK 1 – MULTIPLE CONSTRUCTOR</h3>
+      <p>Latihan pembuatan kelas <b>Mahasiswa</b> dengan tiga jenis konstruktor berbeda untuk fleksibilitas instansiasi
+        objek sesuai kebutuhan data :</p>
+      <div class="code-container" id="code-mhs-slide">
+        <div class="code-header">
+          <span class="lang">DART // MULTI-CONSTRUCT</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-mhs-slide', 'b46c7fdf09034d31f0220dae9c186ce4')">RUN
               CODE</button>
           </div>
         </div>
@@ -465,49 +594,209 @@
 
 class Mahasiswa {
   String? nama;
-  int? umur;
+  String? nim;
 
-  // Parameterized constructor
-  Mahasiswa(this.nama, this.umur);
+  Mahasiswa(this.nama, this.nim);
 
-  // Named constructor dari Map
-  Mahasiswa.dariMap(Map&lt;String, dynamic&gt; map) {
-    nama = map['nama'];
-    umur = map['umur'];
+  Mahasiswa.dariMap(Map&lt;String, String&gt; data) {
+    nama = data['nama'];
+    nim = data['nim'];
   }
 
-  // Named constructor tanpa nama
   Mahasiswa.tanpaNama() {
-    nama = 'Anonymous';
-    umur = 0;
+    nama = 'No Name';
+    nim = '000000';
   }
 
-  @override
-  String toString() =&gt; 'Mahasiswa{nama: $nama, umur: $umur}';
+  void info() =&gt; print('Mahasiswa: $nama, NIM: $nim');
 }
 
 void main() {
-  print('--- Praktik 1: Kelas Mahasiswa ---');
-  var m1 = Mahasiswa('Herly', 20);
-  var m2 = Mahasiswa.dariMap({'nama': 'Afrizal', 'umur': 22});
+  var m1 = Mahasiswa('Herly', '251410002');
+  var m2 = Mahasiswa.dariMap({'nama': 'Afrizal', 'nim': '251410003'});
   var m3 = Mahasiswa.tanpaNama();
 
-  print(m1);
-  print(m2);
-  print(m3);
+  m1.info();
+  m2.info();
+  m3.info();
 }</code></pre>
-        <div class="output-panel"></div>
       </div>
     </div>
 
     <div class="cyber-card">
-      <h3><span>07</span> PRAKTIK 2: ENKAPSULASI & VALIDASI</h3>
-      <p>Implementasi kelas <code>User</code> dengan field private dan validasi ketat pada setter.</p>
-      <div class="code-container" id="code-user-new">
+      <h3><span>07</span> PENGANTAR ENKAPSULASI</h3>
+      <div class="explanation">
+        <p><b>Konsep:</b> Menyembunyikan detail implementasi dari luar.</p>
+        <p><b>Tujuan:</b></p>
+        <ul style="margin-left: 20px;">
+          <li>Keamanan data</li>
+          <li>Kontrol akses</li>
+          <li>Fleksibilitas perubahan</li>
+        </ul>
+        <p style="margin-top: 10px;"><b>Cara di Dart:</b> Menggunakan underscore (<code>_</code>) untuk private members.
+        </p>
+        <p><b>Public:</b> Dapat diakses dari mana saja (default).</p>
+        <p><b>Private:</b> Hanya dapat diakses dalam file yang sama.</p>
+      </div>
+      <div class="code-container" id="code-visibility">
         <div class="code-header">
-          <span class="lang">DART // ENCAPSULATION</span>
+          <span class="lang">DART // VISIBILITY</span>
           <div class="code-actions">
-            <button class="btn run" onclick="runCode('code-user-new', '6eab268b4ed27b7d6f6f06b3ff06a6aa')">RUN
+            <button class="btn run" onclick="runCode('code-visibility', '9ab19191d322a12e2aec8c49e6b052e1')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Person {
+  String _name; // Private: Hanya bisa diakses di file ini
+  int age;      // Public: Dapat diakses bebas
+
+  Person(this._name, this.age);
+
+  void info() => print('Nama: $_name, Umur: $age');
+}
+
+void main() {
+  var p = Person('Herly Afrizal', 20);
+  p.info();
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>08</span> GETTER & SETTER</h3>
+      <div class="explanation">
+        <p><b>Getter:</b> Memungkinkan membaca data private dengan kontrol.</p>
+        <ul style="margin-left: 20px; font-size: 0.9rem; color: var(--text-dim);">
+          <li>Sintaks 1: <code>tipeData get namaGetter =&gt; _field;</code> (Arrow)</li>
+          <li>Sintaks 2: <code>tipeData namaGetter() { return _field; }</code> (Block)</li>
+        </ul>
+        <p style="margin-top: 10px;"><b>Setter:</b> Memungkinkan modifikasi data dengan validasi.</p>
+        <ul style="margin-left: 20px; font-size: 0.9rem; color: var(--text-dim);">
+          <li>Sintaks 1: <code>set namaSetter(value) { ... }</code> (Set Keyword)</li>
+          <li>Sintaks 2: <code>void namaSetter(value) { ... }</code> (Method Approach)</li>
+        </ul>
+      </div>
+
+      <div class="code-container" id="code-gs-detail">
+        <div class="code-header">
+          <span class="lang">DART // GET-SET SYNTAX</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-gs-detail', '3ab1017072685369a0c079bafb094bc3')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Person {
+  String _name;
+  int age;
+  Person(this._name, this.age);
+  
+  set setName1(String name) {
+    _name = name;
+  }
+
+  void setName(String name) {
+    _name = name;
+  }
+
+  String getName() {
+    return _name;
+  }
+}
+
+void main() {
+  Person person = Person("Herly", 20);
+  print('Umur: ${person.age}');
+  
+  person.setName('Afrizal');
+  print('Nama (via Method): ${person.getName()}');
+  
+  person.setName1 = 'Herly Afrizal';
+  print('Nama (via Setter): ${person.getName()}');
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>09</span> CONTOH – IMPLEMENTASI GETTER & SETTER</h3>
+      <div class="explanation">
+        <p>Meningkatkan integritas data dengan validasi nilai pada <b>Produk</b> sebelum disimpan:</p>
+        <ul style="margin-left: 20px; font-size: 0.9rem;">
+          <li>Nama produk minimal 3 karakter</li>
+          <li>Harga produk harus lebih besar dari 0</li>
+        </ul>
+      </div>
+      <div class="code-container" id="code-produk-val">
+        <div class="code-header">
+          <span class="lang">DART // VALIDATION</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-produk-val', '308c2b206cd6de5197df45e6b8b76400')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class Produk {
+  String _nama;
+  double _harga;
+  
+  Produk(this._nama, this._harga);
+  
+  String get nama => _nama;
+  double get harga => _harga;
+  
+  set nama(String value) {
+    if (value.length >= 3) {
+      _nama = value;
+    } else {
+      print('Gagal memperbarui nama: Nama harus memiliki minimal 3 karakter.');
+    }
+  }
+  
+  set harga(double value) {
+    if (value > 0) {
+      _harga = value;
+    } else {
+      print('Gagal memperbarui harga: Harga harus lebih besar dari 0.');
+    }
+  }
+}
+
+void main() {
+  var produk1 = Produk('Monitor Samsung', 3500.0);
+
+  print('--- Informasi Produk Awal ---');
+  print('Nama Produk: ${produk1.nama}');
+  print('Harga Produk: Rp ${produk1.harga}');
+
+  print('\n--- Memperbarui Produk ---');
+  produk1.nama = 'Keyboard Mekanik';
+  produk1.harga = 1200.0;
+  print('Nama (setelah update): ${produk1.nama}');
+
+  print('\n--- Menguji Validasi Setter ---');
+  produk1.nama = 'TV'; // Gagal
+  produk1.harga = -100.0; // Gagal
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>10</span> SOAL 1 – PRAKTIK 2 (USER)</h3>
+      <div class="code-container" id="code-user-full">
+        <div class="code-header">
+          <span class="lang">DART // SECURITY</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-user-full', 'bd3638dd12430a1a5c6ac6a24f8fe2a8')">RUN
               CODE</button>
           </div>
         </div>
@@ -520,69 +809,113 @@ class User {
   String _password;
   String _email;
 
-  User(this._username, this._password, this._email) {
-    if (_username.length &lt; 5) _username = 'invalid';
-    if (_password.length &lt; 8) _password = 'invalid';
-    if (!_email.contains('@')) _email = 'invalid';
+  User(this._username, this._password, this._email);
+
+  // Getter untuk semua field
+  String get username => _username;
+  String get email => _email;
+
+  // Setter dengan validasi
+  set username(String v) {
+    if (v.length >= 5) {
+      _username = v;
+    } else {
+      print('Username min 5 karakter');
+    }
   }
 
-  String get username =&gt; _username;
-  String get email =&gt; _email;
-
-  set username(String value) {
-    if (value.length &gt;= 5) _username = value;
-    else print('Username harus minimal 5 karakter.');
+  set password(String v) {
+    if (v.length >= 8) {
+      _password = v;
+    } else {
+      print('Password min 8 karakter');
+    }
   }
 
-  set password(String value) {
-    if (value.length &gt;= 8) _password = value;
-    else print('Password harus minimal 8 karakter.');
+  set email(String v) {
+    if (v.contains('@')) {
+      _email = v;
+    } else {
+      print('Format email salah (Harus @)');
+    }
   }
 
-  set email(String value) {
-    if (value.contains('@')) _email = value;
-    else print('Email harus mengandung @.');
-  }
-
-  void info() {
-    print('Username: $_username, Email: $_email');
-  }
+  void info() => print('User: $_username, Pass: $_password, Email: $_email');
 }
 
 void main() {
-  print('\n--- Praktik 2: Kelas User dengan Validasi ---');
-  var user = User('herly', 'rahasia123', 'herly@mail.com');
-  user.info();
-
-  print('\nMengubah username menjadi "her" (gagal)');
-  user.username = 'her';
-  
-  print('\nMengubah username menjadi "herlyafrizal" (berhasil)');
+  var user = User('herly', '123', 'admin.com');
   user.username = 'herlyafrizal';
-  user.info();
-
-  print('\nMengubah password menjadi "short" (gagal)');
-  user.password = 'short';
-
-  print('\nMengubah email menjadi "herly.mail.com" (tanpa @ - gagal)');
-  user.email = 'herly.mail.com';
-
-  print('\nMengubah email menjadi "herly@mail.com" (berhasil)');
-  user.email = 'herly@mail.com';
+  user.password = 'rahasia123';
+  user.email = 'herly@gmail.com';
   user.info();
 }</code></pre>
-        <div class="output-panel"></div>
       </div>
     </div>
 
     <div class="cyber-card">
-      <h3><span>08</span> BONUS: LATIHAN REKENING BANK</h3>
-      <p>Simulasi sistem perbankan dengan validasi transaksi dan perlindungan saldo.</p>
-      <div class="code-container" id="code-bank-new">
+      <h3><span>11</span> STUDI KASUS – SISTEM LOGIN</h3>
+      <p>Logika autentikasi dan prosedur perubahan password.</p>
+      <div class="code-container" id="code-login-case">
         <div class="code-header">
-          <span class="lang">DART // LOGIC</span>
+          <span class="lang">DART // AUTH-LOGIC</span>
           <div class="code-actions">
-            <button class="btn run" onclick="runCode('code-bank-new', 'deadfb7a717c7724a1475dcc8f33aa70')">RUN
+            <button class="btn run" onclick="runCode('code-login-case', 'be86f1b1b40fc2f0e6bf5f2ba5763d57')">RUN
+              CODE</button>
+          </div>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+class User {
+  String _username;
+  String _password;
+
+  User(this._username, this._password);
+  String get username => _username;
+
+  bool login(String username, String password) {
+    return _username == username && _password == password;
+  }
+
+  void gantiPassword(String lama, String baru) {
+    if (_password == lama) {
+      if (baru.length >= 8) {
+        _password = baru;
+        print('Password berhasil diubah.');
+      } else {
+        print('Gagal: Password baru minimal 8 karakter.');
+      }
+    } else {
+      print('Gagal: Password lama tidak sesuai.');
+    }
+  }
+}
+
+void main() {
+  print('--- Inisialisasi User ---');
+  final User user1 = User('admin_herly', 'securePass123');
+  
+  print('--- Uji Coba Login ---');
+  if (user1.login('admin_herly', 'securePass123')) {
+    print('Login Berhasil!');
+  }
+
+  print('\n--- Uji Coba Ganti Password ---');
+  user1.gantiPassword('securePass123', 'newSecurePass456');
+  user1.gantiPassword('wrongPass', 'anyPass'); // Gagal
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>12</span> SOAL 2 – LATIHAN (BANK)</h3>
+      <div class="code-container" id="code-bank-slide">
+        <div class="code-header">
+          <span class="lang">DART // BANKING</span>
+          <div class="code-actions">
+            <button class="btn run" onclick="runCode('code-bank-slide', 'cd4892b35c3b155643271cee9293a239')">RUN
               CODE</button>
           </div>
         </div>
@@ -594,42 +927,44 @@ class RekeningBank {
   String _nomorRekening;
   double _saldo;
 
-  RekeningBank(this._nomorRekening, this._saldo) {
-    if (_saldo &lt; 0) _saldo = 0;
-  }
+  RekeningBank(this._nomorRekening, this._saldo);
 
-  String get nomorRekening =&gt; _nomorRekening;
-  double get saldo =&gt; _saldo;
-
-  void deposit(double jumlah) {
-    if (jumlah &gt; 0) {
-      _saldo += jumlah;
-      print('Deposit Rp $jumlah berhasil. Saldo: Rp $_saldo');
+  void deposit(double jml) {
+    if (jml &gt; 0) {
+      _saldo += jml;
+      print('Deposit Rp $jml Berhasil.');
     }
   }
 
-  void tarik(double jumlah) {
-    if (jumlah &gt; 0 && _saldo &gt;= jumlah) {
-      _saldo -= jumlah;
-      print('Tarik Rp $jumlah berhasil. Saldo: Rp $_saldo');
+  void tarik(double jml) {
+    if (jml &gt; 0 && _saldo &gt;= jml) {
+      _saldo -= jml;
+      print('Tarik Rp $jml Berhasil.');
     } else {
-      print('Transaksi gagal: Saldo tidak mencukupi atau jumlah tidak valid.');
+      print('Gagal: Saldo tidak cukup atau input tidak valid.');
     }
   }
 
   void cekSaldo() {
-    print('Saldo rekening $_nomorRekening: Rp $_saldo');
+    print('Rekening: $_nomorRekening | Saldo: Rp $_saldo');
   }
 }
 
 void main() {
-  print('\n--- Latihan: RekeningBank ---');
-  var rek = RekeningBank('123-456-789', 500000);
-  rek.cekSaldo();
-  rek.deposit(200000);
-  rek.tarik(100000);
-  rek.cekSaldo();
+  var bank = RekeningBank('2514-10002', 2000000);
+  bank.cekSaldo();
+  bank.tarik(500000);
+  bank.cekSaldo();
 }</code></pre>
+      </div>
+
+      <div class="explanation" style="margin-top: 30px; border-top: 1px solid var(--border-color); padding-top: 20px;">
+        <p><b>RINGKASAN MATERI :</b></p>
+        <ol style="margin-left: 20px; font-size: 0.9rem;">
+          <li>Dart memiliki berbagai jenis constructor untuk fleksibilitas objek.</li>
+          <li>Enkapsulasi melindungi data dengan menggunakan private field (prefix underscore).</li>
+          <li>Getter & setter memberikan kontrol akses yang aman terhadap data private.</li>
+        </ol>
       </div>
     </div>
 
@@ -648,7 +983,7 @@ void main() {
     </div>
   </div>
 
-  <script>
+  <!-- <script>
     // SECURITY PROTOCOL: ANTI-VANDALISM & ANTI-VIEWSOURCE
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function (e) {
@@ -658,7 +993,7 @@ void main() {
       if (e.ctrlKey && e.keyCode == 83) return false; // Ctrl+S
     };
     document.onselectstart = function () { return false; };
-  </script>
+  </script> -->
 
   <script>
     function copyCode(id) {
