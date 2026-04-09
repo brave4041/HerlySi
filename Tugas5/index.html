@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Sesi 5 - Herly Afrizal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050505;
+      --card-bg: #0f0f0f;
+      --accent-red: #ff003c;
+      --accent-red-glow: rgba(255, 0, 60, 0.5);
+      --accent-blue: #00f3ff;
+      --accent-blue-glow: rgba(0, 243, 255, 0.5);
+      --text-main: #e0e0e0;
+      --text-dim: #a0a0a0;
+      --code-bg: #000000;
+      --border-color: #222;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    img {
+      -webkit-user-drag: none;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(rgba(255, 0, 60, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 0, 60, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .gerakan {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 60px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px var(--accent-red), -2px -2px var(--accent-blue);
+      animation: glitch 3s infinite;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+
+      5% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px -2px var(--accent-red), 2px 2px var(--accent-blue);
+      }
+
+      10% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 2px var(--accent-red), -2px -2px var(--accent-blue);
+      }
+
+      15% {
+        transform: translate(0);
+      }
+
+      100% {
+        transform: translate(0);
+      }
+    }
+
+    .info-bar {
+      text-align: center;
+      margin-bottom: 60px;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .info-bar b {
+      color: var(--accent-red);
+    }
+
+    .session-title {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      color: #fff;
+      font-size: 1.8rem;
+      margin-bottom: 80px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .session-title span {
+      color: var(--accent-red);
+    }
+
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      margin-bottom: 50px;
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cyber-card::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 30px;
+      height: 30px;
+      border-top: 3px solid var(--accent-red);
+      border-left: 3px solid var(--accent-red);
+    }
+
+    .cyber-card.vscode::before {
+      border-color: var(--accent-blue);
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent-red);
+      box-shadow: 0 0 20px rgba(255, 0, 60, 0.1);
+    }
+
+    .cyber-card.vscode:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+    }
+
+    h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent-red);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .vscode h3 {
+      color: var(--accent-blue);
+    }
+
+    h3 span {
+      font-size: 0.8rem;
+      background: var(--accent-red);
+      color: black;
+      padding: 2px 10px;
+    }
+
+    .vscode h3 span {
+      background: var(--accent-blue);
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-family: 'Orbitron', sans-serif;
+      padding: 3px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      margin-left: auto;
+      letter-spacing: 1px;
+    }
+
+    .badge-dartpad {
+      background: rgba(255, 0, 60, 0.1);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red);
+    }
+
+    .badge-vscode {
+      background: rgba(0, 243, 255, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    ul {
+      list-style: none;
+      margin: 20px 0;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    ul li::before {
+      content: "»";
+      position: absolute;
+      left: 0;
+      color: var(--accent-red);
+      font-weight: bold;
+    }
+
+    .vscode ul li::before {
+      color: var(--accent-blue);
+    }
+
+    .code-container {
+      margin-top: 25px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .code-header {
+      background: #1a1a1a;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .code-header .lang {
+      color: var(--text-dim);
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 1px;
+    }
+
+    .btn {
+      background: transparent;
+      border: none;
+      color: var(--accent-red);
+      padding: 10px 25px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      position: relative;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 5px;
+    }
+
+    /* Brackets Top-Right */
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 40%;
+      height: 50%;
+      border-top: 2px solid var(--accent-red);
+      border-right: 2px solid var(--accent-red);
+      transition: all 0.3s;
+    }
+
+    /* Brackets Bottom-Left */
+    .btn::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 40%;
+      height: 50%;
+      border-bottom: 2px solid var(--accent-red);
+      border-left: 2px solid var(--accent-red);
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      color: #fff;
+      text-shadow: 0 0 10px var(--accent-red);
+    }
+
+    .btn:hover::before,
+    .btn:hover::after {
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 0, 60, 0.05);
+    }
+
+    .vscode .btn,
+    .btn-capture {
+      color: var(--accent-blue);
+    }
+
+    .vscode .btn::before,
+    .btn-capture::before {
+      border-color: var(--accent-blue);
+    }
+
+    .vscode .btn::after,
+    .btn-capture::after {
+      border-color: var(--accent-blue);
+    }
+
+    .btn-capture {
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    .vscode .btn:hover,
+    .btn-capture:hover {
+      text-shadow: 0 0 10px var(--accent-blue);
+    }
+
+    .vscode .btn:hover::before,
+    .vscode .btn:hover::after,
+    .btn-capture:hover::before,
+    .btn-capture:hover::after {
+      background: rgba(0, 243, 255, 0.05);
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      color: #d1d1d1;
+      padding: 25px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      border-left: 3px solid #333;
+    }
+
+    .vscode pre {
+      border-left-color: var(--accent-blue);
+    }
+
+    .output-container {
+      background: #000;
+      border-top: 1px solid #222;
+      padding: 15px 25px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      color: #00ff88;
+    }
+
+    .output-container::before {
+      content: "SYSTEM OUTPUT >";
+      color: #666;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.7rem;
+    }
+
+    .modifier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    .modifier-table th,
+    .modifier-table td {
+      padding: 12px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .modifier-table th {
+      background: #1a1a1a;
+      color: var(--accent-red);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+    }
+
+    .modifier-table tr:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .check {
+      color: #00ff88;
+    }
+
+    .cross {
+      color: var(--accent-red);
+    }
+
+    .footer {
+      margin-top: 100px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #444;
+      border-top: 1px solid #111;
+      padding: 40px 0;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      width: 95%;
+      max-width: 1100px;
+      height: 85vh;
+      background: #050505;
+      border: 1px solid var(--accent-red);
+      position: relative;
+      box-shadow: 0 0 50px rgba(255, 0, 60, 0.3);
+      display: flex;
+      flex-direction: column;
+      transform: scale(0.9);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.active .modal-content {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      background: #000;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #111;
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-red);
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: 1px solid var(--accent-red);
+      color: var(--accent-red);
+      width: 32px;
+      height: 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+    }
+
+    .close-modal:hover {
+      background: var(--accent-red);
+      color: black;
+    }
+
+    .modal-body {
+      flex: 1;
+      background: #000;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #050505;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #222;
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-red);
+    }
+
+    .capture-container {
+      display: none;
+      margin-top: 15px;
+      border: 1px solid var(--accent-blue);
+      border-radius: 4px;
+      overflow: hidden;
+      background: #000;
+      animation: slideDown 0.4s ease-out;
+    }
+
+    .capture-container.active {
+      display: block;
+    }
+
+    .capture-container img {
+      width: 100%;
+      display: block;
+      filter: grayscale(20%) contrast(110%);
+      transition: all 0.3s;
+    }
+
+    .capture-container img:hover {
+      filter: grayscale(0%) contrast(100%);
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    #imageModal .modal-content {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      width: 95%;
+      height: auto;
+      max-height: 95vh;
+      max-width: 1400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #imageModal .modal-header {
+      background: rgba(0, 0, 0, 0.9);
+      border-bottom: 2px solid var(--accent-blue);
+      margin-bottom: 10px;
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    #imageModal .modal-title {
+      color: var(--accent-blue);
+      text-shadow: 0 0 10px var(--accent-blue-glow);
+    }
+
+    #imageModal .close-modal {
+      border-color: var(--accent-blue);
+      color: var(--accent-blue);
+    }
+
+    #imageModal .modal-body {
+      padding: 0;
+      background: transparent;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-y: auto;
+      flex-grow: 1;
+    }
+
+    #imageModal img {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 82vh;
+      border: 1px solid rgba(0, 243, 255, 0.5);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 1), 0 0 20px var(--accent-blue-glow);
+      border-radius: 4px;
+      margin-top: 5px;
+    }
+
+
+    @media (max-width: 900px) {
+      .container {
+        margin: 30px auto;
+        padding: 0 15px;
+      }
+
+      .gerakan {
+        font-size: 35px;
+      }
+
+      .session-title {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+      }
+
+      .cyber-card {
+        padding: 20px;
+      }
+
+      h3 {
+        font-size: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .badge {
+        margin-left: 0;
+        margin-top: 10px;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+
+    @media (max-width: 480px) {
+      .gerakan {
+        font-size: 28px;
+        letter-spacing: 1px;
+      }
+
+      .info-bar {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+      }
+
+      .code-header {
+        padding: 10px;
+        font-size: 0.65rem;
+      }
+
+      pre {
+        padding: 15px;
+        font-size: 0.75rem;
+      }
+
+      .btn {
+        font-size: 0.6rem;
+        padding: 8px 15px;
+      }
+    }
+
+
+    .cyber-card {
+      overflow-x: hidden;
+    }
+
+    .modifier-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <header>
+      <h1 class="gerakan">HERLY AFRIZAL</h1>
+      <div class="info-bar">
+        <b>[</b> NIM: 251410002 <span>|</span> KELAS: SI2A <b>]</b>
+      </div>
+      <div class="session-title">
+        SESI 5: MULTIPLE INHERITANCE & <span>CLASS MODIFIERS</span>
+      </div>
+    </header>
+
+
+    <div class="cyber-card">
+      <h3>
+        <span>01</span> MIXINS & MULTIPLE INHERITANCE
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Dart tidak mendukung <i>multiple inheritance</i> tradisional (satu anak banyak induk). Sebagai solusinya, Dart
+        menggunakan <b>Mixins</b> untuk berbagi perilaku antar class tanpa hierarki yang rumit.</p>
+      <ul>
+        <li>Gunakan keyword <code>mixin</code> untuk mendefinisikan perilaku.</li>
+        <li>Gunakan keyword <code>with</code> untuk menerapkan mixin ke class.</li>
+        <li>Class dapat menggunakan banyak mixin sekaligus.</li>
+      </ul>
+      <div class="code-container" id="code-mixin">
+        <div class="code-header">
+          <span class="lang">DART // BASIC MIXIN</span>
+          <button class="btn" onclick="runCode('code-mixin', '1eb555781e15dabbad24987b9e3c9afd')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+mixin CanFly {
+  void fly() {
+    print('Can fly!');
+  }
+}
+
+mixin CanSwim {
+  void swim() {
+    print('Can swim!');
+  }
+}
+
+class Bird with CanFly {}
+class Duck extends Bird with CanSwim {}
+
+void main() {
+  var b = Bird(); b.fly();
+  var d = Duck(); d.fly(); d.swim();
+}</code></pre>
+      </div>
+    </div>
+
+
+    <div class="cyber-card">
+      <h3>
+        <span>02</span> MIXIN DENGAN STATE
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Mixin juga bisa memiliki properti (state) dan getter/setter. Ini sangat berguna untuk melacak status perilaku
+        objek secara modular.</p>
+      <div class="code-container" id="code-mixin-state">
+        <div class="code-header">
+          <span class="lang">DART // STATEFUL MIXIN</span>
+          <button class="btn" onclick="runCode('code-mixin-state', '15f6979776cc92bc64ae46b6dceaac88')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+mixin CanFly {
+  bool _isFlying = false;
+  bool get isFlying => _isFlying;
+  void fly() {
+    if (!_isFlying) { _isFlying = true; print('Started flying!'); }
+    else { print('Already flying!'); }
+  }
+}
+
+class Bird with CanFly {}
+
+void main() {
+  var bird = Bird();
+  bird.fly(); 
+  print('Is Bird flying? : ${bird.isFlying}');
+}</code></pre>
+      </div>
+    </div>
+
+
+    <div class="cyber-card vscode">
+      <h3>
+        <span>03</span> SEALED CLASS
+        <div class="badge badge-vscode">VS CODE</div>
+      </h3>
+      <p>Keyword <code>sealed</code> digunakan untuk membuat hierarki class yang tertutup. Subclass hanya boleh ada di
+        file yang sama (library yang sama).</p>
+      <ul>
+        <li>Mencegah ekstensi dari luar library.</li>
+        <li>Memungkinkan compiler melakukan <i>Exhaustive Checking</i> pada switch/case.</li>
+        <li>Sangat cocok untuk pemodelan Result atau API Response.</li>
+      </ul>
+      <div class="code-container" id="code-sealed">
+        <div class="code-header">
+          <span class="lang">DART // SEALED CLASS</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+sealed class ApiResponse {}
+
+class Success extends ApiResponse {
+  final String message;
+  Success(this.message);
+}
+
+class Error extends ApiResponse {
+  final String errorMessage;
+  Error(this.errorMessage);
+}
+
+void handleResponse(ApiResponse response) {
+  if (response is Success) {
+    print("Success: ${response.message}");
+  } else if (response is Error) {
+    print("Error: ${response.errorMessage}");
+  }
+}
+
+void main() {
+  handleResponse(Success("Data fetched!"));
+}</code></pre>
+      </div>
+      <button class="btn btn-capture" onclick="viewCapture('sealed_class.jpg', 'SEALED CLASS')">📷 KLIK UNTUK
+        LIHAT CAPTURE VS CODE</button>
+    </div>
+
+
+    <div class="cyber-card vscode">
+      <h3>
+        <span>04</span> BASE CLASS
+        <div class="badge badge-vscode">VS CODE</div>
+      </h3>
+      <p>Keyword <code>base</code> memastikan bahwa class hanya bisa di-<i>extend</i>, tidak boleh di-<i>implement</i>
+        dari luar library. Ini untuk menjaga kontrak <i>inheritance</i> tetap solid.</p>
+      <div class="code-container" id="code-base">
+        <div class="code-header">
+          <span class="lang">DART // BASE CLASS</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+base class Animal {
+  void speak() { print("Some sound..."); }
+}
+
+base class Dog extends Animal {
+  @override
+  void speak() { print("Woof!"); }
+}
+
+void main() {
+  Animal dog = Dog();
+  dog.speak();
+}</code></pre>
+      </div>
+      <button class="btn btn-capture" onclick="viewCapture('base_class.jpg', 'BASE CLASS')">📷 KLIK UNTUK
+        LIHAT CAPTURE VS CODE</button>
+    </div>
+
+
+    <div class="cyber-card vscode">
+      <h3>
+        <span>05</span> FINAL CLASS
+        <div class="badge badge-vscode">VS CODE</div>
+      </h3>
+      <p>Keyword <code>final</code> menutup class sepenuhnya dari luar library. Class tidak bisa di-extend maupun
+        di-implement di luar file penyusunnya.</p>
+      <div class="code-container" id="code-final">
+        <div class="code-header">
+          <span class="lang">DART // FINAL CLASS</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+final class Settings {
+  final String theme;
+  Settings(this.theme);
+  void show() => print("Theme: $theme");
+}
+
+void main() {
+  var s = Settings("Cyberpunk Dark");
+  s.show();
+}</code></pre>
+      </div>
+      <button class="btn btn-capture" onclick="viewCapture('final_class.jpg', 'FINAL CLASS')">📷 KLIK UNTUK
+        LIHAT CAPTURE VS CODE</button>
+    </div>
+
+
+    <div class="cyber-card">
+      <h3><span>06</span> PERBANDINGAN MODIFIER</h3>
+      <table class="modifier-table">
+        <thead>
+          <tr>
+            <th>MODIFIER</th>
+            <th>EXTEND LUAR</th>
+            <th>IMPLEMENT LUAR</th>
+            <th>EXTEND DALAM</th>
+            <th>IMPLEMENT DALAM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>sealed</code></td>
+            <td class="cross">✘</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+            <td class="cross">✘</td>
+          </tr>
+          <tr>
+            <td><code>base</code></td>
+            <td class="check">✔</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td><code>final</code></td>
+            <td class="cross">✘</td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+          </tr>
+          <tr>
+            <td><code>interface</code></td>
+            <td class="cross">✘</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+            <td class="check">✔</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+    <div class="cyber-card">
+      <h3>
+        <span>07</span> SEALED CLASS + PATTERN MATCHING
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Kombinasi terbaik di Dart Modern (3.0+). Compiler akan Error jika ada case yang terlewat (<i>Exhaustive
+          Switch</i>).</p>
+      <div class="code-container" id="code-appstate">
+        <div class="code-header">
+          <span class="lang">DART // STATE MANAGEMENT</span>
+          <button class="btn" onclick="runCode('code-appstate', 'b4f0f4ff2ebf599459cae4f52454d350')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+sealed class AppState {}
+class Loading extends AppState {}
+class Success extends AppState { final List&lt;String&gt; items; Success(this.items); }
+class Failed extends AppState { final String msg; Failed(this.msg); }
+
+void updateUI(AppState state) {
+  switch (state) {
+    case Loading(): print('⏳ Loading...');
+    case Success(:final items): print('✅ Data: $items');
+    case Failed(:final msg): print('❌ Error: $msg');
+  }
+}
+
+void main() {
+  updateUI(Success(['Dart', 'Flutter', 'Modern']));
+  updateUI(Failed('Connection Lost'));
+}</code></pre>
+      </div>
+    </div>
+
+
+    <div class="cyber-card vscode">
+      <h3>
+        <span>08</span> BONUS: CHALLENGE LATIHAN (HAL 19)
+        <div class="badge badge-vscode">VS CODE</div>
+      </h3>
+      <p>Implementasi pengerjaan Latihan pada Slide 19: Membuat <code>base class</code> untuk Repository (CRUD) dan
+        <code>final class</code> untuk MathUtils.
+      </p>
+      <div class="code-container" id="code-bonus">
+        <div class="code-header">
+          <span class="lang">DART // LATIHAN HAL 19</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+// 1. Base class untuk Repository dengan method CRUD
+base class Repository {
+  void create() => print('Repo: Creating record...');
+  void read() => print('Repo: Reading current data...');
+  void update() => print('Repo: Updating records...');
+  void delete() => print('Repo: Deleting data securely...');
+}
+
+// 2. Final class untuk MathUtils dengan static methods
+final class MathUtils {
+  static double pi = 3.14159;
+  static int add(int a, int b) => a + b;
+  static int multiply(int a, int b) => a * b;
+}
+
+void main() {
+  print('--- SYSTEM ANALYSIS START ---');
+  var repo = Repository();
+  repo.create();
+  repo.read();
+  
+  print('Math Check: 10 + 20 = ${MathUtils.add(10, 20)}');
+}</code></pre>
+      </div>
+      <button class="btn btn-capture" onclick="viewCapture('bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
+        CAPTURE VS CODE</button>
+    </div>
+  </div>
+
+  <div class="footer">
+    &copy; 2026 // HERLY AFRIZAL // 251410002 // SI2A
+  </div>
+
+
+  <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">DART_RUNTIME // VIRTUAL_EXECUTION</div>
+        <button class="close-modal" onclick="closeModal()">X</button>
+      </div>
+      <div class="modal-body" id="modalIframeContainer"></div>
+    </div>
+  </div>
+
+
+  <div class="modal-overlay" id="imageModal" onclick="if(event.target === this) closeImageModal()">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="imageModalTitle">TERMINAL_EVIDENCE // VS_CODE_CAPTURE</div>
+        <button class="close-modal" onclick="closeImageModal()">X</button>
+      </div>
+      <div class="modal-body" id="modalImageContainer"></div>
+    </div>
+  </div>
+
+  <script>
+    function runCode(id, gistId = null) {
+      const modal = document.getElementById('codeModal');
+      const iframeContainer = document.getElementById('modalIframeContainer');
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+
+      let iframe = document.createElement('iframe');
+
+      if (gistId) {
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
+      } else {
+        const code = document.getElementById(id).querySelector('code').innerText;
+        const encodedCode = encodeURIComponent(code);
+        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+      }
+
+      iframeContainer.innerHTML = '';
+      iframeContainer.appendChild(iframe);
+    }
+
+    function closeModal() {
+      document.getElementById('codeModal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('modalIframeContainer').innerHTML = '';
+    }
+
+    function viewCapture(src, title) {
+      const modal = document.getElementById('imageModal');
+      const container = document.getElementById('modalImageContainer');
+      const titleEl = document.getElementById('imageModalTitle');
+
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+      titleEl.innerText = `CAPTURE HASIL: ${title}`;
+      container.innerHTML = `<img src="${src}" alt="Terminal Capture">`;
+    }
+
+    function closeImageModal() {
+      document.getElementById('imageModal').classList.remove('active');
+      document.body.style.overflow = '';
+      document.getElementById('modalImageContainer').innerHTML = '';
+    }
+
+    document.addEventListener('contextmenu', e => e.preventDefault());
+
+    document.onkeydown = function (e) {
+      if (e.keyCode == 123) return false;
+
+      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
+
+      if (e.ctrlKey && e.keyCode == 85) return false;
+
+      if (e.ctrlKey && (e.keyCode == 83 || e.keyCode == 80)) return false;
+    };
+
+    document.addEventListener('dragstart', (e) => {
+      if (e.target.nodeName === 'IMG') e.preventDefault();
+    });
+  </script>
+</body>
+
+</html>
