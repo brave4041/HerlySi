@@ -724,7 +724,7 @@
       <div class="code-container" id="code-mixin">
         <div class="code-header">
           <span class="lang">DART // BASIC MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin', 'ace0d99c53f631624c806fdf00ac8c0c')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin', 'a78d4cc23dd9a3c2d6a1b16d10d416ea')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -764,7 +764,7 @@ void main() {
       <div class="code-container" id="code-mixin-state">
         <div class="code-header">
           <span class="lang">DART // STATEFUL MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin-state', '3731d41e9645d4684f22fd8775c24a93')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin-state', '444eaf54246afdd964f4c35829af9e48')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -991,7 +991,7 @@ void main() {
       <div class="code-container" id="code-appstate">
         <div class="code-header">
           <span class="lang">DART // STATE MANAGEMENT</span>
-          <button class="btn" onclick="runCode('code-appstate', 'c0b861ed16c0d10def7eec853b0aa25b')">RUN IN
+          <button class="btn" onclick="runCode('code-appstate', '29ee29d9319760f516c6e24bfa5b902a')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -1035,51 +1035,33 @@ void main() {
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// Pake Sealed Class BangunRuang & Custom Exception
-
-// Error kalau input dimensi salah (negatif)
+// libbonus.dart
 class NegativeDimensionException implements Exception {
-  final String message;
-  NegativeDimensionException(this.message);
-  @override
-  String toString() => "Error : $message";
+  final String message; NegativeDimensionException(this.message);
+  @override String toString() => "Error: $message";
 }
 
-// 1. Sealed class buat Bangun Ruang
 sealed class BangunRuang {}
+class Kubus extends BangunRuang { final double sisi; Kubus(this.sisi); }
+class Balok extends BangunRuang { final double p, l, t; Balok(this.p, this.l, this.t); }
 
-class Kubus extends BangunRuang {
-  final double sisi;
-  Kubus(this.sisi);
+base class Repository { void create() => print('Repo created.'); }
+final class MathUtils {
+  static double luasLingkaran(double r) {
+    if (r < 0) throw NegativeDimensionException("Jari-jari negatif!");
+    return 3.14 * r * r;
+  }
 }
 
-class Balok extends BangunRuang {
-  final double p, l, t;
-  Balok(this.p, this.l, this.t);
-}
-
-// Hitung volume pake teknik Switch Expression (Dart 3.0)
-double hitungVolume(BangunRuang br) {
-  return switch (br) {
-    Kubus(:var sisi) => sisi * sisi * sisi,
-    Balok(:var p, :var l, :var t) => p * l * t,
-  };
-}
+// main.dart
+import 'libbonus.dart';
 
 void main() {
-  print('--- MULAI CEK BONUS ---');
-
-  // Contoh input bener
-  final shape = Kubus(5.0);
-  print("Volume Kubus: ${hitungVolume(shape)}");
-
-  // Contoh kalau input salah (mancing exception)
   try {
-    double r = -5.0; 
-    if (r < 0) throw NegativeDimensionException("Input dimensi tidak boleh negatif!");
-  } catch (e) {
-    print(e);
-  }
+    var k = Kubus(4.0);
+    print("Volume: ${k.sisi * k.sisi * k.sisi}");
+    print(MathUtils.luasLingkaran(-5));
+  } catch (e) { print(e); }
 }</code></pre>
       </div>
       <button class="btn btn-capture" onclick="viewCapture('bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
