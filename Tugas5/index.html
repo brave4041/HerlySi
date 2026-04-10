@@ -724,7 +724,7 @@
       <div class="code-container" id="code-mixin">
         <div class="code-header">
           <span class="lang">DART // BASIC MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin', '1eb555781e15dabbad24987b9e3c9afd')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin', 'ace0d99c53f631624c806fdf00ac8c0c')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -764,7 +764,7 @@ void main() {
       <div class="code-container" id="code-mixin-state">
         <div class="code-header">
           <span class="lang">DART // STATEFUL MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin-state', '15f6979776cc92bc64ae46b6dceaac88')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin-state', '3731d41e9645d4684f22fd8775c24a93')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -797,11 +797,16 @@ void main() {
         <div class="badge badge-vscode">VS CODE</div>
       </h3>
       <p>Keyword <code>sealed</code> digunakan untuk membuat hierarki class yang tertutup. Subclass hanya boleh ada di
-        file yang sama (library yang sama).</p>
+        file yang sama (library yang sama). Ini adalah fondasi utama untuk pemrograman fungsional di Dart Modern.</p>
       <ul>
-        <li>Mencegah ekstensi dari luar library.</li>
-        <li>Memungkinkan compiler melakukan <i>Exhaustive Checking</i> pada switch/case.</li>
-        <li>Sangat cocok untuk pemodelan Result atau API Response.</li>
+        <li><b>Library-Locked:</b> Menjamin bahwa tidak ada pihak luar yang bisa menambah subclass secara ilegal. Semua
+          variasi class harus didefinisikan di tempat yang sama.</li>
+        <li><b>Exhaustive Checking:</b> Fitur paling sakti, di mana compiler akan mengecek apakah semua tipe subclass
+          sudah ditangani di <code>switch</code>. Sangat berguna untuk menghindari bug "Logic Error".</li>
+        <li><b>Implicitly Abstract:</b> Class sealed secara otomatis menjadi abstract, sehingga tidak bisa dibuat
+          objeknya (instansiasi) secara langsung.</li>
+        <li><b>Algebraic Data Types:</b> Memungkinkan pemodelan data yang kompleks seperti <i>Result (Success/Error)</i>
+          atau <i>AppState (Loading/Loaded/Error)</i> dengan sangat rapi.</li>
       </ul>
       <div class="code-container" id="code-sealed">
         <div class="code-header">
@@ -811,29 +816,27 @@ void main() {
 // Nim    : 251410002
 // Kelas  : Si2A
 
+// libsealed.dart
 sealed class ApiResponse {}
+class Success extends ApiResponse { final String message; Success(this.message); }
+class Error extends ApiResponse { final String errorMessage; Error(this.errorMessage); }
 
-class Success extends ApiResponse {
-  final String message;
-  Success(this.message);
-}
-
-class Error extends ApiResponse {
-  final String errorMessage;
-  Error(this.errorMessage);
-}
+// main.dart
+import 'libsealed.dart';
 
 void handleResponse(ApiResponse response) {
-  if (response is Success) {
-    print("Success: ${response.message}");
-  } else if (response is Error) {
-    print("Error: ${response.errorMessage}");
+  switch (response) {
+    case Success(:final message): print("Success: $message");
+    case Error(:final errorMessage): print("Error: $errorMessage");
   }
 }
 
-void main() {
-  handleResponse(Success("Data fetched!"));
-}</code></pre>
+void main() { 
+  handleResponse(Success("Data fetched successfully.")); 
+}
+
+// Pelanggaran (Akan Error):
+/* class Pending extends ApiResponse { } */</code></pre>
       </div>
       <button class="btn btn-capture" onclick="viewCapture('sealed_class.jpg', 'SEALED CLASS')">📷 KLIK UNTUK
         LIHAT CAPTURE VS CODE</button>
@@ -845,8 +848,18 @@ void main() {
         <span>04</span> BASE CLASS
         <div class="badge badge-vscode">VS CODE</div>
       </h3>
-      <p>Keyword <code>base</code> memastikan bahwa class hanya bisa di-<i>extend</i>, tidak boleh di-<i>implement</i>
-        dari luar library. Ini untuk menjaga kontrak <i>inheritance</i> tetap solid.</p>
+      <p>Keyword <code>base</code> digunakan untuk menegakkan aturan <i>inheritance</i> yang ketat. Modifier ini
+        memastikan bahwa kode lu tetap memiliki kontrak yang jelas melalui pewarisan.</p>
+      <ul>
+        <li><b>Extends Only:</b> Pihak luar hanya boleh melakukan <i>Extend</i> (pewarisan), dan dilarang keras
+          melakukan <i>Implement</i> (interface). Ini menjamin bahwa setiap subclass selalu memiliki "isi" yang sama
+          dengan induknya.</li>
+        <li><b>Subclass Requirement:</b> Setiap class yang mewarisi <code>base class</code> wajib ditandai kembali
+          menggunakan modifier <code>base</code>, <code>final</code>, atau <code>sealed</code> untuk mencegah kebocoran
+          modifier.</li>
+        <li><b>API Stability:</b> Sangat berguna untuk pembuat library agar struktur internal class-nya tidak dirombak
+          sembarangan oleh user lain.</li>
+      </ul>
       <div class="code-container" id="code-base">
         <div class="code-header">
           <span class="lang">DART // BASE CLASS</span>
@@ -855,19 +868,21 @@ void main() {
 // Nim    : 251410002
 // Kelas  : Si2A
 
-base class Animal {
-  void speak() { print("Some sound..."); }
+// libbase.dart
+base class Animal { void speak() { print("Sound..."); } }
+
+// main.dart
+import 'libbase.dart';
+
+base class Dog extends Animal { @override void speak() { print("Woof!"); } }
+
+void main() { 
+  Animal dog = Dog(); 
+  dog.speak(); 
 }
 
-base class Dog extends Animal {
-  @override
-  void speak() { print("Woof!"); }
-}
-
-void main() {
-  Animal dog = Dog();
-  dog.speak();
-}</code></pre>
+// Pelanggaran (Akan Error):
+/* base class BigAnimal implements Animal { } */</code></pre>
       </div>
       <button class="btn btn-capture" onclick="viewCapture('base_class.jpg', 'BASE CLASS')">📷 KLIK UNTUK
         LIHAT CAPTURE VS CODE</button>
@@ -879,8 +894,16 @@ void main() {
         <span>05</span> FINAL CLASS
         <div class="badge badge-vscode">VS CODE</div>
       </h3>
-      <p>Keyword <code>final</code> menutup class sepenuhnya dari luar library. Class tidak bisa di-extend maupun
-        di-implement di luar file penyusunnya.</p>
+      <p>Keyword <code>final</code> adalah modifier yang memberikan keamanan total (*Security by Closure*). Lu menutup
+        rapat akses modifikasi dari luar.</p>
+      <ul>
+        <li><b>Total Restrictions:</b> Di luar library asal, class ini dilarang di-<i>extend</i> maupun
+          di-<i>implement</i>. Class ini benar-benar berdiri sendiri.</li>
+        <li><b>Encapsulation:</b> Menjamin bahwa logika di dalam class tersebut tidak akan pernah berubah atau
+          "disimpangkan" oleh subclass lain yang mungkin merusak sistem.</li>
+        <li><b>Subclass Requirement:</b> Jika lu melakukan inheritance di dalam file yang sama, subclass-nya pun harus
+          ditandai <code>base</code>, <code>final</code>, atau <code>sealed</code>.</li>
+      </ul>
       <div class="code-container" id="code-final">
         <div class="code-header">
           <span class="lang">DART // FINAL CLASS</span>
@@ -889,16 +912,23 @@ void main() {
 // Nim    : 251410002
 // Kelas  : Si2A
 
+// libfinal.dart
 final class Settings {
-  final String theme;
-  Settings(this.theme);
-  void show() => print("Theme: $theme");
+  final String theme; final int fontSize;
+  Settings({required this.theme, required this.fontSize});
+  void show() { print("Theme: $theme"); }
 }
 
-void main() {
-  var s = Settings("Cyberpunk Dark");
+// main.dart
+import 'libfinal.dart';
+
+void main() { 
+  var s = Settings(theme: "Dark Mode", fontSize: 16);
   s.show();
-}</code></pre>
+}
+
+// Pelanggaran (Akan Error):
+/* class Custom extends Settings { } */</code></pre>
       </div>
       <button class="btn btn-capture" onclick="viewCapture('final_class.jpg', 'FINAL CLASS')">📷 KLIK UNTUK
         LIHAT CAPTURE VS CODE</button>
@@ -961,7 +991,7 @@ void main() {
       <div class="code-container" id="code-appstate">
         <div class="code-header">
           <span class="lang">DART // STATE MANAGEMENT</span>
-          <button class="btn" onclick="runCode('code-appstate', 'b4f0f4ff2ebf599459cae4f52454d350')">RUN IN
+          <button class="btn" onclick="runCode('code-appstate', 'c0b861ed16c0d10def7eec853b0aa25b')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -1005,28 +1035,51 @@ void main() {
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// 1. Base class untuk Repository dengan method CRUD
-base class Repository {
-  void create() => print('Repo: Creating record...');
-  void read() => print('Repo: Reading current data...');
-  void update() => print('Repo: Updating records...');
-  void delete() => print('Repo: Deleting data securely...');
+// Pake Sealed Class BangunRuang & Custom Exception
+
+// Error kalau input dimensi salah (negatif)
+class NegativeDimensionException implements Exception {
+  final String message;
+  NegativeDimensionException(this.message);
+  @override
+  String toString() => "Error : $message";
 }
 
-// 2. Final class untuk MathUtils dengan static methods
-final class MathUtils {
-  static double pi = 3.14159;
-  static int add(int a, int b) => a + b;
-  static int multiply(int a, int b) => a * b;
+// 1. Sealed class buat Bangun Ruang
+sealed class BangunRuang {}
+
+class Kubus extends BangunRuang {
+  final double sisi;
+  Kubus(this.sisi);
+}
+
+class Balok extends BangunRuang {
+  final double p, l, t;
+  Balok(this.p, this.l, this.t);
+}
+
+// Hitung volume pake teknik Switch Expression (Dart 3.0)
+double hitungVolume(BangunRuang br) {
+  return switch (br) {
+    Kubus(:var sisi) => sisi * sisi * sisi,
+    Balok(:var p, :var l, :var t) => p * l * t,
+  };
 }
 
 void main() {
-  print('--- SYSTEM ANALYSIS START ---');
-  var repo = Repository();
-  repo.create();
-  repo.read();
-  
-  print('Math Check: 10 + 20 = ${MathUtils.add(10, 20)}');
+  print('--- MULAI CEK BONUS ---');
+
+  // Contoh input bener
+  final shape = Kubus(5.0);
+  print("Volume Kubus: ${hitungVolume(shape)}");
+
+  // Contoh kalau input salah (mancing exception)
+  try {
+    double r = -5.0; 
+    if (r < 0) throw NegativeDimensionException("Input dimensi tidak boleh negatif!");
+  } catch (e) {
+    print(e);
+  }
 }</code></pre>
       </div>
       <button class="btn btn-capture" onclick="viewCapture('bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
