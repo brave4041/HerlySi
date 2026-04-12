@@ -257,10 +257,13 @@
     }
 
     .code-header .lang {
-      color: var(--text-dim);
-      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-blue);
+      font-family: 'Share Tech Mono', monospace;
       letter-spacing: 1px;
+      font-weight: bold;
+      text-shadow: 0 0 5px var(--accent-blue-glow);
     }
+
 
     .btn {
       background: transparent;
@@ -692,7 +695,40 @@
       font-family: 'Inter', sans-serif;
       font-size: 0.85rem;
     }
+
+    .analisis-box {
+      background: rgba(255, 0, 60, 0.05);
+      border-left: 4px solid var(--accent-red);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .analisis-box.blue {
+      background: rgba(0, 243, 255, 0.05);
+      border-left-color: var(--accent-blue);
+    }
+
+    .analisis-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: var(--text-main);
+      letter-spacing: 1px;
+    }
+
+    .analisis-box ul {
+      margin: 0;
+    }
+
+    .analisis-box ul li {
+      margin-bottom: 5px;
+      color: var(--text-main);
+      font-size: 0.85rem;
+    }
   </style>
+
 </head>
 
 <body>
@@ -724,7 +760,7 @@
       <div class="code-container" id="code-mixin">
         <div class="code-header">
           <span class="lang">DART // BASIC MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin', 'a78d4cc23dd9a3c2d6a1b16d10d416ea')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin', 'f47c514abb5fe0f1011e19b6d0f6c677')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -764,7 +800,7 @@ void main() {
       <div class="code-container" id="code-mixin-state">
         <div class="code-header">
           <span class="lang">DART // STATEFUL MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin-state', '444eaf54246afdd964f4c35829af9e48')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin-state', 'c23c3248c46d34e9259026865646e788')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -797,31 +833,50 @@ void main() {
         <div class="badge badge-vscode">VS CODE</div>
       </h3>
       <p>Keyword <code>sealed</code> digunakan untuk membuat hierarki class yang tertutup. Subclass hanya boleh ada di
-        file yang sama (library yang sama). Ini adalah fondasi utama untuk pemrograman fungsional di Dart Modern.</p>
+        file yang sama (library yang sama). Sering disebut sebagai <i>Algebraic Data Types</i>.</p>
       <ul>
-        <li><b>Library-Locked:</b> Menjamin bahwa tidak ada pihak luar yang bisa menambah subclass secara ilegal. Semua
-          variasi class harus didefinisikan di tempat yang sama.</li>
-        <li><b>Exhaustive Checking:</b> Fitur paling sakti, di mana compiler akan mengecek apakah semua tipe subclass
-          sudah ditangani di <code>switch</code>. Sangat berguna untuk menghindari bug "Logic Error".</li>
-        <li><b>Implicitly Abstract:</b> Class sealed secara otomatis menjadi abstract, sehingga tidak bisa dibuat
-          objeknya (instansiasi) secara langsung.</li>
-        <li><b>Algebraic Data Types:</b> Memungkinkan pemodelan data yang kompleks seperti <i>Result (Success/Error)</i>
-          atau <i>AppState (Loading/Loaded/Error)</i> dengan sangat rapi.</li>
-      </ul>
-      <div class="code-container" id="code-sealed">
-        <div class="code-header">
-          <span class="lang">DART // SEALED CLASS</span>
+        <li><b>Definisi Utama:</b> Menjamin bahwa tidak ada pihak luar yang bisa menambah subclass secara ilegal. Semua
+          variasi class harus didefinisikan di tempat yang sama (Library-Locked).</li>
+        <li><b>Keunggulan:</b> Fitur <b>Exhaustive Checking</b>, di mana compiler akan memberikan Error jika ada tipe
+          subclass
+          yang belum ditangani di <code>switch</code>. Ini sangat berguna untuk manajemen state (Loading, Success,
+          Error).</li>
+
+        <div class="analisis-box blue">
+          <div class="analisis-title">ANALISIS KONSEP SEPARASI</div>
+
+
+          <ul>
+            <li><b>Lib Side (libsealed.dart):</b> Mendefinisikan "Dunia Tertutup". Semua variasi (Success/Error) dikunci
+              di sini.</li>
+            <li><b>Client Side (sealed_class.dart):</b> Menggunakan data dengan aman. Compiler menjamin akurasi
+              switch-case.</li>
+            <li><b>Esensi:</b> Jika digabung, kita kehilangan kontrol di mana orang lain bisa menambah subclass baru di
+              file lain.</li>
+          </ul>
         </div>
-        <pre><code>// Nama   : Herly Afrizal
+
+        <div class="code-container">
+          <div class="code-header">
+            <span class="lang">FILE: libsealed.dart</span>
+          </div>
+          <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// libsealed.dart
 sealed class ApiResponse {}
 class Success extends ApiResponse { final String message; Success(this.message); }
-class Error extends ApiResponse { final String errorMessage; Error(this.errorMessage); }
+class Error extends ApiResponse { final String errorMessage; Error(this.errorMessage); }</code></pre>
+        </div>
 
-// main.dart
+        <div class="code-container" id="code-sealed">
+          <div class="code-header">
+            <span class="lang">FILE: sealed_class.dart</span>
+          </div>
+          <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
 import 'libsealed.dart';
 
 void handleResponse(ApiResponse response) {
@@ -832,15 +887,18 @@ void handleResponse(ApiResponse response) {
 }
 
 void main() { 
-  handleResponse(Success("Data fetched successfully.")); 
+  handleResponse(Success("Data fetched from library.")); 
 }
 
-// Pelanggaran (Akan Error):
+// PELANGGARAN SEALED:
 /* class Pending extends ApiResponse { } */</code></pre>
-      </div>
-      <button class="btn btn-capture" onclick="viewCapture('sealed_class.jpg', 'SEALED CLASS')">📷 KLIK UNTUK
-        LIHAT CAPTURE VS CODE</button>
+        </div>
+
+
+        <button class="btn btn-capture" onclick="viewCapture('../capture/sealed_class.jpg', 'SEALED CLASS')">📷 KLIK UNTUK
+          LIHAT CAPTURE VS CODE</button>
     </div>
+
 
 
     <div class="cyber-card vscode">
@@ -851,42 +909,70 @@ void main() {
       <p>Keyword <code>base</code> digunakan untuk menegakkan aturan <i>inheritance</i> yang ketat. Modifier ini
         memastikan bahwa kode lu tetap memiliki kontrak yang jelas melalui pewarisan.</p>
       <ul>
-        <li><b>Extends Only:</b> Pihak luar hanya boleh melakukan <i>Extend</i> (pewarisan), dan dilarang keras
-          melakukan <i>Implement</i> (interface). Ini menjamin bahwa setiap subclass selalu memiliki "isi" yang sama
-          dengan induknya.</li>
+        <li><b>Definisi Utama:</b> Class dapat di-<b>Extend</b> (pewarisan), namun dilarang keras di-<b>Implement</b>
+          sebagai Interface di luar library. Ini menjamin bahwa setiap subclass selalu memiliki implementasi dasar yang
+          sama.</li>
+        <li><b>Kapan Menggunakan:</b> Digunakan saat lu ingin mengontrol bagaimana class diwariskan untuk menjaga <b>API
+            Stability</b>. Menjamin bahwa struktur internal class tidak dirombak sembarangan oleh user lain.</li>
+
         <li><b>Subclass Requirement:</b> Setiap class yang mewarisi <code>base class</code> wajib ditandai kembali
-          menggunakan modifier <code>base</code>, <code>final</code>, atau <code>sealed</code> untuk mencegah kebocoran
-          modifier.</li>
-        <li><b>API Stability:</b> Sangat berguna untuk pembuat library agar struktur internal class-nya tidak dirombak
-          sembarangan oleh user lain.</li>
+          menggunakan <code>base</code>, <code>final</code>, atau <code>sealed</code>.</li>
       </ul>
-      <div class="code-container" id="code-base">
+
+      <div class="analisis-box blue">
+        <div class="analisis-title">ANALISIS KONSEP SEPARASI</div>
+
+        <ul>
+          <li><b>Lib Side (libbase.dart):</b> Menetapkan "Pondasi Dasar" yang mewajibkan pewarisan (Extend).</li>
+          <li><b>Client Side (base_class.dart):</b> Mengembangkan class tanpa bisa merusak kontrak aslinya (Dilarang
+            Implement).</li>
+          <li><b>Esensi:</b> Modifer <code>base</code> menjaga kestabilan API agar struktur internal class tetap utuh.
+          </li>
+        </ul>
+      </div>
+
+      <div class="code-container">
         <div class="code-header">
-          <span class="lang">DART // BASE CLASS</span>
+          <span class="lang">FILE: libbase.dart</span>
         </div>
         <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// libbase.dart
-base class Animal { void speak() { print("Sound..."); } }
+base class Animal { 
+  void speak() { print("Some sound..."); } 
+}</code></pre>
+      </div>
 
-// main.dart
+      <div class="code-container" id="code-base">
+        <div class="code-header">
+          <span class="lang">FILE: base_class.dart</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
 import 'libbase.dart';
 
-base class Dog extends Animal { @override void speak() { print("Woof!"); } }
+base class Dog extends Animal { 
+  @override 
+  void speak() { print("Woof!"); } 
+}
 
 void main() { 
   Animal dog = Dog(); 
   dog.speak(); 
 }
 
-// Pelanggaran (Akan Error):
+// PELANGGARAN BASE:
 /* base class BigAnimal implements Animal { } */</code></pre>
       </div>
-      <button class="btn btn-capture" onclick="viewCapture('base_class.jpg', 'BASE CLASS')">📷 KLIK UNTUK
+
+
+      <button class="btn btn-capture" onclick="viewCapture('../capture/base_class.jpg', 'BASE CLASS')">📷 KLIK UNTUK
         LIHAT CAPTURE VS CODE</button>
     </div>
+
 
 
     <div class="cyber-card vscode">
@@ -897,54 +983,166 @@ void main() {
       <p>Keyword <code>final</code> adalah modifier yang memberikan keamanan total (*Security by Closure*). Lu menutup
         rapat akses modifikasi dari luar.</p>
       <ul>
-        <li><b>Total Restrictions:</b> Di luar library asal, class ini dilarang di-<i>extend</i> maupun
-          di-<i>implement</i>. Class ini benar-benar berdiri sendiri.</li>
+        <li><b>Definisi Utama:</b> Di luar library asal, class ini dilarang di-<i>extend</i> maupun
+          di-<i>implement</i>. Class ini benar-benar berdiri sendiri dan tertutup (Closed for modification).</li>
+
         <li><b>Encapsulation:</b> Menjamin bahwa logika di dalam class tersebut tidak akan pernah berubah atau
           "disimpangkan" oleh subclass lain yang mungkin merusak sistem.</li>
         <li><b>Subclass Requirement:</b> Jika lu melakukan inheritance di dalam file yang sama, subclass-nya pun harus
           ditandai <code>base</code>, <code>final</code>, atau <code>sealed</code>.</li>
       </ul>
-      <div class="code-container" id="code-final">
+
+      <div class="analisis-box blue">
+        <div class="analisis-title">ANALISIS KONSEP SEPARASI</div>
+        <ul>
+          <li><b>Lib Side (libfinal.dart):</b> Mengunci class sepenuhnya dari modifikasi eksternal.</li>
+
+          <li><b>Client Side (final_class.dart):</b> Hanya diperbolehkan menggunakan objek (instansiasi).</li>
+          <li><b>Esensi:</b> Memberikan keamanan level tinggi di mana logika bisnis asli tidak bisa di-<i>override</i>
+            sama sekali.</li>
+        </ul>
+      </div>
+
+      <div class="code-container">
         <div class="code-header">
-          <span class="lang">DART // FINAL CLASS</span>
+          <span class="lang">FILE: libfinal.dart</span>
         </div>
         <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// libfinal.dart
 final class Settings {
   final String theme; final int fontSize;
   Settings({required this.theme, required this.fontSize});
-  void show() { print("Theme: $theme"); }
-}
+  void showSettings() { print("Theme: $theme, Font: $fontSize"); }
+}</code></pre>
+      </div>
 
-// main.dart
+      <div class="code-container" id="code-final">
+        <div class="code-header">
+          <span class="lang">FILE: final_class.dart</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
 import 'libfinal.dart';
 
 void main() { 
-  var s = Settings(theme: "Dark Mode", fontSize: 16);
-  s.show();
+  Settings settings = Settings(theme: "Modern Dark", fontSize: 16);
+  settings.showSettings();
 }
 
-// Pelanggaran (Akan Error):
-/* class Custom extends Settings { } */</code></pre>
+// PELANGGARAN FINAL:
+/* class CustomSettings extends Settings { } */</code></pre>
       </div>
-      <button class="btn btn-capture" onclick="viewCapture('final_class.jpg', 'FINAL CLASS')">📷 KLIK UNTUK
+
+
+      <button class="btn btn-capture" onclick="viewCapture('../capture/final_class.jpg', 'FINAL CLASS')">📷 KLIK UNTUK
+        LIHAT CAPTURE VS CODE</button>
+    </div>
+
+    <div class="cyber-card">
+      <h3><span>ESENSI CLASS MODIFIER</span></h3>
+      <p><b>Kenapa kita harus menggunakan Class Modifier?</b></p>
+      <p>Esensi dari modifier seperti <code>base</code>, <code>final</code>, dan <code>sealed</code> adalah <b>keamanan
+          dan kontrol library</b>. Aturan pembatasan (seperti dilarang meng-implement) <b>TIDAK AKAN</b> berlaku jika
+        semua code digabung dalam satu file.</p>
+      <ul>
+        <li><b>Library Boundary:</b> Dart hanya menegakkan aturan modifier saat diakses dari luar library (file yang
+          berbeda).</li>
+        <li><b>Predictability:</b> Developer bisa menjamin bahwa class miliknya tidak akan disalahgunakan oleh orang
+          lain yang mengimport library-nya (API Stability).</li>
+        <li><b>Encapsulation:</b> Menghindari "leak" implementasi yang tidak diinginkan dari pihak ketiga.</li>
+      </ul>
+    </div>
+
+
+
+    <div class="cyber-card vscode">
+      <h3>
+        <span>06</span> INTERFACE CLASS
+        <div class="badge badge-vscode">VS CODE</div>
+      </h3>
+      <p>Keyword <code>interface</code> digunakan untuk mendefinisikan kontrak yang bisa di-<b>Implement</b> oleh class
+        lain, namun dilarang keras untuk di-<b>Extend</b> (wariskan) di luar library.</p>
+      <ul>
+        <li><b>Total Implementation:</b> Pihak luar wajib mengimplementasikan ulang semua metode jika ingin menggunakan
+          class ini sebagai interface.</li>
+        <li><b>Instantiable:</b> Berbeda dengan <code>abstract</code>, <code>interface class</code> tetap bisa dibuatkan
+          objeknya secara langsung.</li>
+        <li><b>API Security:</b> Menjamin bahwa struktur class lu tidak akan di-<i>override</i> atau dirombak logikanya
+          melalui pewarisan.</li>
+      </ul>
+
+      <div class="analisis-box blue">
+        <div class="analisis-title">ANALISIS KONSEP SEPARASI</div>
+        <ul>
+          <li><b>Lib Side (libinterface.dart):</b> Mendefinisikan kontrak interface yang aman.</li>
+          <li><b>Client Side (interface_class.dart):</b> Hanya diperbolehkan melakukan <code>implements</code>.</li>
+          <li><b>Esensi:</b> Mencegah pewarisan paksa (inheritance) yang bisa merusak enkapsulasi internal library.</li>
+        </ul>
+      </div>
+
+      <div class="code-container">
+        <div class="code-header">
+          <span class="lang">FILE: libinterface.dart</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+interface class Vehicle {
+  void drive() { print("Vehicle is moving..."); }
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-interface">
+        <div class="code-header">
+          <span class="lang">FILE: interface_class.dart</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+import 'libinterface.dart';
+
+class Car implements Vehicle {
+  @override
+  void drive() { print("Car is driving on four wheels."); }
+}
+
+void main() {
+  print("--- TEST INTERFACE CLASS ---");
+  Vehicle car = Car();
+  car.drive();
+
+  // Instance dari Vehicle juga bisa dibuat (karena bukan abstract)
+  var v = Vehicle();
+  v.drive();
+}
+
+// PELANGGARAN INTERFACE:
+/* class Truck extends Vehicle { } */</code></pre>
+      </div>
+
+      <button class="btn btn-capture" onclick="viewCapture('../capture/interface_class.jpg', 'INTERFACE CLASS')">📷 KLIK UNTUK
         LIHAT CAPTURE VS CODE</button>
     </div>
 
 
     <div class="cyber-card">
-      <h3><span>06</span> PERBANDINGAN MODIFIER</h3>
+      <h3><span>07</span> PERBANDINGAN MODIFIER</h3>
+
+
       <table class="modifier-table">
         <thead>
           <tr>
             <th>MODIFIER</th>
-            <th>EXTEND LUAR</th>
-            <th>IMPLEMENT LUAR</th>
-            <th>EXTEND DALAM</th>
-            <th>IMPLEMENT DALAM</th>
+            <th>OBJEK?</th>
+            <th>EXTEND LUAR?</th>
+            <th>IMPLEMENT LUAR?</th>
+            <th>MIXIN LUAR?</th>
           </tr>
         </thead>
         <tbody>
@@ -952,38 +1150,40 @@ void main() {
             <td><code>sealed</code></td>
             <td class="cross">✘</td>
             <td class="cross">✘</td>
-            <td class="check">✔</td>
+            <td class="cross">✘</td>
             <td class="cross">✘</td>
           </tr>
           <tr>
             <td><code>base</code></td>
             <td class="check">✔</td>
+            <td class="check">✔</td>
             <td class="cross">✘</td>
-            <td class="check">✔</td>
-            <td class="check">✔</td>
+            <td class="cross">✘</td>
           </tr>
           <tr>
             <td><code>final</code></td>
+            <td class="check">✔</td>
             <td class="cross">✘</td>
             <td class="cross">✘</td>
-            <td class="check">✔</td>
-            <td class="check">✔</td>
+            <td class="cross">✘</td>
           </tr>
           <tr>
             <td><code>interface</code></td>
+            <td class="check">✔</td>
             <td class="cross">✘</td>
             <td class="check">✔</td>
-            <td class="check">✔</td>
-            <td class="check">✔</td>
+            <td class="cross">✘</td>
           </tr>
         </tbody>
       </table>
     </div>
 
 
+
     <div class="cyber-card">
       <h3>
-        <span>07</span> SEALED CLASS + PATTERN MATCHING
+        <span>08</span> SEALED CLASS + PATTERN MATCHING
+
         <div class="badge badge-dartpad">DARTPAD</div>
       </h3>
       <p>Kombinasi terbaik di Dart Modern (3.0+). Compiler akan Error jika ada case yang terlewat (<i>Exhaustive
@@ -991,7 +1191,7 @@ void main() {
       <div class="code-container" id="code-appstate">
         <div class="code-header">
           <span class="lang">DART // STATE MANAGEMENT</span>
-          <button class="btn" onclick="runCode('code-appstate', '29ee29d9319760f516c6e24bfa5b902a')">RUN IN
+          <button class="btn" onclick="runCode('code-appstate', '4a28cc83195496f2941d01fcaceeec2f')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -1021,53 +1221,114 @@ void main() {
 
     <div class="cyber-card vscode">
       <h3>
-        <span>08</span> BONUS: CHALLENGE LATIHAN (HAL 19)
+        <span>09</span> BONUS: CHALLENGE LATIHAN
         <div class="badge badge-vscode">VS CODE</div>
       </h3>
-      <p>Implementasi pengerjaan Latihan pada Slide 19: Membuat <code>base class</code> untuk Repository (CRUD) dan
-        <code>final class</code> untuk MathUtils.
+      <p>Implementasi Latihan Tantangan: Struktur data kompleks menggunakan <code>sealed</code>, <code>base</code>, dan <code>final</code> dalam satu arsitektur library.
       </p>
-      <div class="code-container" id="code-bonus">
+
+      <div class="analisis-box blue">
+        <div class="analisis-title">ANALISIS KOMPONEN BONUS</div>
+        <ul>
+          <li><b>Sealed Class (BangunRuang):</b> Digunakan untuk membatasi variasi tipe bentuk geometry yang bisa diolah sistem.</li>
+          <li><b>Base Class (Repository):</b> Menjamin setiap data akses memiliki standar CRUD yang tidak bisa di-<i>implement</i> secara sembarangan dari luar.</li>
+          <li><b>Final Class (MathUtils):</b> Bertugas sebagai pusat kalkulasi yang "terkunci", memastikan rumus matematika tidak bisa dimodifikasi melalui inheritance.</li>
+          <li><b>Custom Exception:</b> Menangani error handling secara spesifik untuk input dimensi negatif.</li>
+        </ul>
+      </div>
+
+      <div class="code-container">
         <div class="code-header">
-          <span class="lang">DART // LATIHAN HAL 19</span>
+          <span class="lang">FILE: libbonus.dart</span>
         </div>
         <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
 // Kelas  : Si2A
 
-// libbonus.dart
 class NegativeDimensionException implements Exception {
   final String message; NegativeDimensionException(this.message);
-  @override String toString() => "Error: $message";
+  @override String toString() => "Error : $message";
 }
+
 
 sealed class BangunRuang {}
 class Kubus extends BangunRuang { final double sisi; Kubus(this.sisi); }
 class Balok extends BangunRuang { final double p, l, t; Balok(this.p, this.l, this.t); }
 
-base class Repository { void create() => print('Repo created.'); }
-final class MathUtils {
-  static double luasLingkaran(double r) {
-    if (r < 0) throw NegativeDimensionException("Jari-jari negatif!");
-    return 3.14 * r * r;
-  }
+base class Repository {
+  void create() => print('Repo: Record created successfully.');
+  void read() => print('Repo: Reading record from database...');
+  void update() => print('Repo: Updating record with new data...');
+  void delete() => print('Repo: Deleting record from system...');
 }
 
-// main.dart
-import 'libbonus.dart';
-
-void main() {
-  try {
-    var k = Kubus(4.0);
-    print("Volume: ${k.sisi * k.sisi * k.sisi}");
-    print(MathUtils.luasLingkaran(-5));
-  } catch (e) { print(e); }
+final class MathUtils {
+  static const double PI = 3.14159;
+  static double luasLingkaran(double r) {
+    if (r < 0) throw NegativeDimensionException("Jari-jari negatif!");
+    return PI * r * r;
+  }
+  static double volumeKubus(double s) => s * s * s;
+  static int tambah(int a, int b) => a + b;
+  static int kali(int a, int b) => a * b;
 }</code></pre>
       </div>
-      <button class="btn btn-capture" onclick="viewCapture('bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
+
+      <div class="code-container" id="code-bonus">
+        <div class="code-header">
+          <span class="lang">FILE: bonus.dart</span>
+        </div>
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : Si2A
+
+import 'libbonus.dart';
+
+double hitungVolume(BangunRuang br) {
+
+  return switch (br) {
+    Kubus(:var sisi) => sisi * sisi * sisi,
+    Balok(:var p, :var l, :var t) => p * l * t,
+  };
+}
+
+void main() {
+  print('--- TEST BONUS CHALLENGE ---');
+  var k = Kubus(4.0);
+  print("Volume Kubus: ${hitungVolume(k)}");
+
+  try {
+    print("Luas Lingkaran (r=-5): ${MathUtils.luasLingkaran(-5)}");
+  } catch (e) { print(e); }
+
+  var repo = Repository();
+  repo.create(); repo.read();
+  
+  print("\nHasil 10 + 20 = ${MathUtils.tambah(10, 20)}");
+}</code></pre>
+      </div>
+
+      <button class="btn btn-capture" onclick="viewCapture('../capture/bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
         CAPTURE VS CODE</button>
     </div>
+
+
+    <div class="cyber-card">
+      <h3><span>10</span> RINGKASAN & BEST PRACTICES</h3>
+      <div class="analisis-box blue">
+        <div class="analisis-title">KESIMPULAN MATERI</div>
+        <ul>
+          <li><b>Sealed Class:</b> Gunakan jika lu punya tipe data yang terbatas dan sudah pasti (seperti Status: Loading, Success, Error). Sangat powerfull dipadukan dengan Pattern Matching.</li>
+          <li><b>Base Class:</b> Gunakan untuk membuat "Framework" atau Class Induk di mana lu ingin orang lain mewarisi fiturnya, tapi tidak ingin mereka merombak kontraknya melalui implementasi interface.</li>
+          <li><b>Final Class:</b> Gunakan untuk "Utility Class" atau logika bisnis sensitif yang tidak boleh diubah-ubah atau di-subclass sama sekali demi keamanan data.</li>
+        </ul>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-dim); text-align: center; margin-top: 10px;">
+        "Class Modifiers bukan sekadar pembatasan, tapi adalah alat untuk mendesain API yang aman, ekspresif, dan mudah diprediksi."
+      </p>
+    </div>
   </div>
+
 
   <div class="footer">
     &copy; 2026 // HERLY AFRIZAL // 251410002 // SI2A
