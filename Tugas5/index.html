@@ -1867,6 +1867,7 @@ class AdvMath extends MathUtils {}</code></pre>
             const moveX = (50 - xPercent) * 1.5;
             const moveY = (50 - yPercent) * 1.5;
 
+            // Efek Zoom Halus (Smooth)
             img.style.transform = `scale(2.5) translate(${moveX}%, ${moveY}%)`;
 
             chH.style.top = y + 'px';
@@ -1879,15 +1880,19 @@ class AdvMath extends MathUtils {}</code></pre>
         container.onmousemove = (e) => handleMove(e.clientX, e.clientY);
 
         container.ontouchmove = (e) => {
-          if (e.touches.length > 0) {
+          if (modal.classList.contains('zoom-active')) {
             e.preventDefault();
-            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            const touch = e.touches[0];
+            handleMove(touch.clientX, touch.clientY);
           }
         };
 
         container.ontouchstart = (e) => {
           if (!modal.classList.contains('zoom-active')) {
+            const touch = e.touches[0];
             toggleZoom(img);
+            // Langsung arahkan zoom ke titik yang disentuh
+            handleMove(touch.clientX, touch.clientY);
           }
         };
       }
@@ -1898,7 +1903,7 @@ class AdvMath extends MathUtils {}</code></pre>
         modal.classList.toggle('zoom-active');
 
         if (modal.classList.contains('zoom-active')) {
-          status.innerText = "GESER JARI/KURSOR UNTUK ZOOM // ZOOM AKTIF...";
+          status.innerText = "GESER JARI/KURSOR UNTUK ZOOM // ZOOM AKTIF";
         } else {
           status.innerText = "KLIK UNTUK PERBESAR GAMBAR";
           img.style.transform = 'scale(1) translate(0, 0)';
