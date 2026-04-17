@@ -760,16 +760,26 @@
       <div class="code-container" id="code-mixin">
         <div class="code-header">
           <span class="lang">DART // MIXIN DASAR</span>
-          <button class="btn" onclick="runCode('code-mixin', 'b9f59a5148f12c1118ff6f5e82be2218')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin', '97778096d74db04d8e7f71f332ed6830')">RUN IN
             DARTPAD</button>
         </div>
-        <pre><code>mixin CanFly { void fly() { print("Bisa terbang!"); } }
-mixin CanSwim { void swim() { print("Bisa berenang!"); } }
+        <pre><code>mixin CanFly {
+  void fly() {
+    print('Can fly!');
+  }
+}
+
+mixin CanSwim {
+  void swim() {
+    print('Can swim!');
+  }
+}
 
 class Bird with CanFly {}
 class Duck extends Bird with CanSwim {}
 
 void main() {
+  print("--- TEST BASIC MIXIN ---");
   var b = Bird(); b.fly();
   var d = Duck(); d.fly(); d.swim();
 }</code></pre>
@@ -787,35 +797,35 @@ void main() {
       <div class="code-container" id="code-mixin-state">
         <div class="code-header">
           <span class="lang">DART // STATEFUL MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin-state', '95ebc3e517eaa9f4f8e7f92a7d7267d4')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin-state', 'd195ce6141519c07a614f4eeabccd9ae')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
 // Kelas  : Si2A
 
-mixin CanFly {
+mixin CanFlyState {
   bool _isFlying = false;
+  bool get isFlying => _isFlying;
+  
   void fly() {
-    if (_isFlying) { print("Warning: Already flying!"); } 
-    else { _isFlying = true; print("Take off succesful!"); }
+    if (!_isFlying) { 
+      _isFlying = true; 
+      print('Started flying!'); 
+    } else { 
+      print('Already flying!'); 
+    }
   }
 }
 
-mixin CanSwim {
-  int energy = 10;
-  void swim() {
-    if (energy <= 0) { print("Error: Out of energy!"); } 
-    else { energy -= 10; print("Swim success!"); }
-  }
-}
-
-class Duck with CanFly, CanSwim {}
+class BirdWithState with CanFlyState {}
 
 void main() {
-  var d = Duck();
-  d.fly(); d.fly(); // Error case
-  d.swim(); d.swim(); // Error case
+  print("--- TEST MIXIN WITH STATE ---");
+  var bird = BirdWithState();
+  bird.fly(); 
+  bird.fly();
+  print('Is Bird flying? : ${bird.isFlying}');
 }</code></pre>
       </div>
     </div>
@@ -862,8 +872,21 @@ void main() {
 // Kelas  : Si2A
 
 sealed class ApiResponse {}
-class Success extends ApiResponse { final String message; Success(this.message); }
-class Error extends ApiResponse { final String errorMessage; Error(this.errorMessage); }</code></pre>
+
+class Success extends ApiResponse {
+  final String message;
+  Success(this.message);
+}
+
+class Error extends ApiResponse {
+  final String errorMessage;
+  Error(this.errorMessage);
+}
+
+sealed class AppStatus {}
+class Loading extends AppStatus {}
+class Loaded extends AppStatus { final String data; Loaded(this.data); }
+class Failed extends AppStatus { final String error; Failed(this.error); }</code></pre>
         </div>
 
         <div class="code-container" id="code-sealed">
@@ -878,29 +901,42 @@ import 'libsealed.dart';
 
 void handleResponse(ApiResponse response) {
   switch (response) {
-    case Success(:final message): print("Success: $message");
+    case Success(:final message): print("Sukses: $message");
     case Error(:final errorMessage): print("Error: $errorMessage");
   }
 }
 
-void main() { 
-  print("--- TEST SEALED SIMULATION ---");
-  handleResponse(Success("Koneksi berhasil!"));
+void handleStatus(AppStatus status) {
+  switch (status) {
+    case Loading(): print('⏳ Sedang memuat...');
+    case Loaded(:final data): print('✅ Data Berhasil: $data');
+    case Failed(:final error): print('❌ Gagal: $error');
+  }
+}
 
+void main() {
+  print("--- TEST SEALED CLASS & SIMULASI STATUS ---");
+  
+  handleResponse(Success("Koneksi berhasil!"));
+  handleResponse(Error("Error 404: File tidak ditemukan"));
+
+  print("\n[SIMULASI DAFTAR STATUS]");
   final states = <AppStatus>[
     Loading(),
-    Loaded('Data Katalog'),
-    Failed('Koneksi Terputus'),
+    Loaded('Katalog Produk'),
+    Failed('Server sibuk (500)'),
   ];
 
   for (var i = 0; i < states.length; i++) {
-    print("State ${i + 1}:");
+    print("State ke-${i + 1}:");
     handleStatus(states[i]);
   }
 }
 
 // PELANGGARAN SEALED:
-/* class Pending extends ApiResponse { } */</code></pre>
+/*
+class Pending extends ApiResponse { }
+*/</code></pre>
         </div>
 
 
@@ -966,31 +1002,41 @@ base class Animal {
 import 'libbase.dart';
 
 base class Dog extends Animal {
-  bool isHealthy = false;
+  bool isHealthy = false; 
+
   @override
   void speak() { 
-    if (!isHealthy) { print("Peringatan: Anjing sakit!"); } 
+    if (!isHealthy) { print("Peringatan: Anjing sakit, tidak bisa menggonggong!"); } 
     else { print("Guk Guk!"); }
   }
 }
 
 base class Cat extends Animal {
-  @override void speak() { print("Meow... Meow..."); }
+  @override
+  void speak() { print("Meow... Meow..."); }
 }
 
 void main() {
   print("--- TEST BASE CLASS & MULTI-INHERITANCE ---");
-  Animal animal = Animal(); animal.speak();
+  
+  Animal animal = Animal(); 
+  animal.speak();
 
+  print("\n[TEST ANJING]");
   Dog myDog = Dog();
   myDog.speak(); 
-  
-  print("\nMemberikan obat...");
   myDog.isHealthy = true;
   myDog.speak();
 
-  Cat myCat = Cat(); myCat.speak();
-}</code></pre>
+  print("\n[TEST KUCING]");
+  Cat myCat = Cat();
+  myCat.speak();
+}
+
+// PELANGGARAN BASE:
+/*
+base class BigAnimal implements Animal { }
+*/</code></pre>
       </div>
 
 
@@ -1038,9 +1084,12 @@ void main() {
 // Kelas  : Si2A
 
 final class Settings {
-  final String theme; final int fontSize;
+  final String theme;
+  final int fontSize;
   Settings({required this.theme, required this.fontSize}) {
-    if (fontSize <= 0) { throw ArgumentError("Font size harus > 0!"); }
+    if (fontSize <= 0) {
+      throw ArgumentError("Font size harus lebih besar dari 0!");
+    }
   }
   void showSettings() { print("Theme: $theme, Font: $fontSize"); }
 }</code></pre>
@@ -1056,16 +1105,24 @@ final class Settings {
 
 import 'libfinal.dart';
 
-void main() { 
+void main() {
+  print("--- TEST FINAL CLASS & VALIDATION ---");
+  
   Settings settings = Settings(theme: "Modern Dark", fontSize: 16);
   settings.showSettings();
 
-  // ERROR HANDLING:
   try {
-    print("\nTry invalid font...");
+    print("\nMencoba membuat Settings dengan font -5...");
     Settings(theme: "Cyberpunk", fontSize: -5);
-  } catch (e) { print("Caught Exception: $e"); }
-}</code></pre>
+  } catch (e) {
+    print("Caught Exception: $e");
+  }
+}
+
+// PELANGGARAN FINAL:
+/*
+class CustomSettings extends Settings { }
+*/</code></pre>
       </div>
 
 
@@ -1127,9 +1184,13 @@ void main() {
 
 interface class Vehicle {
   int fuel = 0;
+  
   void drive() {
-    if (fuel <= 0) { print("Error Log: No fuel!"); } 
-    else { print("Vehicle is moving..."); }
+    if (fuel <= 0) {
+      print("Vehicle Error: No fuel! Cannot move.");
+    } else {
+      print("Vehicle is moving...");
+    }
   }
 }</code></pre>
       </div>
@@ -1144,26 +1205,42 @@ interface class Vehicle {
 
 import 'libinterface.dart';
 
+// DAPAT di-implement (sebagai interface)
 class Car implements Vehicle {
-  @override int fuel = 0;
-  @override void drive() {
-    if (fuel <= 0) { print("Car Error: Out of gas!"); } 
-    else { print("Car is driving..."); }
+  @override
+  int fuel = 0;
+
+  @override
+  void drive() {
+    if (fuel <= 0) {
+      print("Car Error: Out of gas! Please refuel.");
+    } else {
+      print("Car is driving on four wheels.");
+    }
   }
 }
 
 void main() {
-  print("--- TEST INTERFACE & CEK BENSIN ---");
+  print("--- TEST INTERFACE CLASS & ERROR HANDLING ---");
   Car myCar = Car();
-  myCar.drive(); // Skenario Error
   
-  print("\nMengisi bensin mobil...");
+  myCar.drive(); 
+  
+  print("\nRefueling the car...");
   myCar.fuel = 50;
   myCar.drive();
+
+  print("\n--- TEST DIRECT INSTANCE ---");
+  var v = Vehicle();
+  v.fuel = 0;
+  v.drive(); 
 }
 
 // PELANGGARAN INTERFACE:
-/* class Truck extends Vehicle { } */</code></pre>
+/*
+class Truck extends Vehicle { } 
+// ERROR: The class 'Vehicle' can't be extended outside of its library because it's an interface class.
+*/</code></pre>
       </div>
 
       <button class="btn btn-capture" onclick="viewCapture('interface_class.jpg', 'INTERFACE CLASS')">📷 KLIK
@@ -1232,7 +1309,7 @@ void main() {
       <div class="code-container" id="code-appstate">
         <div class="code-header">
           <span class="lang">DART // STATE MANAGEMENT</span>
-          <button class="btn" onclick="runCode('code-appstate', '29ffda05872b56958a19572ecb922205')">RUN IN
+          <button class="btn" onclick="runCode('code-appstate', '9804d379afb75d64f1e3370d63baf82e')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -1291,8 +1368,10 @@ void main() {
 // Kelas  : Si2A
 
 class NegativeDimensionException implements Exception {
-  final String message; NegativeDimensionException(this.message);
-  @override String toString() => "Error : $message";
+  final String message;
+  NegativeDimensionException(this.message);
+  @override
+  String toString() => "Error : $message";
 }
 
 sealed class BangunRuang {}
@@ -1300,20 +1379,27 @@ class Kubus extends BangunRuang { final double sisi; Kubus(this.sisi); }
 class Balok extends BangunRuang { final double p, l, t; Balok(this.p, this.l, this.t); }
 
 base class Repository {
-  void create() => print('Repo: Created.');
-  void read() => print('Repo: Reading...');
+  void create() => print('Repo: Record created successfully.');
+  void read() => print('Repo: Reading record from database...');
+  void update() => print('Repo: Updating record with new data...');
+  void delete() => print('Repo: Deleting record from system...');
 }
 
 final class MathUtils {
-  static const double PI = 3.14;
+  static const double PI = 3.14159;
+  
   static double luasLingkaran(double r) {
-    if (r < 0) throw NegativeDimensionException("Jari-jari negatif!");
+    if (r < 0) throw NegativeDimensionException("Jari-jari lingkaran tidak boleh negatif!");
     return PI * r * r;
   }
+
   static double volumeKubus(double s) {
-    if (s < 0) throw NegativeDimensionException("Sisi negatif!");
+    if (s < 0) throw NegativeDimensionException("Sisi kubus tidak boleh negatif!");
     return s * s * s;
   }
+  
+  static int tambah(int a, int b) => a + b;
+  static int kali(int a, int b) => a * b;
 }</code></pre>
       </div>
 
@@ -1327,22 +1413,45 @@ final class MathUtils {
 
 import 'libbonus.dart';
 
+double hitungVolume(BangunRuang br) {
+  return switch (br) {
+    Kubus(:var sisi) => sisi * sisi * sisi,
+    Balok(:var p, :var l, :var t) => p * l * t,
+  };
+}
+
 void main() {
-  print('--- TEST BONUS & EXCEPTION ---');
+  print('--- TEST BONUS CHALLENGE ---');
   
-  // Case Error handling
+  var k = Kubus(4.0);
+  print("Volume Kubus: ${hitungVolume(k)}");
+
+  print("\n--- DEMO ERROR HANDLING ---");
   try {
-    print("Luas Lingkaran (r=-5): ");
-    print("${MathUtils.luasLingkaran(-5)}");
-  } catch (e) { print(e); }
+    print("Mencoba Luas Lingkaran (r=-5)...");
+    print("Hasil: ${MathUtils.luasLingkaran(-5)}");
+  } catch (e) {
+    print("Caught Error: $e");
+  }
 
   try {
-    print("\nVolume Kubus (s=-10): ");
-    print("${MathUtils.volumeKubus(-10)}");
-  } catch (e) { print(e); }
+    print("Mencoba Volume Kubus (s=-10)...");
+    print("Hasil: ${MathUtils.volumeKubus(-10)}");
+  } catch (e) {
+    print("Caught Error: $e");
+  }
 
   var repo = Repository();
-  repo.create(); repo.read();
+  print("");
+  repo.create();
+  repo.read();
+  repo.update();
+  repo.delete();
+
+  print("");
+  print("Hasil 10 + 20 = ${MathUtils.tambah(10, 20)}");
+  print("Hasil 5 * 6   = ${MathUtils.kali(5, 6)}");
+  print("Volume Kubus S=4: ${MathUtils.volumeKubus(4.0)}");
 }</code></pre>
       </div>
 
