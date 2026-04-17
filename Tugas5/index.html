@@ -759,25 +759,12 @@
       </ul>
       <div class="code-container" id="code-mixin">
         <div class="code-header">
-          <span class="lang">DART // BASIC MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin', 'f47c514abb5fe0f1011e19b6d0f6c677')">RUN IN
+          <span class="lang">DART // MIXIN DASAR</span>
+          <button class="btn" onclick="runCode('code-mixin', 'b9f59a5148f12c1118ff6f5e82be2218')">RUN IN
             DARTPAD</button>
         </div>
-        <pre><code>// Nama   : Herly Afrizal
-// Nim    : 251410002
-// Kelas  : Si2A
-
-mixin CanFly {
-  void fly() {
-    print('Can fly!');
-  }
-}
-
-mixin CanSwim {
-  void swim() {
-    print('Can swim!');
-  }
-}
+        <pre><code>mixin CanFly { void fly() { print("Bisa terbang!"); } }
+mixin CanSwim { void swim() { print("Bisa berenang!"); } }
 
 class Bird with CanFly {}
 class Duck extends Bird with CanSwim {}
@@ -800,7 +787,7 @@ void main() {
       <div class="code-container" id="code-mixin-state">
         <div class="code-header">
           <span class="lang">DART // STATEFUL MIXIN</span>
-          <button class="btn" onclick="runCode('code-mixin-state', 'c23c3248c46d34e9259026865646e788')">RUN IN
+          <button class="btn" onclick="runCode('code-mixin-state', '95ebc3e517eaa9f4f8e7f92a7d7267d4')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -809,19 +796,26 @@ void main() {
 
 mixin CanFly {
   bool _isFlying = false;
-  bool get isFlying => _isFlying;
   void fly() {
-    if (!_isFlying) { _isFlying = true; print('Started flying!'); }
-    else { print('Already flying!'); }
+    if (_isFlying) { print("Warning: Already flying!"); } 
+    else { _isFlying = true; print("Take off succesful!"); }
   }
 }
 
-class Bird with CanFly {}
+mixin CanSwim {
+  int energy = 10;
+  void swim() {
+    if (energy <= 0) { print("Error: Out of energy!"); } 
+    else { energy -= 10; print("Swim success!"); }
+  }
+}
+
+class Duck with CanFly, CanSwim {}
 
 void main() {
-  var bird = Bird();
-  bird.fly(); 
-  print('Is Bird flying? : ${bird.isFlying}');
+  var d = Duck();
+  d.fly(); d.fly(); // Error case
+  d.swim(); d.swim(); // Error case
 }</code></pre>
       </div>
     </div>
@@ -853,6 +847,9 @@ void main() {
               switch-case.</li>
             <li><b>Esensi:</b> Jika digabung, kita kehilangan kontrol di mana orang lain bisa menambah subclass baru di
               file lain.</li>
+            <li><b>Error Scenario:</b> Jika kamu menghapus salah satu <code>case</code> di dalam <code>switch</code>,
+              compiler akan komplain: <i>"The type 'ApiResponse' is sealed and can have no subclasses or implementations
+                outside of its own library..."</i></li>
           </ul>
         </div>
 
@@ -887,7 +884,19 @@ void handleResponse(ApiResponse response) {
 }
 
 void main() { 
-  handleResponse(Success("Data fetched from library.")); 
+  print("--- TEST SEALED SIMULATION ---");
+  handleResponse(Success("Koneksi berhasil!"));
+
+  final states = <AppStatus>[
+    Loading(),
+    Loaded('Data Katalog'),
+    Failed('Koneksi Terputus'),
+  ];
+
+  for (var i = 0; i < states.length; i++) {
+    print("State ${i + 1}:");
+    handleStatus(states[i]);
+  }
 }
 
 // PELANGGARAN SEALED:
@@ -925,10 +934,11 @@ void main() {
 
         <ul>
           <li><b>Lib Side (libbase.dart):</b> Menetapkan "Pondasi Dasar" yang mewajibkan pewarisan (Extend).</li>
-          <li><b>Client Side (base_class.dart):</b> Mengembangkan class tanpa bisa merusak kontrak aslinya (Dilarang
-            Implement).</li>
           <li><b>Esensi:</b> Modifer <code>base</code> menjaga kestabilan API agar struktur internal class tetap utuh.
           </li>
+          <li><b>Error Scenario:</b> Jika kamu mencoba <code>class X implements Animal</code> dari luar library, akan
+            muncul error: <i>"The class 'Animal' can't be implemented outside of its library because it's a base
+              class."</i></li>
         </ul>
       </div>
 
@@ -955,18 +965,32 @@ base class Animal {
 
 import 'libbase.dart';
 
-base class Dog extends Animal { 
-  @override 
-  void speak() { print("Woof!"); } 
+base class Dog extends Animal {
+  bool isHealthy = false;
+  @override
+  void speak() { 
+    if (!isHealthy) { print("Peringatan: Anjing sakit!"); } 
+    else { print("Guk Guk!"); }
+  }
 }
 
-void main() { 
-  Animal dog = Dog(); 
-  dog.speak(); 
+base class Cat extends Animal {
+  @override void speak() { print("Meow... Meow..."); }
 }
 
-// PELANGGARAN BASE:
-/* base class BigAnimal implements Animal { } */</code></pre>
+void main() {
+  print("--- TEST BASE CLASS & MULTI-INHERITANCE ---");
+  Animal animal = Animal(); animal.speak();
+
+  Dog myDog = Dog();
+  myDog.speak(); 
+  
+  print("\nMemberikan obat...");
+  myDog.isHealthy = true;
+  myDog.speak();
+
+  Cat myCat = Cat(); myCat.speak();
+}</code></pre>
       </div>
 
 
@@ -998,9 +1022,10 @@ void main() {
         <ul>
           <li><b>Lib Side (libfinal.dart):</b> Mengunci class sepenuhnya dari modifikasi eksternal.</li>
 
-          <li><b>Client Side (final_class.dart):</b> Hanya diperbolehkan menggunakan objek (instansiasi).</li>
           <li><b>Esensi:</b> Memberikan keamanan level tinggi di mana logika bisnis asli tidak bisa di-<i>override</i>
             sama sekali.</li>
+          <li><b>Error Scenario:</b> Mencoba <code>extends Settings</code> akan memicu error: <i>"The class 'Settings'
+              can't be extended, implemented, or mixed in outside of its library because it's a final class."</i></li>
         </ul>
       </div>
 
@@ -1014,7 +1039,9 @@ void main() {
 
 final class Settings {
   final String theme; final int fontSize;
-  Settings({required this.theme, required this.fontSize});
+  Settings({required this.theme, required this.fontSize}) {
+    if (fontSize <= 0) { throw ArgumentError("Font size harus > 0!"); }
+  }
   void showSettings() { print("Theme: $theme, Font: $fontSize"); }
 }</code></pre>
       </div>
@@ -1032,10 +1059,13 @@ import 'libfinal.dart';
 void main() { 
   Settings settings = Settings(theme: "Modern Dark", fontSize: 16);
   settings.showSettings();
-}
 
-// PELANGGARAN FINAL:
-/* class CustomSettings extends Settings { } */</code></pre>
+  // ERROR HANDLING:
+  try {
+    print("\nTry invalid font...");
+    Settings(theme: "Cyberpunk", fontSize: -5);
+  } catch (e) { print("Caught Exception: $e"); }
+}</code></pre>
       </div>
 
 
@@ -1054,7 +1084,7 @@ void main() {
           berbeda).</li>
         <li><b>Predictability:</b> Developer bisa menjamin bahwa class miliknya tidak akan disalahgunakan oleh orang
           lain yang mengimport library-nya (API Stability).</li>
-        <li><b>Encapsulation:</b> Menghindari "leak" implementasi yang tidak diinginkan dari pihak ketiga.</li>
+        <li><b>Encapsulation:</b> Menavoid "leak" implementasi yang tidak diinginkan dari pihak ketiga.</li>
       </ul>
     </div>
 
@@ -1079,9 +1109,11 @@ void main() {
       <div class="analisis-box blue">
         <div class="analisis-title">ANALISIS KONSEP SEPARASI</div>
         <ul>
-          <li><b>Lib Side (libinterface.dart):</b> Mendefinisikan kontrak interface yang aman.</li>
-          <li><b>Client Side (interface_class.dart):</b> Hanya diperbolehkan melakukan <code>implements</code>.</li>
           <li><b>Esensi:</b> Mencegah pewarisan paksa (inheritance) yang bisa merusak enkapsulasi internal library.</li>
+          <li><b>Validasi Error:</b> Mengimplementasikan pengecekan <code>fuel</code> sebagai syarat validitas
+            fungsional (Skenario Error jika habis).</li>
+          <li><b>Error Scenario:</b> Mencoba <code>extends Vehicle</code> akan memicu error: <i>"The class 'Vehicle'
+              can't be extended outside of its library because it's an interface class."</i></li>
         </ul>
       </div>
 
@@ -1094,7 +1126,11 @@ void main() {
 // Kelas  : Si2A
 
 interface class Vehicle {
-  void drive() { print("Vehicle is moving..."); }
+  int fuel = 0;
+  void drive() {
+    if (fuel <= 0) { print("Error Log: No fuel!"); } 
+    else { print("Vehicle is moving..."); }
+  }
 }</code></pre>
       </div>
 
@@ -1109,18 +1145,21 @@ interface class Vehicle {
 import 'libinterface.dart';
 
 class Car implements Vehicle {
-  @override
-  void drive() { print("Car is driving on four wheels."); }
+  @override int fuel = 0;
+  @override void drive() {
+    if (fuel <= 0) { print("Car Error: Out of gas!"); } 
+    else { print("Car is driving..."); }
+  }
 }
 
 void main() {
-  print("--- TEST INTERFACE CLASS ---");
-  Vehicle car = Car();
-  car.drive();
-
-  // Instance dari Vehicle juga bisa dibuat (karena bukan abstract)
-  var v = Vehicle();
-  v.drive();
+  print("--- TEST INTERFACE & CEK BENSIN ---");
+  Car myCar = Car();
+  myCar.drive(); // Skenario Error
+  
+  print("\nMengisi bensin mobil...");
+  myCar.fuel = 50;
+  myCar.drive();
 }
 
 // PELANGGARAN INTERFACE:
@@ -1193,7 +1232,7 @@ void main() {
       <div class="code-container" id="code-appstate">
         <div class="code-header">
           <span class="lang">DART // STATE MANAGEMENT</span>
-          <button class="btn" onclick="runCode('code-appstate', '4a28cc83195496f2941d01fcaceeec2f')">RUN IN
+          <button class="btn" onclick="runCode('code-appstate', '29ffda05872b56958a19572ecb922205')">RUN IN
             DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
@@ -1256,27 +1295,25 @@ class NegativeDimensionException implements Exception {
   @override String toString() => "Error : $message";
 }
 
-
 sealed class BangunRuang {}
 class Kubus extends BangunRuang { final double sisi; Kubus(this.sisi); }
 class Balok extends BangunRuang { final double p, l, t; Balok(this.p, this.l, this.t); }
 
 base class Repository {
-  void create() => print('Repo: Record created successfully.');
-  void read() => print('Repo: Reading record from database...');
-  void update() => print('Repo: Updating record with new data...');
-  void delete() => print('Repo: Deleting record from system...');
+  void create() => print('Repo: Created.');
+  void read() => print('Repo: Reading...');
 }
 
 final class MathUtils {
-  static const double PI = 3.14159;
+  static const double PI = 3.14;
   static double luasLingkaran(double r) {
     if (r < 0) throw NegativeDimensionException("Jari-jari negatif!");
     return PI * r * r;
   }
-  static double volumeKubus(double s) => s * s * s;
-  static int tambah(int a, int b) => a + b;
-  static int kali(int a, int b) => a * b;
+  static double volumeKubus(double s) {
+    if (s < 0) throw NegativeDimensionException("Sisi negatif!");
+    return s * s * s;
+  }
 }</code></pre>
       </div>
 
@@ -1290,124 +1327,117 @@ final class MathUtils {
 
 import 'libbonus.dart';
 
-double hitungVolume(BangunRuang br) {
-
-  return switch (br) {
-    Kubus(:var sisi) => sisi * sisi * sisi,
-    Balok(:var p, :var l, :var t) => p * l * t,
-  };
-}
-
 void main() {
-  print('--- TEST BONUS CHALLENGE ---');
-  var k = Kubus(4.0);
-  print("Volume Kubus: ${hitungVolume(k)}");
+  print('--- TEST BONUS & EXCEPTION ---');
+  
+  // Case Error handling
+  try {
+    print("Luas Lingkaran (r=-5): ");
+    print("${MathUtils.luasLingkaran(-5)}");
+  } catch (e) { print(e); }
 
   try {
-    print("Luas Lingkaran (r=-5): ${MathUtils.luasLingkaran(-5)}");
+    print("\nVolume Kubus (s=-10): ");
+    print("${MathUtils.volumeKubus(-10)}");
   } catch (e) { print(e); }
 
   var repo = Repository();
   repo.create(); repo.read();
-  
-  print("\nHasil 10 + 20 = ${MathUtils.tambah(10, 20)}");
 }</code></pre>
       </div>
 
       <button class="btn btn-capture" onclick="viewCapture('bonus.jpg', 'BONUS LATIHAN')">📷 KLIK UNTUK LIHAT
         CAPTURE VS CODE</button>
+
     </div>
 
 
-  </div>
+    <div class="footer">
+      &copy; 2026 // HERLY AFRIZAL // 251410002 // SI2A
+    </div>
 
 
-  <div class="footer">
-    &copy; 2026 // HERLY AFRIZAL // 251410002 // SI2A
-  </div>
-
-
-  <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title">DART_RUNTIME // VIRTUAL_EXECUTION</div>
-        <button class="close-modal" onclick="closeModal()">X</button>
+    <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">DART_RUNTIME // VIRTUAL_EXECUTION</div>
+          <button class="close-modal" onclick="closeModal()">X</button>
+        </div>
+        <div class="modal-body" id="modalIframeContainer"></div>
       </div>
-      <div class="modal-body" id="modalIframeContainer"></div>
     </div>
-  </div>
 
 
-  <div class="modal-overlay" id="imageModal" onclick="if(event.target === this) closeImageModal()">
-    <div class="modal-content">
-      <div class="modal-header">
-        <div class="modal-title" id="imageModalTitle">TERMINAL_EVIDENCE // VS_CODE_CAPTURE</div>
-        <button class="close-modal" onclick="closeImageModal()">X</button>
+    <div class="modal-overlay" id="imageModal" onclick="if(event.target === this) closeImageModal()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title" id="imageModalTitle">TERMINAL_EVIDENCE // VS_CODE_CAPTURE</div>
+          <button class="close-modal" onclick="closeImageModal()">X</button>
+        </div>
+        <div class="modal-body" id="modalImageContainer"></div>
       </div>
-      <div class="modal-body" id="modalImageContainer"></div>
     </div>
-  </div>
 
-  <script>
-    function runCode(id, gistId = null) {
-      const modal = document.getElementById('codeModal');
-      const iframeContainer = document.getElementById('modalIframeContainer');
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
+    <script>
+      function runCode(id, gistId = null) {
+        const modal = document.getElementById('codeModal');
+        const iframeContainer = document.getElementById('modalIframeContainer');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
 
-      let iframe = document.createElement('iframe');
+        let iframe = document.createElement('iframe');
 
-      if (gistId) {
-        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
-      } else {
-        const code = document.getElementById(id).querySelector('code').innerText;
-        const encodedCode = encodeURIComponent(code);
-        iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+        if (gistId) {
+          iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
+        } else {
+          const code = document.getElementById(id).querySelector('code').innerText;
+          const encodedCode = encodeURIComponent(code);
+          iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+        }
+
+        iframeContainer.innerHTML = '';
+        iframeContainer.appendChild(iframe);
       }
 
-      iframeContainer.innerHTML = '';
-      iframeContainer.appendChild(iframe);
-    }
+      function closeModal() {
+        document.getElementById('codeModal').classList.remove('active');
+        document.body.style.overflow = '';
+        document.getElementById('modalIframeContainer').innerHTML = '';
+      }
 
-    function closeModal() {
-      document.getElementById('codeModal').classList.remove('active');
-      document.body.style.overflow = '';
-      document.getElementById('modalIframeContainer').innerHTML = '';
-    }
+      function viewCapture(src, title) {
+        const modal = document.getElementById('imageModal');
+        const container = document.getElementById('modalImageContainer');
+        const titleEl = document.getElementById('imageModalTitle');
 
-    function viewCapture(src, title) {
-      const modal = document.getElementById('imageModal');
-      const container = document.getElementById('modalImageContainer');
-      const titleEl = document.getElementById('imageModalTitle');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        titleEl.innerText = `CAPTURE HASIL: ${title}`;
+        container.innerHTML = `<img src="${src}" alt="Terminal Capture">`;
+      }
 
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-      titleEl.innerText = `CAPTURE HASIL: ${title}`;
-      container.innerHTML = `<img src="${src}" alt="Terminal Capture">`;
-    }
+      function closeImageModal() {
+        document.getElementById('imageModal').classList.remove('active');
+        document.body.style.overflow = '';
+        document.getElementById('modalImageContainer').innerHTML = '';
+      }
 
-    function closeImageModal() {
-      document.getElementById('imageModal').classList.remove('active');
-      document.body.style.overflow = '';
-      document.getElementById('modalImageContainer').innerHTML = '';
-    }
+      document.addEventListener('contextmenu', e => e.preventDefault());
 
-    document.addEventListener('contextmenu', e => e.preventDefault());
+      document.onkeydown = function (e) {
+        if (e.keyCode == 123) return false;
 
-    document.onkeydown = function (e) {
-      if (e.keyCode == 123) return false;
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
 
-      if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74 || e.keyCode == 67)) return false;
+        if (e.ctrlKey && e.keyCode == 85) return false;
 
-      if (e.ctrlKey && e.keyCode == 85) return false;
+        if (e.ctrlKey && (e.keyCode == 83 || e.keyCode == 80)) return false;
+      };
 
-      if (e.ctrlKey && (e.keyCode == 83 || e.keyCode == 80)) return false;
-    };
-
-    document.addEventListener('dragstart', (e) => {
-      if (e.target.nodeName === 'IMG') e.preventDefault();
-    });
-  </script>
+      document.addEventListener('dragstart', (e) => {
+        if (e.target.nodeName === 'IMG') e.preventDefault();
+      });
+    </script>
 </body>
 
 </html>
