@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume Sesi 6 - Herly Afrizal</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #050505;
+      --card-bg: #0f0f0f;
+      --accent-blue: #00f3ff;
+      --accent-blue-glow: rgba(0, 243, 255, 0.5);
+      --accent-red: #ff003c;
+      --accent-red-glow: rgba(255, 0, 60, 0.5);
+      --text-main: #e0e0e0;
+      --text-dim: #a0a0a0;
+      --code-bg: #000000;
+      --border-color: #222;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 60px auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+
+    .gerakan {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 60px;
+      font-weight: 700;
+      color: #fff;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      position: relative;
+      display: inline-block;
+      text-shadow: 2px 2px var(--accent-blue), -2px -2px var(--accent-red);
+      animation: glitch 3s infinite;
+      width: 100%;
+      text-align: center;
+    }
+
+    @keyframes glitch {
+      0% {
+        transform: translate(0);
+      }
+
+      5% {
+        transform: translate(-2px, 2px);
+        text-shadow: -2px -2px var(--accent-blue), 2px 2px var(--accent-red);
+      }
+
+      10% {
+        transform: translate(2px, -2px);
+        text-shadow: 2px 2px var(--accent-blue), -2px -2px var(--accent-red);
+      }
+
+      15% {
+        transform: translate(0);
+      }
+
+      100% {
+        transform: translate(0);
+      }
+    }
+
+    .info-bar {
+      text-align: center;
+      margin-bottom: 60px;
+      font-family: 'Share Tech Mono', monospace;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .info-bar b {
+      color: var(--accent-blue);
+    }
+
+    .session-title {
+      font-family: 'Orbitron', sans-serif;
+      text-align: center;
+      color: #fff;
+      font-size: 1.8rem;
+      margin-bottom: 80px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+    }
+
+    .session-title span {
+      color: var(--accent-blue);
+    }
+
+    .cyber-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      padding: 30px;
+      margin-bottom: 50px;
+      border-radius: 4px;
+      position: relative;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .cyber-card::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      width: 30px;
+      height: 30px;
+      border-top: 3px solid var(--accent-blue);
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .cyber-card.vscode::before {
+      border-color: var(--accent-red);
+    }
+
+    .cyber-card:hover {
+      border-color: var(--accent-blue);
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
+    }
+
+    h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: var(--accent-blue);
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    h3 span {
+      font-size: 0.8rem;
+      background: var(--accent-blue);
+      color: black;
+      padding: 2px 10px;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      font-family: 'Orbitron', sans-serif;
+      padding: 3px 10px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      margin-left: auto;
+      letter-spacing: 1px;
+    }
+
+    .badge-dartpad {
+      background: rgba(0, 243, 255, 0.1);
+      color: var(--accent-blue);
+      border: 1px solid var(--accent-blue);
+    }
+
+    .badge-vscode {
+      background: rgba(255, 0, 60, 0.1);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red);
+    }
+
+    p {
+      margin-bottom: 15px;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    ul {
+      list-style: none;
+      margin: 20px 0;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      padding-left: 25px;
+      position: relative;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    ul li::before {
+      content: "»";
+      position: absolute;
+      left: 0;
+      color: var(--accent-blue);
+      font-weight: bold;
+    }
+
+    .analisis-box {
+      background: rgba(0, 243, 255, 0.05);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      padding: 20px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+
+    .analisis-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem;
+      color: var(--accent-blue);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .code-container {
+      margin-top: 25px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #333;
+    }
+
+    .code-header {
+      background: #1a1a1a;
+      padding: 12px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      border-bottom: 1px solid #333;
+    }
+
+    .code-header .lang {
+      color: var(--accent-blue);
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: bold;
+    }
+
+    .btn {
+      background: transparent;
+      border: none;
+      color: var(--accent-blue);
+      padding: 10px 25px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 15px;
+      height: 15px;
+      border-top: 2px solid var(--accent-blue);
+      border-right: 2px solid var(--accent-blue);
+      transition: all 0.3s;
+    }
+
+    .btn::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      left: -2px;
+      width: 15px;
+      height: 15px;
+      border-bottom: 2px solid var(--accent-blue);
+      border-left: 2px solid var(--accent-blue);
+      transition: all 0.3s;
+    }
+
+    .btn:hover {
+      background: rgba(0, 243, 255, 0.1);
+      box-shadow: 0 0 15px var(--accent-blue-glow);
+      text-shadow: 0 0 5px #fff;
+      color: #fff;
+    }
+
+    .btn:hover::before,
+    .btn:hover::after {
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn-capture {
+      color: var(--accent-red);
+      z-index: 10;
+    }
+
+    .btn-capture::before,
+    .btn-capture::after {
+      border-color: var(--accent-red);
+    }
+
+    .btn-capture:hover {
+      background: rgba(255, 0, 60, 0.1);
+      box-shadow: 0 0 15px var(--accent-red-glow);
+    }
+
+    .btn-capture:hover::before,
+    .btn-capture:hover::after {
+      border-color: var(--accent-red);
+    }
+
+    pre {
+      background-color: var(--code-bg);
+      color: #d1d1d1;
+      padding: 25px;
+      margin: 0;
+      overflow-x: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+      border-left: 3px solid var(--accent-blue);
+    }
+
+    .diagnostics-panel {
+      background: #0a0a0a;
+      border: 1px solid #222;
+      margin-top: 20px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .diag-header {
+      background: #111;
+      padding: 10px 20px;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.7rem;
+      color: #666;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .diag-body {
+      padding: 15px 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.8rem;
+    }
+
+    .diag-line {
+      margin-bottom: 5px;
+    }
+
+    .diag-type {
+      color: #ff5555;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .diag-msg {
+      color: #ccc;
+    }
+
+    .modifier-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      font-size: 0.85rem;
+    }
+
+    .modifier-table th,
+    .modifier-table td {
+      padding: 12px;
+      border: 1px solid #333;
+      text-align: center;
+    }
+
+    .modifier-table th {
+      background: #1a1a1a;
+      color: var(--accent-blue);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.7rem;
+    }
+
+    .check {
+      color: #00ff88;
+    }
+
+    .cross {
+      color: var(--accent-red);
+    }
+
+    .footer {
+      margin-top: 100px;
+      text-align: center;
+      font-size: 0.8rem;
+      color: #444;
+      border-top: 1px solid #111;
+      padding: 40px 0;
+      font-family: 'Orbitron', sans-serif;
+      letter-spacing: 2px;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .modal-content {
+      width: 95%;
+      max-width: 1100px;
+      height: 85vh;
+      background: #050505;
+      border: 1px solid var(--accent-blue);
+      position: relative;
+      box-shadow: 0 0 50px rgba(0, 243, 255, 0.3);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      background: #000;
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #111;
+    }
+
+    .modal-title {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-blue);
+      font-size: 0.8rem;
+    }
+
+    .close-modal {
+      background: transparent;
+      border: 1px solid var(--accent-blue);
+      color: var(--accent-blue);
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    .modal-body {
+      flex: 1;
+      background: #000;
+    }
+
+    .modal-body iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="gerakan">HERLY AFRIZAL</div>
+      <div class="info-bar">NIM: <b>251410002</b> // KELAS: <b>SI2A</b></div>
+      <h1 class="session-title">RESUME SESI 06: <span>GENERICS DASAR</span></h1>
+    </header>
+
+    <!-- 00: REVIEW SESI 05 -->
+    <div class="cyber-card" style="border-style: dashed; opacity: 0.8;">
+      <h3 style="font-size: 1rem; color: var(--text-dim);"><span>PREV</span> REVIEW SESI 05: CLASS MODIFIERS</h3>
+      <p style="font-size: 0.85rem; color: var(--text-dim);">Sebelum masuk ke Generics, kita telah mempelajari cara
+        membatasi pewarisan class menggunakan modifier:</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <div class="badge" style="border: 1px solid #444; color: #888;">SEALED</div>
+        <div class="badge" style="border: 1px solid #444; color: #888;">FINAL</div>
+        <div class="badge" style="border: 1px solid #444; color: #888;">BASE</div>
+        <div class="badge" style="border: 1px solid #444; color: #888;">INTERFACE</div>
+      </div>
+    </div>
+
+    <!-- 01: DEFINISI & MANFAAT -->
+    <div class="cyber-card">
+      <h3><span>01</span> KONSEP GENERICS</h3>
+      <p>Generics adalah fitur yang memungkinkan pembuatan komponen (class, function, atau interface) yang dapat bekerja
+        dengan berbagai tipe data tanpa mengorbankan <b>Type Safety</b>.</p>
+
+      <div class="analisis-box">
+        <div class="analisis-title">ANALISIS MANFAAT:</div>
+        <ul>
+          <li><b>Strong Typing:</b> Kesalahan tipe data dideteksi saat kompilasi (Compile-time), bukan saat aplikasi
+            berjalan (Runtime).</li>
+          <li><b>Code Reusability:</b> Kita tidak perlu membuat class yang sama berulang kali hanya karena tipe datanya
+            berbeda (e.g. IntBox, StringBox).</li>
+          <li><b>Performance:</b> Menghindari overhead dari <i>type casting</i> yang berlebihan.</li>
+        </ul>
+      </div>
+
+      <div class="analisis-box" style="background: rgba(255, 0, 60, 0.02); border-color: rgba(255, 0, 60, 0.2);">
+        <div class="analisis-title" style="color: var(--accent-red);">STANDARD TYPE VARIABLES:</div>
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.8rem; font-family: 'Share Tech Mono', monospace;">
+          <div>&lt;T&gt; : Type (General)</div>
+          <div>&lt;E&gt; : Element (Collections)</div>
+          <div>&lt;K&gt; : Key (Maps)</div>
+          <div>&lt;V&gt; : Value (Maps)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02: GENERIC COLLECTIONS -->
+    <div class="cyber-card">
+      <h3><span>02</span> GENERIC COLLECTIONS</h3>
+      <p>Tanpa kita sadari, kita sudah sering menggunakan Generics saat bekerja dengan <b>List</b> dan <b>Map</b> di
+        Dart.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">DART // BUILT-IN GENERICS</span></div>
+        <pre><code>// List dengan parameter tipe String
+List&lt;String&gt; names = ["Herly", "Afrizal"];
+
+// Map dengan parameter tipe String (Key) dan int (Value)
+Map&lt;String, int&gt; scores = {"Dart": 90, "Flutter": 95};</code></pre>
+      </div>
+
+      <div class="code-container" id="code-collections">
+        <div class="code-header">
+          <span class="lang">FILE: test_collections.dart</span>
+          <button class="btn" onclick="runCode('code-collections', '2b466592d2cc0bc878e44f315bf8d0a3')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>void main() {
+  List&lt;String&gt; names = ["Herly", "Afrizal"];
+  Map&lt;String, int&gt; scores = {"Dart": 90};
+  print("Names: $names");
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // COLLECTION_ERROR</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'int' can't be assigned to the parameter type 'String'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('collectionsukses.png', 'COLLECTIONS (SUCCESS)')">📷
+          CAPTURE SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('collectionerror.png', 'COLLECTIONS (ERROR)')">📷 CAPTURE
+          ERROR</button>
+      </div>
+    </div>
+
+    <!-- 03: PERBANDINGAN TIPE -->
+    <div class="cyber-card">
+      <h3><span>02</span> GENERICS VS OBJECT VS DYNAMIC</h3>
+      <p>Mengapa kita tidak menggunakan <code>dynamic</code> atau <code>Object</code> saja? Berikut adalah alasannya:
+      </p>
+
+      <table class="modifier-table">
+        <thead>
+          <tr>
+            <th>FITUR</th>
+            <th>GENERICS</th>
+            <th>OBJECT</th>
+            <th>DYNAMIC</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Type Safe?</td>
+            <td class="check">✔ YA</td>
+            <td class="cross">✘ TIDAK</td>
+            <td class="cross">✘ TIDAK</td>
+          </tr>
+          <tr>
+            <td>Intellisense?</td>
+            <td class="check">✔ AKTIF</td>
+            <td class="cross">✘ MATI</td>
+            <td class="cross">✘ MATI</td>
+          </tr>
+          <tr>
+            <td>Runtime Error</td>
+            <td class="check">MINIM</td>
+            <td class="cross">TINGGI</td>
+            <td class="cross">KRITIS</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 03: GENERIC FUNCTIONS -->
+    <div class="cyber-card">
+      <h3>
+        <span>03</span> GENERIC FUNCTIONS
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Fungsi generik memungkinkan kita membuat fungsi yang parameternya bisa menerima tipe data apa pun namun tetap
+        aman (Type Safe).</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libgeneric_function.dart</span></div>
+        <pre><code>T getFirst&lt;T&gt;(List&lt;T&gt; list) => list[0];
+
+void printData&lt;T&gt;(T data) => print("Data: $data");</code></pre>
+      </div>
+
+      <div class="code-container" id="code-function">
+        <div class="code-header">
+          <span class="lang">FILE: test_generic_function.dart</span>
+          <button class="btn" onclick="runCode('code-function', '57b934e849adbebd9e75b8b19bb270ae')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libgeneric_function.dart';
+void main() {
+  print("First: ${getFirst([10, 20, 30])}");
+  printData("Herly Afrizal");
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // FUNCTION_ERROR</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'String' can't be assigned to the parameter type 'List&lt;Object?&gt;'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture"
+          onclick="viewCapture('generic_function_sukses.png', 'GENERIC FUNCTION (SUCCESS)')">📷 CAPTURE SUKSES</button>
+        <button class="btn btn-capture"
+          onclick="viewCapture('generic_function_error.png', 'GENERIC FUNCTION (ERROR)')">📷 CAPTURE ERROR</button>
+      </div>
+    </div>
+
+    <!-- 04: GENERIC CLASS -->
+    <div class="cyber-card">
+      <h3>
+        <span>04</span> IMPLEMENTASI GENERIC CLASS
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Class <code>Box&lt;T&gt;</code> adalah contoh paling dasar di mana <code>T</code> akan digantikan oleh tipe
+        data asli saat instansiasi.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libgeneric_class.dart</span></div>
+        <pre><code>class Box&lt;T&gt; {
+  T? _content;
+  Box([this._content]); // Constructor
+
+  void put(T item) => _content = item;
+  T? get() => _content;
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-generic-class">
+        <div class="code-header">
+          <span class="lang">FILE: test_generic_class.dart</span>
+          <button class="btn" onclick="runCode('code-generic-class', 'fa3b970f6818d37a49619667de1afec7')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libgeneric_class.dart';
+void main() {
+  var sBox = Box&lt;String&gt;();
+  sBox.put("Herly Afrizal");
+  print("Isi Box: ${sBox.get()}");
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // TYPE_ERROR</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'int' can't be assigned to the parameter type 'String'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('generic_class_sukses.png', 'GENERIC CLASS (SUCCESS)')">📷
+          CAPTURE
+          SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('generic_class_error.png', 'GENERIC CLASS (ERROR)')">📷
+          CAPTURE ERROR</button>
+      </div>
+    </div>
+
+    <!-- 04: MULTIPLE PARAMETERS -->
+    <div class="cyber-card">
+      <h3>
+        <span>05</span> MULTIPLE TYPE PARAMETERS
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Digunakan saat sebuah class memerlukan lebih dari satu tipe data yang berbeda, seperti pada struktur data
+        <b>Map</b>.
+      </p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libgeneric_multi.dart</span></div>
+        <pre><code>class Pair&lt;K, V&gt; {
+  K key; V value;
+  Pair(this.key, this.value);
+  void show() => print("$key : $value");
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-multi-type">
+        <div class="code-header">
+          <span class="lang">FILE: test_generic_multi.dart</span>
+          <button class="btn" onclick="runCode('code-multi-type', 'a63178361f97526ca5703c8fdb4b26ff')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libgeneric_multi.dart';
+void main() {
+  var data = Pair&lt;String, int&gt;("NIM", 251410002);
+  data.show();
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // MULTI_TYPE_ERROR</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'int' can't be assigned to the parameter type 'String'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('generic_multi_sukses.png', 'MULTIPLE PARAM (SUCCESS)')">📷
+          CAPTURE SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('generic_multi_error.png', 'MULTIPLE PARAM (ERROR)')">📷
+          CAPTURE ERROR</button>
+      </div>
+    </div>
+
+    <!-- 05: TYPE INFERENCE -->
+    <div class="cyber-card">
+      <h3>
+        <span>06</span> TYPE INFERENCE IN GENERICS
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Dart cukup cerdas untuk mengetahui tipe data yang kita gunakan tanpa kita harus menulisnya secara eksplisit
+        (Type Inference).</p>
+
+      <div class="code-container" id="code-inference">
+        <div class="code-header">
+          <span class="lang">DART // AUTO DETECT TYPE</span>
+          <button class="btn" onclick="runCode('code-inference', '07ee90904db79fee14465244c5006018')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libgeneric_class.dart';
+void main() {
+  var nameBox = Box("Herly"); // Infer sebagai String
+  var numBox = Box(2514);     // Infer sebagai int
+  
+  print("Box 1: ${nameBox.get()} (${nameBox.get().runtimeType})");
+  print("Box 2: ${numBox.get()} (${numBox.get().runtimeType})");
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // INFERENCE_CONFLICT</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'int' can't be assigned to the parameter type 'String'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('inference_sukses.png', 'TYPE INFERENCE (SUCCESS)')">📷
+          CAPTURE SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('inference_error.png', 'TYPE INFERENCE (ERROR)')">📷
+          CAPTURE ERROR</button>
+      </div>
+    </div>
+
+    <!-- 06: BOUNDED TYPE -->
+    <div class="cyber-card vscode">
+      <h3>
+        <span>07</span> BOUNDED TYPE PARAMETERS
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Membatasi tipe data yang boleh digunakan menggunakan keyword <code>extends</code>. Misalnya hanya menerima tipe
+        angka (<code>num</code>).</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libgeneric_bounded.dart</span></div>
+        <pre><code>num sum&lt;T extends num&gt;(T a, T b) => a + b;
+
+dynamic getFirst&lt;T extends Iterable&gt;(T data) => data.first;</code></pre>
+      </div>
+
+      <div class="code-container" id="code-bounded">
+        <div class="code-header">
+          <span class="lang">FILE: test_generic_bounded.dart</span>
+          <button class="btn" onclick="runCode('code-bounded', 'eb267b87bd8f53f5eb4421a7e14da052')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libgeneric_bounded.dart';
+void main() {
+  print("Hasil: ${sum(10, 5.5)}"); // OK
+  print("First: ${getFirst([10, 20])}"); // OK
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // BOUND_ERROR</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'String' can't be assigned to the parameter type 'num'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('generic_bounded_sukses.png', 'BOUNDED TYPE (SUCCESS)')">📷
+          CAPTURE SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('generic_bounded_error.png', 'BOUNDED TYPE (ERROR)')">📷
+          CAPTURE ERROR</button>
+      </div>
+    </div>
+
+    <!-- 07: TUGAS PRAKTIKUM -->
+    <div class="cyber-card">
+      <h3>
+        <span>08</span> TUGAS PRAKTIKUM: DATA STORAGE
+        <div class="badge badge-vscode">VS CODE</div>
+        <div class="badge badge-dartpad">DARTPAD</div>
+      </h3>
+      <p>Implementasi nyata menggunakan <code>List&lt;T&gt;</code> untuk menyimpan sekumpulan data secara dinamis namun
+        tetap aman.</p>
+
+      <div class="code-container">
+        <div class="code-header"><span class="lang">FILE: libdatastorage.dart</span></div>
+        <pre><code>class DataStorage&lt;T&gt; {
+  List&lt;T&gt; _storage = [];
+
+  void add(T data) => _storage.add(data);
+  
+  List&lt;T&gt; getAll() => _storage;
+  
+  int get length => _storage.length;
+}</code></pre>
+      </div>
+
+      <div class="code-container" id="code-praktikum">
+        <div class="code-header">
+          <span class="lang">FILE: test_datastorage.dart</span>
+          <button class="btn" onclick="runCode('code-praktikum', 'c0ef24a44059b28d29216253f93740ef')">RUN IN
+            DARTPAD</button>
+        </div>
+        <pre><code>import 'libdatastorage.dart';
+
+void main() {
+  print("--- DEMO DATA STORAGE GENERICS ---");
+  
+  var userStorage = DataStorage&lt;String&gt;();
+  userStorage.add("Admin");
+  userStorage.add("Herly");
+  
+  print("Total Data : ${userStorage.length}");
+  print("Daftar User: ${userStorage.getAll()}");
+}</code></pre>
+      </div>
+
+      <div class="diagnostics-panel">
+        <div class="diag-header"><span>VS CODE DIAGNOSTICS // STORAGE_TYPE_MISMATCH</span><span>dart(argument_type_not_assignable)</span></div>
+        <div class="diag-body">
+          <div class="diag-line"><span class="diag-type">[ERROR]</span><span class="diag-msg">The argument type 'int' can't be assigned to the parameter type 'String'.</span></div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-capture" onclick="viewCapture('datastoragesukses.png', 'PRAKTIKUM (SUCCESS)')">📷 CAPTURE
+          SUKSES</button>
+        <button class="btn btn-capture" onclick="viewCapture('datastorageerror.png', 'PRAKTIKUM (ERROR)')">📷 CAPTURE
+          ERROR</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 // HERLY AFRIZAL // 251410002 // SI2A // SESI 06
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="modal-title">DART_RUNTIME // VIRTUAL_EXECUTION</div>
+          <button class="close-modal" onclick="closeModal()">X</button>
+        </div>
+        <div class="modal-body" id="modalIframeContainer"></div>
+      </div>
+    </div>
+
+    <!-- Image Modal (BARU) -->
+    <div class="modal-overlay" id="imageModal" onclick="if(event.target === this) closeImageModal()">
+      <div class="modal-content" style="border-color: var(--accent-red); box-shadow: 0 0 50px rgba(255, 0, 60, 0.3);">
+        <div class="modal-header" style="border-bottom-color: var(--accent-red);">
+          <div class="modal-title" id="imageModalTitle" style="color: var(--accent-red);">TERMINAL_EVIDENCE //
+            VS_CODE_CAPTURE</div>
+          <button class="close-modal" onclick="closeImageModal()"
+            style="border-color: var(--accent-red); color: var(--accent-red);">X</button>
+        </div>
+        <div class="modal-body" id="modalImageContainer"
+          style="position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; cursor: crosshair;">
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function runCode(id, gistId = null) {
+        const modal = document.getElementById('codeModal');
+        const iframeContainer = document.getElementById('modalIframeContainer');
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        let iframe = document.createElement('iframe');
+        if (gistId) {
+          iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=${gistId}`;
+        } else {
+          const code = document.getElementById(id).querySelector('code').innerText;
+          const encodedCode = encodeURIComponent(code);
+          iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&code=${encodedCode}`;
+        }
+        iframeContainer.innerHTML = '';
+        iframeContainer.appendChild(iframe);
+      }
+      function closeModal() {
+        document.getElementById('codeModal').classList.remove('active');
+        document.body.style.overflow = '';
+        document.getElementById('modalIframeContainer').innerHTML = '';
+      }
+
+      // FUNGSI CAPTURE (BARU)
+      function viewCapture(src, title) {
+        const modal = document.getElementById('imageModal');
+        const container = document.getElementById('modalImageContainer');
+        const titleEl = document.getElementById('imageModalTitle');
+
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        titleEl.innerText = `BUKTI TERMINAL // ${title}`;
+
+        container.innerHTML = `
+          <img src="${src}" alt="Terminal Capture" id="captureImg" style="max-width: 90%; transition: transform 0.1s ease-out;" onclick="toggleZoom(this)">
+          <div id="zoomStatus" style="position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(255, 0, 60, 0.1); border: 1px solid var(--accent-red); padding: 5px 15px; border-radius: 20px; font-size: 0.7rem; color: var(--accent-red);">KLIK UNTUK ZOOM</div>
+        `;
+
+        const img = document.getElementById('captureImg');
+        container.onmousemove = (e) => {
+          if (modal.classList.contains('zoom-active')) {
+            const rect = container.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width) * 100;
+            const y = ((e.clientY - rect.top) / rect.height) * 100;
+            img.style.transform = `scale(2.5) translate(${50 - x}%, ${50 - y}%)`;
+          }
+        };
+      }
+
+      function toggleZoom(img) {
+        const modal = document.getElementById('imageModal');
+        const status = document.getElementById('zoomStatus');
+        modal.classList.toggle('zoom-active');
+        if (modal.classList.contains('zoom-active')) {
+          status.innerText = "GESER KURSOR UNTUK ZOOM";
+        } else {
+          status.innerText = "KLIK UNTUK ZOOM";
+          img.style.transform = 'scale(1) translate(0, 0)';
+        }
+      }
+
+      function closeImageModal() {
+        const modal = document.getElementById('imageModal');
+        modal.classList.remove('active');
+        modal.classList.remove('zoom-active');
+        document.body.style.overflow = '';
+      }
+    </script>
+</body>
+
+</html>
