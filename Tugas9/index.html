@@ -498,7 +498,11 @@ Pizza.builder().size('large').addTopping('cheese').build()</code></pre>
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libutility.dart</span></div>
-        <pre><code>class StringUtils {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+class StringUtils {
   static String capitalize(String text) {
     if (text.isEmpty) return text;
     return text[0].toUpperCase() + text.substring(1);
@@ -513,9 +517,13 @@ Pizza.builder().size('large').addTopping('cheese').build()</code></pre>
       <div class="code-container" id="code-utility">
         <div class="code-header">
           <span class="lang">FILE: test_utility.dart</span>
-          <button class="btn" onclick="runCode('code-utility', 'f50fddd1c0f7d3004e52fa7b5e9304fd')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-utility', '4d48989c861fc3232b6d26832b4041dd')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libutility.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libutility.dart';
 
 void main() {
   var name = 'john';
@@ -540,7 +548,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libextension_string.dart</span></div>
-        <pre><code>extension StringExtensions on String {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension StringExtensions on String {
   String capitalize() {
     if (isEmpty) return this;
     return this[0].toUpperCase() + substring(1);
@@ -557,9 +569,13 @@ void main() {
       <div class="code-container" id="code-extension-string">
         <div class="code-header">
           <span class="lang">FILE: test_extension_string.dart</span>
-          <button class="btn" onclick="runCode('code-extension-string', 'dfaa914e6e9f633bab9cb5550a99029f')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-extension-string', '7c79c4fa49b5709dedd5ad086e08e9cc')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libextension_string.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libextension_string.dart';
 
 void main() {
   var name = 'john';
@@ -594,7 +610,11 @@ extension &lt;NamaExtension&gt; on &lt;TipeTarget&gt; {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libdatetime_extension.dart</span></div>
-        <pre><code>extension DateTimeExtensions on DateTime {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension DateTimeExtensions on DateTime {
   // 1. Method
   String toFormattedString() {
     return '$day/$month/$year';
@@ -618,9 +638,13 @@ extension &lt;NamaExtension&gt; on &lt;TipeTarget&gt; {
       <div class="code-container" id="code-datetime-ext">
         <div class="code-header">
           <span class="lang">FILE: test_datetime_extension.dart</span>
-          <button class="btn" onclick="runCode('code-datetime-ext', 'dd1c3e298db18b055c6faaa5ae59449e')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-datetime-ext', '8d3c26cabbaa1e2ec3c023112840265f')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libdatetime_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libdatetime_extension.dart';
 
 void main() {
   final now = DateTime.now();
@@ -657,7 +681,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libintlist_extension.dart</span></div>
-        <pre><code>extension IntListExtensions on List&lt;int&gt; {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension IntListExtensions on List&lt;int&gt; {
   int get sum => fold(0, (total, item) => total + item);
 
   double get average => isEmpty ? 0 : sum / length;
@@ -667,9 +695,13 @@ void main() {
       <div class="code-container" id="code-intlist-ext">
         <div class="code-header">
           <span class="lang">FILE: test_intlist_extension.dart</span>
-          <button class="btn" onclick="runCode('code-intlist-ext', 'f14701302091acdf33586248f469855c')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-intlist-ext', 'd75f9af6c23aafbfc35a26df774b56e9')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libintlist_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libintlist_extension.dart';
 
 void main() {
   var numbers = [1, 2, 3, 4, 5];
@@ -690,7 +722,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libnullsafety_extension.dart</span></div>
-        <pre><code>extension NullableStringExtensions on String? {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension NullableStringExtensions on String? {
   String orEmpty() => this ?? '';
 
   bool get isNullOrEmpty => this == null || this!.isEmpty;
@@ -704,9 +740,13 @@ void main() {
       <div class="code-container" id="code-nullsafety-ext">
         <div class="code-header">
           <span class="lang">FILE: test_nullsafety_extension.dart</span>
-          <button class="btn" onclick="runCode('code-nullsafety-ext', 'efd11a68bad23badd4bcfeccf2b725de')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-nullsafety-ext', '2f77becd8450814ed32df0f40fee0985')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libnullsafety_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libnullsafety_extension.dart';
 
 void main() {
   String? name;
@@ -728,7 +768,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libnumber_extension.dart</span></div>
-        <pre><code>extension NumberExtensions on num {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension NumberExtensions on num {
   // Format ke Rupiah
   String toRupiah() {
     return 'Rp${toStringAsFixed(0).replaceAllMapped(
@@ -756,9 +800,13 @@ void main() {
       <div class="code-container" id="code-number-ext">
         <div class="code-header">
           <span class="lang">FILE: test_number_extension.dart</span>
-          <button class="btn" onclick="runCode('code-number-ext', 'd4545a98b5d8eb91d110922f08cd6778')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-number-ext', 'a965633e89e621f83dc80a1b9460cdb0')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libnumber_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libnumber_extension.dart';
 
 void main() {
   var price = 1500000;
@@ -779,7 +827,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libgeneric_list_extension.dart</span></div>
-        <pre><code>extension ListExtensions&lt;T&gt; on List&lt;T&gt; {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension ListExtensions&lt;T&gt; on List&lt;T&gt; {
   // Safe get dengan default null jika index di luar batas
   T? getOrNull(int index) {
     if (index < 0 || index >= length) return null;
@@ -811,9 +863,13 @@ void main() {
       <div class="code-container" id="code-generic-list-ext">
         <div class="code-header">
           <span class="lang">FILE: test_generic_list_extension.dart</span>
-          <button class="btn" onclick="runCode('code-generic-list-ext', 'ca7702e8dbed81e9cf1f02c29dba67f4')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-generic-list-ext', 'c989bcce4ea3b6ed54b33e6abf4ee1a8')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libgeneric_list_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libgeneric_list_extension.dart';
 
 void main() {
   var numbers = [1, 2, 3, 4, 5, 6, 7];
@@ -837,9 +893,13 @@ void main() {
       <div class="code-container" id="code-unnamed-ext">
         <div class="code-header">
           <span class="lang">FILE: test_unnamed_extension.dart</span>
-          <button class="btn" onclick="runCode('code-unnamed-ext', 'cfae49a292431ffc28200b8b73ff1e65')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-unnamed-ext', '51367ade62cece3c794d5e72cc42f7cc')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>// Unnamed extension (tidak bisa diekspor atau digunakan oleh file lain)
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+// Unnamed extension (tidak bisa diekspor atau digunakan oleh file lain)
 extension on DateTime {
   String get toYYYYMMDD {
     return '$year-${month.toString().padLeft(2, "0")}-${day.toString().padLeft(2, "0")}';
@@ -869,9 +929,13 @@ void main() {
       <div class="code-container" id="code-conflict-ext">
         <div class="code-header">
           <span class="lang">FILE: test_conflict_extension.dart</span>
-          <button class="btn" onclick="runCode('code-conflict-ext', 'dfa8d249c3124f4b520d61fdf5d5acdc')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-conflict-ext', '557858e26731faa5ad677c8b99924667')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>// Simulasi dua extension dalam satu file dengan nama method yang sama
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+// Simulasi dua extension dalam satu file dengan nama method yang sama
 extension StringCaseExtensions on String {
   String capitalize() => toUpperCase();
 }
@@ -906,7 +970,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libproduct_extension.dart</span></div>
-        <pre><code>class Product {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+class Product {
   final String name;
   final double price;
 
@@ -945,9 +1013,13 @@ extension ProductExtensions on Product {
       <div class="code-container" id="code-product-ext">
         <div class="code-header">
           <span class="lang">FILE: test_product_extension.dart</span>
-          <button class="btn" onclick="runCode('code-product-ext', '2fcd02a770da44113ba995f052b41d39')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-product-ext', '16d447c25419066959f75f831a18e19f')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libproduct_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libproduct_extension.dart';
 
 void main() {
   var laptop = Product('Laptop', 15000000);
@@ -972,7 +1044,11 @@ void main() {
 
       <div class="code-container">
         <div class="code-header"><span class="lang">FILE: libvalidator_extension.dart</span></div>
-        <pre><code>extension StringValidators on String {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension StringValidators on String {
   bool get isEmail {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(this);
   }
@@ -1009,9 +1085,13 @@ extension IntValidators on int {
       <div class="code-container" id="code-validator-ext">
         <div class="code-header">
           <span class="lang">FILE: test_validator_extension.dart</span>
-          <button class="btn" onclick="runCode('code-validator-ext', 'c06c30f68378b57cd7544fa40a954def')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-validator-ext', '7359ac3abb92314c082fa6ee712e620f')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>import 'libvalidator_extension.dart';
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+import 'libvalidator_extension.dart';
 
 void main() {
   var email = 'test@example.com';
@@ -1052,9 +1132,13 @@ void main() {
       <div class="code-container" id="code-bonus-1">
         <div class="code-header">
           <span class="lang">FILE: test_bonus_1.dart</span>
-          <button class="btn" onclick="runCode('code-bonus-1', '14a0a9d712ec845d32ae2f7c8109efc9')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-bonus-1', '963999e464bd4819e7e07c2f57ac8ebf')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>extension StringNumber on String {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+extension StringNumber on String {
   int toInt() {
     return int.parse(this);
   }
@@ -1103,9 +1187,13 @@ void main() {
       <div class="code-container" id="code-bonus-2">
         <div class="code-header">
           <span class="lang">FILE: test_bonus_2.dart</span>
-          <button class="btn" onclick="runCode('code-bonus-2', 'fde7c4321987c87e91565e25d27d51d3')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-bonus-2', '312dcef303bb94095942a5b203c35a68')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>// Solusi A: Menaruh class dan extension di library (file) yang sama
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+// Solusi A: Menaruh class dan extension di library (file) yang sama
 class Counter {
   int _value = 0;  // private pada tingkat library
 
@@ -1154,9 +1242,13 @@ void main() {
       <div class="code-container" id="code-bonus-3">
         <div class="code-header">
           <span class="lang">FILE: test_bonus_3.dart</span>
-          <button class="btn" onclick="runCode('code-bonus-3', 'afa86eef83e55b31f8e46df5b050e116')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-bonus-3', '91e6901c52b83b59ecfd0b0be044adef')">RUN IN DARTPAD</button>
         </div>
-        <pre><code>class Greeting {
+        <pre><code>// Nama   : Herly Afrizal
+// Nim    : 251410002
+// Kelas  : SI2A
+
+class Greeting {
   String say() => 'Hello from class';
 }
 
