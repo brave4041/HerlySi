@@ -367,6 +367,89 @@
       height: 100%;
       border: none;
     }
+
+    /* Media Queries for Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 0 10px;
+      }
+
+      header {
+        margin-bottom: 40px;
+      }
+
+      .gerakan {
+        font-size: 35px;
+      }
+
+      .session-title {
+        margin-bottom: 40px;
+        font-size: 1.4rem;
+        padding-bottom: 10px;
+      }
+
+      .cyber-card {
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        font-size: 1.2rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .badge {
+        margin-left: 0;
+      }
+
+      .code-container {
+        margin-top: 20px;
+      }
+
+      .code-header {
+        padding: 10px 15px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+
+      .code-header .lang {
+        font-size: 0.75rem;
+        word-break: break-all;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+        padding: 8px 16px;
+      }
+
+      pre {
+        padding: 15px;
+        font-size: 0.75rem;
+      }
+
+      .modal-content {
+        height: 75vh;
+        width: 95%;
+      }
+
+      .close-modal {
+        width: 100%;
+        height: 40px;
+        margin-top: 10px;
+      }
+
+      .modal-header {
+        padding: 10px 15px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+    }
   </style>
 </head>
 
@@ -422,7 +505,7 @@ class Circle {
       <div class="code-container" id="code-circle">
         <div class="code-header">
           <span class="lang">FILE: test_circle.dart</span>
-          <button class="btn" onclick="runCode('code-circle', 'aa928e93262af93f88b1da3e0aaa5bd9')">RUN IN DARTPAD</button>
+          <button class="btn" onclick="runCode('code-circle', '4e9dfba8e891795c7833c4ebabc39698')">RUN IN DARTPAD</button>
         </div>
         <pre><code>// Nama   : Herly Afrizal
 // Nim    : 251410002
