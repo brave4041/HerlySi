@@ -431,3 +431,53 @@ function openDartpadInline() {
 
   openModal('codeModal');
 }
+
+// =========================================================================
+// SECURITY PROTOCOL (Anti-Copy, Anti-Inspect, Anti-Ctrl+U)
+// =========================================================================
+
+// 1. Disable Right-Click Context Menu
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+  appendLog("Tindakan diblokir: Klik kanan dinonaktifkan untuk keamanan.", "error");
+});
+
+// 2. Disable Developer Tools & View Source Shortcuts
+document.addEventListener('keydown', function (e) {
+  // Disable F12
+  if (e.key === 'F12' || e.keyCode === 123) {
+    e.preventDefault();
+    appendLog("Tindakan diblokir: F12 (Developer Tools) dinonaktifkan.", "error");
+    return false;
+  }
+
+  // Disable Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Inspect Element)
+  if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+    e.preventDefault();
+    appendLog("Tindakan diblokir: Pintasan Inspect Element dinonaktifkan.", "error");
+    return false;
+  }
+
+  // Disable Ctrl+U (View Source)
+  if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+    e.preventDefault();
+    appendLog("Tindakan diblokir: View Source (Ctrl+U) dinonaktifkan.", "error");
+    return false;
+  }
+
+  // Disable Ctrl+S (Save Page)
+  if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+    e.preventDefault();
+    appendLog("Tindakan diblokir: Menyimpan halaman (Ctrl+S) dinonaktifkan.", "error");
+    return false;
+  }
+});
+
+// 3. Disable Text Selection (Except for Input fields and Textareas)
+document.addEventListener('selectstart', function (e) {
+  const tagName = e.target.tagName;
+  if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
+    e.preventDefault();
+  }
+});
+
