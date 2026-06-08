@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herly Afrizal & Marta Saputra</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;900&family=Inter:wght@300;400;600&family=Fira+Code:wght@400;500&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="gerakan">BRAVE RENTAL</div>
+      <div class="info-bar">
+        <span>ANGGOTA 1: <b>Herly Afrizal</b> (NIM: 251410002)</span>
+        <span>ANGGOTA 2: <b>Marta Saputra</b> (NIM: 251410020)</span>
+        <span>KELAS: <b>SI2A</b></span>
+      </div>
+      <h1 class="session-title">STUDI KASUS: <span>Sistem Penyewaan Kendaraan (OOP)</span></h1>
+    </header>
+
+    <div class="grid-dashboard">
+      <!-- Dashboard Utama (Simulator) -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span>SIMULATOR</span> DASHBOARD RENTAL KENDARAAN
+        </div>
+
+        <p style="margin-bottom: 25px;">
+          Daftarkan pelanggan baru melalui form input atau pilih salah satu pelanggan aktif di bawah.
+          Klik tombol <b>SEWA</b> pada unit kendaraan yang tersedia (maksimal sewa aktif adalah <b>2 kendaraan</b> per
+          pelanggan).
+          Klik tombol <b>KEMBALIKAN</b> untuk memproses pengembalian unit serta mencetak <b>nota transaksi</b>.
+        </p>
+
+        <!-- Form Tambah Pelanggan Baru -->
+        <h4 class="form-label" style="margin-bottom: 10px;">Tambah Pelanggan Baru:</h4>
+        <div class="add-customer-form">
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="new-cust-name">Nama Lengkap</label>
+            <input type="text" id="new-cust-name" class="form-input" placeholder="Nama pelanggan...">
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" for="new-cust-nik">NIK Pelanggan</label>
+            <input type="text" id="new-cust-nik" class="form-input" placeholder="NIK pelanggan (16 digit)...">
+          </div>
+          <button class="form-btn add-btn" onclick="addNewCustomer()">Tambah</button>
+        </div>
+
+        <!-- Pelanggan Selector -->
+        <h4 class="form-label" style="margin-bottom: 10px;">Pilih Pelanggan Aktif:</h4>
+        <div class="customer-selector" id="customer-list-container">
+          <!-- Dynamic customer buttons render here -->
+        </div>
+
+        <!-- Daftar Kendaraan -->
+        <h4 class="form-label" style="margin-bottom: 15px;">Unit Kendaraan Tersedia:</h4>
+        <div class="vehicle-list">
+          <!-- Avanza -->
+          <div class="vehicle-card" id="card-avanza">
+            <div class="vehicle-header">
+              <span class="vehicle-type">MOBIL (7 Seat)</span>
+              <span class="vehicle-plat">B 1234 ABC</span>
+            </div>
+            <div>
+              <div class="vehicle-title">Toyota Avanza</div>
+              <div class="vehicle-desc">Mobil MPV keluarga yang irit, nyaman, dan luas.</div>
+              <div class="vehicle-specs">
+                <div class="spec-item">
+                  <span>Kapasitas</span>
+                  <span>7 Penumpang</span>
+                </div>
+                <div class="spec-item">
+                  <span>Penyewa Aktif</span>
+                  <span id="tenant-avanza">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-footer">
+              <div class="price-tag"><b id="price-avanza">Rp 350.000</b>/hari</div>
+              <button class="btn-action" id="btn-avanza" onclick="toggleRent('avanza')">Sewa</button>
+            </div>
+          </div>
+
+          <!-- Civic -->
+          <div class="vehicle-card" id="card-civic">
+            <div class="vehicle-header">
+              <span class="vehicle-type">MOBIL (Sport)</span>
+              <span class="vehicle-plat">D 9999 VVV</span>
+            </div>
+            <div>
+              <div class="vehicle-title">Civic Turbo</div>
+              <div class="vehicle-desc">Sedan sport premium dengan performa mesin turbo kencang.</div>
+              <div class="vehicle-specs">
+                <div class="spec-item">
+                  <span>Kapasitas</span>
+                  <span>5 Penumpang</span>
+                </div>
+                <div class="spec-item">
+                  <span>Penyewa Aktif</span>
+                  <span id="tenant-civic">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-footer">
+              <div class="price-tag"><b id="price-civic">Rp 800.000</b>/hari</div>
+              <button class="btn-action" id="btn-civic" onclick="toggleRent('civic')">Sewa</button>
+            </div>
+          </div>
+
+          <!-- Beat -->
+          <div class="vehicle-card" id="card-beat">
+            <div class="vehicle-header">
+              <span class="vehicle-type">MOTOR (Matic)</span>
+              <span class="vehicle-plat">F 5678 XYZ</span>
+            </div>
+            <div>
+              <div class="vehicle-title">Honda Beat</div>
+              <div class="vehicle-desc">Motor matic lincah untuk jalanan perkotaan yang padat.</div>
+              <div class="vehicle-specs">
+                <div class="spec-item">
+                  <span>Mesin / CC</span>
+                  <span>110 CC</span>
+                </div>
+                <div class="spec-item">
+                  <span>Penyewa Aktif</span>
+                  <span id="tenant-beat">-</span>
+                </div>
+              </div>
+            </div>
+            <div class="vehicle-footer">
+              <div class="price-tag"><b id="price-beat">Rp 80.000</b>/hari</div>
+              <button class="btn-action" id="btn-beat" onclick="toggleRent('beat')">Sewa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Virtual Terminal (Output log) -->
+      <div class="cyber-card">
+        <div class="card-title">
+          <span>TERMINAL</span> VIRTUAL CONSOLE DART
+        </div>
+        <div class="virtual-terminal">
+          <div class="terminal-header">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div class="terminal-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+              </div>
+              <span>DART LOG</span>
+            </div>
+            <button class="clear-terminal" onclick="clearLogs()">CLEAR</button>
+          </div>
+          <div class="terminal-body" id="log-body">
+            <!-- Logs appear here -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OOP Explanation -->
+    <div class="session-title">Penerapan Pilar <span>OOP (Object Oriented Programming)</span></div>
+    <div class="explanation-grid">
+      <div class="explain-card">
+        <div class="explain-icon">📦</div>
+        <div class="explain-title">1. Enkapsulasi</div>
+        <div class="explain-desc">
+          Status internal <code>tersedia</code> pada kendaraan disembunyikan dan hanya dapat diubah secara aman lewat
+          metode <code>sewa()</code> dan <code>kembalikan()</code>. Jumlah sewa pelanggan juga dijaga oleh batas aturan
+          sewa.
+        </div>
+      </div>
+
+      <div class="explain-card">
+        <div class="explain-icon">🧬</div>
+        <div class="explain-title">2. Pewarisan (Inheritance)</div>
+        <div class="explain-desc">
+          Kelas <code>Mobil</code> dan <code>Motor</code> mewarisi data dasar dari kelas induk <code>Kendaraan</code>.
+          Ini menghindari redundansi properti dasar seperti <code>platNomor</code>, <code>merk</code>, dan
+          <code>hargaSewa</code>.
+        </div>
+      </div>
+
+      <div class="explain-card">
+        <div class="explain-icon">🎭</div>
+        <div class="explain-title">3. Polimorfisme</div>
+        <div class="explain-desc">
+          Metode <code>tampilkanInfo()</code> di kelas induk <code>Kendaraan</code> di-override pada kelas
+          <code>Mobil</code> dan <code>Motor</code> untuk memproses dan mencetak properti spesifik masing-masing objek.
+        </div>
+      </div>
+
+      <div class="explain-card">
+        <div class="explain-icon">🤝</div>
+        <div class="explain-title">4. Interaksi Objek</div>
+        <div class="explain-desc">
+          Objek <code>Pelanggan</code> memanggil metode pada objek <code>Kendaraan</code> untuk mengubah ketersediaan.
+          Hubungan sewa diabadikan dan dikalkulasi secara teratur menggunakan objek <code>TransaksiSewa</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- Code Viewer Section -->
+    <div class="cyber-card code-viewer-card" style="margin-top: 60px;">
+      <div class="card-title">
+        <span>SOURCE_CODE</span> FILE INSPECTOR
+      </div>
+      <div class="tabs-container">
+        <button class="tab-btn active" onclick="switchTab(event, 'tab-dart')">penyewaan_kendaraan.dart</button>
+        <button class="tab-btn" onclick="switchTab(event, 'tab-proposal')">proposal_tugas.md</button>
+      </div>
+
+      <!-- Tab Dart -->
+      <div class="tab-content active" id="tab-dart">
+        <div class="code-wrapper">
+          <div class="code-actions">
+            <button class="btn-copy" onclick="copyCode('code-dart')">COPY CODE</button>
+            <button class="btn-copy" onclick="openDartpadInline()">OPEN DARTPAD</button>
+          </div>
+          <pre><code id="code-dart">// Nama Anggota Kelompok:
+// 1. Herly Afrizal
+// 2. Marta Saputra
+// Topik: Sistem Penyewaan Kendaraan (Penerapan Bab 10 OOP)
+
+class Kendaraan {
+  String platNomor;
+  String merk;
+  String model;
+  double hargaSewaPerHari;
+  bool tersedia;
+
+  Kendaraan(this.platNomor, this.merk, this.model, this.hargaSewaPerHari, this.tersedia);
+
+  void tampilkanInfo() {
+    print("Plat Nomor: $platNomor");
+    print("Kendaraan : $merk $model");
+    print("Tarif Sewa: Rp ${hargaSewaPerHari.toStringAsFixed(0)} / hari");
+    print("Status    : ${tersedia ? 'Tersedia ✅' : 'Sedang Disewa ❌'}");
+  }
+
+  void sewa() {
+    if (tersedia) {
+      tersedia = false;
+      print("Status kendaraan [$platNomor] berhasil diubah menjadi: TIDAK TERSEDIA.");
+    } else {
+      print("Maaf, kendaraan [$platNomor] saat ini sedang tidak tersedia.");
+    }
+  }
+
+  void kembalikan() {
+    if (!tersedia) {
+      tersedia = true;
+      print("Status kendaraan [$platNomor] berhasil diubah menjadi: TERSEDIA.");
+    } else {
+      print("Kendaraan [$platNomor] memang sudah tersedia di garasi.");
+    }
+  }
+}
+
+// Penerapan INHERITANCE (Pewarisan) & POLYMORPHISM (Polimorfisme)
+class Mobil extends Kendaraan {
+  int kapasitasPenumpang;
+
+  Mobil(String platNomor, String merk, String model, double hargaSewaPerHari, bool tersedia, this.kapasitasPenumpang)
+      : super(platNomor, merk, model, hargaSewaPerHari, tersedia);
+
+  @override
+  void tampilkanInfo() {
+    print("--- [Info Mobil] ---");
+    super.tampilkanInfo();
+    print("Kapasitas : $kapasitasPenumpang Penumpang");
+  }
+}
+
+class Motor extends Kendaraan {
+  int kapasitasMesinCc;
+
+  Motor(String platNomor, String merk, String model, double hargaSewaPerHari, bool tersedia, this.kapasitasMesinCc)
+      : super(platNomor, merk, model, hargaSewaPerHari, tersedia);
+
+  @override
+  void tampilkanInfo() {
+    print("--- [Info Motor] ---");
+    super.tampilkanInfo();
+    print("Kapasitas Mesin: $kapasitasMesinCc CC");
+  }
+}
+
+// Penerapan ENKAPSULASI & INTERAKSI OBJEK
+class Pelanggan {
+  String nama;
+  String nik;
+  int jumlahSewaAktif;
+
+  Pelanggan(this.nama, this.nik, this.jumlahSewaAktif);
+
+  void tampilkanInfo() {
+    print("Nama Pelanggan  : $nama");
+    print("NIK             : $nik");
+    print("Sewa Aktif Saat Ini: $jumlahSewaAktif kendaraan");
+  }
+
+  void sewaKendaraan(Kendaraan kendaraan) {
+    if (jumlahSewaAktif < 2) { // Batas maksimal sewa 2 kendaraan sekaligus
+      if (kendaraan.tersedia) {
+        kendaraan.sewa();
+        jumlahSewaAktif++;
+        print("Pemberitahuan: $nama berhasil menyewa kendaraan [${kendaraan.platNomor}].");
+      } else {
+        print("Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.");
+      }
+    } else {
+      print("Pemberitahuan: Transaksi gagal! $nama sudah mencapai batas maksimal sewa (2 kendaraan).");
+    }
+  }
+
+  void kembalikanKendaraan(Kendaraan kendaraan) {
+    if (jumlahSewaAktif > 0) {
+      if (!kendaraan.tersedia) {
+        kendaraan.kembalikan();
+        jumlahSewaAktif--;
+        print("Pemberitahuan: $nama berhasil mengembalikan kendaraan [${kendaraan.platNomor}].");
+      } else {
+        print("Pemberitahuan: Kendaraan [${kendaraan.platNomor}] sudah berada di garasi.");
+      }
+    } else {
+      print("Pemberitahuan: Pelanggan $nama tidak memiliki riwayat sewa aktif.");
+    }
+  }
+}
+
+class TransaksiSewa {
+  String idTransaksi;
+  Pelanggan pelanggan;
+  Kendaraan kendaraan;
+  DateTime tanggalSewa;
+  DateTime? tanggalKembali;
+  double? totalBiaya;
+
+  TransaksiSewa(this.idTransaksi, this.pelanggan, this.kendaraan, this.tanggalSewa, [this.tanggalKembali]);
+
+  void tampilkanDetailTransaksi() {
+    print("==================================================");
+    print("             STRUK TRANSAKSI SEWA KENDARAAN       ");
+    print("==================================================");
+    print("ID Transaksi   : $idTransaksi");
+    print("Pelanggan      : ${pelanggan.nama} (${pelanggan.nik})");
+    print("Kendaraan      : ${kendaraan.merk} ${kendaraan.model} [${kendaraan.platNomor}]");
+    print("Tanggal Sewa   : ${tanggalSewa.toLocal().toString().split(' ')[0]}");
+    if (tanggalKembali != null) {
+      print("Tanggal Kembali: ${tanggalKembali!.toLocal().toString().split(' ')[0]}");
+      print("Total Biaya    : Rp ${totalBiaya?.toStringAsFixed(0)}");
+      print("Status         : SELESAI ✅");
+    } else {
+      print("Tanggal Kembali: -");
+      print("Total Biaya    : Rp - (Menunggu Pengembalian)");
+      print("Status         : AKTIF (Sedang Sewa) 🔄");
+    }
+    print("==================================================");
+  }
+
+  void selesaikanTransaksi(int durasiHari) {
+    if (tanggalKembali == null) {
+      tanggalKembali = tanggalSewa.add(Duration(days: durasiHari));
+      totalBiaya = durasiHari * kendaraan.hargaSewaPerHari;
+      pelanggan.kembalikanKendaraan(kendaraan);
+      print("Transaksi $idTransaksi berhasil diselesaikan untuk durasi $durasiHari hari.");
+    } else {
+      print("Transaksi $idTransaksi ini sudah selesai sebelumnya.");
+    }
+  }
+}
+
+void main() {
+  print("==========================================================");
+  print("   SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)    ");
+  print("==========================================================\n");
+
+  // 1. Membuat objek kendaraan (Mobil dan Motor)
+  Mobil mobil1 = Mobil("B 1234 ABC", "Toyota", "Avanza", 350000, true, 7);
+  Motor motor1 = Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110);
+  Mobil mobil2 = Mobil("D 9999 VVV", "Honda", "Civic Turbo", 800000, true, 5);
+
+  // 2. Membuat objek pelanggan
+  Pelanggan pelanggan1 = Pelanggan("Herly Afrizal", "3201010101010001", 0);
+  Pelanggan pelanggan2 = Pelanggan("Marta Saputra", "3201010202020002", 0);
+
+  // 3. Menampilkan info awal
+  print(">>> INFO AWAL KENDARAAN DAN PELANGGAN <<<");
+  mobil1.tampilkanInfo();
+  print("");
+  motor1.tampilkanInfo();
+  print("");
+  pelanggan1.tampilkanInfo();
+  print("");
+  pelanggan2.tampilkanInfo();
+  print("\n----------------------------------------------------------\n");
+
+  // 4. Simulasi Pelanggan 1 (Herly) menyewa mobil1
+  print(">>> SIMULASI TRANSAKSI 1: Herly menyewa Avanza <<<");
+  TransaksiSewa ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
+  pelanggan1.sewaKendaraan(mobil1);
+  ts1.tampilkanDetailTransaksi();
+  print("");
+
+  // 5. Herly mencoba menyewa Avanza lagi (seharusnya gagal karena sudah disewa)
+  print(">>> SIMULASI TRANSAKSI 2: Herly mencoba menyewa Avanza lagi <<<");
+  pelanggan1.sewaKendaraan(mobil1);
+  print("");
+
+  // 6. Herly menyewa Motor Beat
+  print(">>> SIMULASI TRANSAKSI 3: Herly menyewa Honda Beat <<<");
+  TransaksiSewa ts2 = TransaksiSewa("TRX-002", pelanggan1, motor1, DateTime.now());
+  pelanggan1.sewaKendaraan(motor1);
+  ts2.tampilkanDetailTransaksi();
+  print("");
+
+  // 7. Herly mencoba menyewa Mobil Civic (seharusnya gagal karena batas sewa maksimal = 2)
+  print(">>> SIMULASI TRANSAKSI 4: Herly menyewa Civic (Batas sewa tercapai) <<<");
+  pelanggan1.sewaKendaraan(mobil2);
+  print("");
+
+  // 8. Menampilkan detail status sewa Herly
+  print(">>> STATUS SEWA AKTIF HERLY <<<");
+  pelanggan1.tampilkanInfo();
+  print("\n----------------------------------------------------------\n");
+
+  // 9. Simulasi pengembalian mobil1 oleh Herly setelah 3 hari sewa
+  print(">>> SIMULASI PENGEMBALIAN: Herly mengembalikan Avanza setelah 3 hari <<<");
+  ts1.selesaikanTransaksi(3);
+  print("");
+  ts1.tampilkanDetailTransaksi();
+  print("");
+
+  // 10. Sekarang Herly bisa menyewa Civic karena satu slot sewa sudah kosong
+  print(">>> SIMULASI TRANSAKSI 5: Herly sekarang menyewa Civic <<<");
+  TransaksiSewa ts3 = TransaksiSewa("TRX-003", pelanggan1, mobil2, DateTime.now());
+  pelanggan1.sewaKendaraan(mobil2);
+  ts3.tampilkanDetailTransaksi();
+  print("\n----------------------------------------------------------\n");
+
+  print(\">>> SIMULASI SELESAI <<<\");
+}</code></pre>
+        </div>
+      </div>
+
+      <!-- Tab Proposal -->
+      <div class="tab-content" id="tab-proposal">
+        <div class="code-wrapper">
+          <div class="code-actions">
+            <button class="btn-copy" onclick="copyCode('code-proposal')">COPY CODE</button>
+          </div>
+          <pre><code id="code-proposal"># PROPOSAL TUGAS PEMROGRAMAN BERORIENTASI OBJEK (OOP)
+**BAB 10: MEMAHAMI OOP DARI CONTOH KASUS**
+
+**Anggota Kelompok:**
+1. **Herly Afrizal** (NIM: 251410002)
+2. **Marta Saputra**
+
+**Topik Tugas:** Sistem Penyewaan Kendaraan (Vehicle Rental System)
+
+---
+
+## 1. Deskripsi Permasalahan
+Dalam bisnis penyewaan kendaraan, terdapat tantangan dalam mengelola inventaris kendaraan yang dinamis, data pelanggan yang bervariasi, serta pencatatan transaksi penyewaan secara akurat. Beberapa masalah utama yang sering dihadapi adalah:
+* **Pelacakan Status Kendaraan**: Mengetahui dengan pasti apakah suatu kendaraan sedang tersedia, sedang disewa, atau sedang dalam perawatan.
+* **Manajemen Pelanggan**: Mengontrol batas maksimal penyewaan kendaraan per pelanggan untuk meminimalkan risiko keamanan.
+* **Pencatatan Transaksi**: Menghitung biaya sewa berdasarkan durasi pinjam dan tipe kendaraan yang disewa secara otomatis dan real-time.
+* **Variasi Kendaraan**: Penanganan jenis kendaraan yang berbeda (mobil vs motor) yang masing-masing memiliki karakteristik unik.
+
+---
+
+## 2. Mengapa Masalah Ini Lebih Baik Diselesaikan dengan OOP?
+Menggunakan paradigma pemrograman prosedural biasa untuk sistem ini akan menghasilkan banyak percabangan (if-else) yang rumit dan rentan bug ketika jenis kendaraan bertambah. Dengan OOP, masalah ini dapat dipecahkan secara elegan dan terstruktur menggunakan pilar-pilar berikut:
+
+1. **Class dan Object**: Kita membuat blueprint/template untuk entitas nyata seperti Kendaraan, Pelanggan, dan TransaksiSewa.
+2. **Enkapsulasi**: Status ketersediaan kendaraan (tersedia) disembunyikan dan dilindungi di dalam kelas masing-masing.
+3. **Pewarisan (Inheritance)**: Kelas Mobil dan Motor diturunkan dari kelas induk Kendaraan.
+4. **Polimorfisme**: Metode tampilkanInfo() dapat didefinisikan secara umum pada kelas induk, namun diimplementasikan ulang (override) pada kelas Mobil dan Motor sesuai spesifikasinya.
+5. **Interaksi Objek**: Objek Pelanggan menyewa objek Kendaraan melalui objek TransaksiSewa.</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 // HERLY AFRIZAL & MARTA SAPUTRA // SI2A
+    </div>
+  </div>
+
+  <!-- Modal Return (Popup Durasi) -->
+  <div class="modal-overlay" id="returnModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-return-title">KEMBALIKAN KENDARAAN</div>
+        <button class="close-modal" onclick="closeModal('returnModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label" for="rental-days">Lama Sewa (Hari):</label>
+          <input type="number" id="rental-days" class="form-input" min="1" value="1"
+            placeholder="Masukkan jumlah hari sewa...">
+        </div>
+        <button class="form-btn" id="btn-submit-return" onclick="submitReturn()">Selesaikan Pengembalian & Cetak
+          Struk</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Receipt (Popup Struk Digital) -->
+  <div class="modal-overlay" id="receiptModal" onclick="if(event.target === this) closeModal('receiptModal')">
+    <div class="modal-content" style="max-width: 420px;">
+      <div class="modal-header">
+        <div class="modal-title">INVOICE TRANSAKSI SELESAI</div>
+        <button class="close-modal" onclick="closeModal('receiptModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="receipt">
+          <div class="receipt-title">
+            BRAVE RENTAL<br>
+            <span style="font-size: 0.75rem; color: #555; text-transform: none;">Palembang</span>
+          </div>
+          <div class="receipt-row">
+            <span>ID TRX:</span>
+            <span id="r-trx-id" style="font-weight: bold;">TRX-999</span>
+          </div>
+          <div class="receipt-row">
+            <span>PELANGGAN:</span>
+            <span id="r-cust-name">Herly Afrizal</span>
+          </div>
+          <div class="receipt-row">
+            <span>NIK:</span>
+            <span id="r-cust-nik">320101...</span>
+          </div>
+          <div class="receipt-row">
+            <span>KENDARAAN:</span>
+            <span id="r-veh-name">Toyota Avanza</span>
+          </div>
+          <div class="receipt-row">
+            <span>PLAT NOMOR:</span>
+            <span id="r-veh-plat" style="font-weight: bold;">B 1234 ABC</span>
+          </div>
+          <div class="receipt-row">
+            <span>TGL SEWA:</span>
+            <span id="r-date-rent">2026-06-08</span>
+          </div>
+          <div class="receipt-row">
+            <span>TGL KEMBALI:</span>
+            <span id="r-date-return">2026-06-11</span>
+          </div>
+          <div class="receipt-row">
+            <span>TARIF PER HARI:</span>
+            <span id="r-price-day">Rp 350.000</span>
+          </div>
+          <div class="receipt-row">
+            <span>DURASI SEWA:</span>
+            <span id="r-duration">3 Hari</span>
+          </div>
+          <div class="receipt-row total">
+            <span>TOTAL BIAYA:</span>
+            <span id="r-total-price">Rp 1.050.000</span>
+          </div>
+          <div class="receipt-footer">
+            --- Terima Kasih Telah Menyewa ---<br>
+            Harap Berkendara Dengan Aman & Hati-hati
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Code Runtime (Popup Dartpad Inline) -->
+  <div class="modal-overlay" id="codeModal" onclick="if(event.target === this) closeModal('codeModal')">
+    <div class="modal-content large-modal">
+      <div class="modal-header">
+        <div class="modal-title">DART_RUNTIME // VIRTUAL_EXECUTION</div>
+        <button class="close-modal" onclick="closeModal('codeModal')">&times;</button>
+      </div>
+      <div class="modal-body iframe-body" id="modalIframeContainer">
+        <!-- Iframe loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
