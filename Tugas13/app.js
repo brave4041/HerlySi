@@ -57,43 +57,6 @@ class Pelanggan {
     this.jumlahSewaAktif = jumlahSewaAktif;
     this.sewaAktif = []; // array of Kendaraan
   }
-
-  sewaKendaraan(kendaraan) {
-    if (this.jumlahSewaAktif < 2) {
-      if (kendaraan.tersedia) {
-        kendaraan.sewa(this);
-        this.jumlahSewaAktif++;
-        this.sewaAktif.push(kendaraan);
-        appendLog(`Pemberitahuan: ${this.nama} berhasil menyewa kendaraan [${kendaraan.platNomor}].`, 'success');
-        return true;
-      } else {
-        appendLog(`Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.`, 'error');
-        return false;
-      }
-    } else {
-      appendLog(`Pemberitahuan: Transaksi gagal! ${this.nama} sudah mencapai batas maksimal sewa (2 kendaraan).`, 'error');
-      return false;
-    }
-  }
-
-  kembalikanKendaraan(kendaraan) {
-    if (this.jumlahSewaAktif > 0) {
-      const index = this.sewaAktif.findIndex(k => k.platNomor === kendaraan.platNomor);
-      if (index !== -1) {
-        kendaraan.kembalikan();
-        this.jumlahSewaAktif--;
-        this.sewaAktif.splice(index, 1);
-        appendLog(`Pemberitahuan: ${this.nama} berhasil mengembalikan kendaraan [${kendaraan.platNomor}].`, 'success');
-        return true;
-      } else {
-        appendLog(`Pemberitahuan: Kendaraan [${kendaraan.platNomor}] tidak disewa oleh ${this.nama}.`, 'error');
-        return false;
-      }
-    } else {
-      appendLog(`Pemberitahuan: Pelanggan ${this.nama} tidak memiliki riwayat sewa aktif.`, 'error');
-      return false;
-    }
-  }
 }
 
 class TransaksiSewa {
@@ -104,18 +67,46 @@ class TransaksiSewa {
     this.tanggalSewa = tanggalSewa;
     this.tanggalKembali = null;
     this.totalBiaya = null;
+    this.isSukses = false;
+  }
+
+  sewaKendaraan() {
+    if (this.pelanggan.jumlahSewaAktif >= 2) {
+      appendLog(`Pemberitahuan: Transaksi ${this.idTransaksi} Gagal! ${this.pelanggan.nama} sudah mencapai batas maksimal sewa (2 kendaraan).`, 'error');
+      return false;
+    }
+    if (!this.kendaraan.tersedia) {
+      appendLog(`Pemberitahuan: Transaksi ${this.idTransaksi} Gagal! Kendaraan [${this.kendaraan.platNomor}] sedang disewa.`, 'error');
+      return false;
+    }
+
+    // Jika lolos validasi, lakukan transaksi sewa
+    this.kendaraan.sewa(this.pelanggan);
+    this.pelanggan.jumlahSewaAktif++;
+    this.pelanggan.sewaAktif.push(this.kendaraan);
+    this.isSukses = true;
+    appendLog(`Pemberitahuan: Transaksi ${this.idTransaksi} Berhasil! ${this.pelanggan.nama} berhasil menyewa kendaraan [${this.kendaraan.platNomor}].`, 'success');
+    return true;
   }
 
   selesaikanTransaksi(durasiHari) {
+    if (!this.isSukses) {
+      appendLog(`Transaksi ${this.idTransaksi} gagal diselesaikan karena transaksi sewa tidak aktif/sukses.`, 'error');
+      return false;
+    }
     if (this.tanggalKembali === null) {
-      const suksesKembali = this.pelanggan.kembalikanKendaraan(this.kendaraan);
-      if (suksesKembali) {
+      const index = this.pelanggan.sewaAktif.findIndex(k => k.platNomor === this.kendaraan.platNomor);
+      if (index !== -1) {
+        this.kendaraan.kembalikan();
+        this.pelanggan.jumlahSewaAktif--;
+        this.pelanggan.sewaAktif.splice(index, 1);
+
         this.tanggalKembali = new Date(this.tanggalSewa.getTime() + durasiHari * 24 * 60 * 60 * 1000);
         this.totalBiaya = durasiHari * this.kendaraan.hargaSewaPerHari;
         appendLog(`Transaksi ${this.idTransaksi} berhasil diselesaikan untuk durasi ${durasiHari} hari.`, 'success');
         return true;
       } else {
-        appendLog(`Transaksi ${this.idTransaksi} gagal diselesaikan karena proses pengembalian tidak valid.`, 'error');
+        appendLog(`Transaksi ${this.idTransaksi} gagal diselesaikan! Kendaraan [${this.kendaraan.platNomor}] tidak disewa oleh ${this.pelanggan.nama}.`, 'error');
         return false;
       }
     } else {
@@ -225,10 +216,11 @@ function toggleRent(vehicleKey) {
     // Proses Penyewaan (Sewa)
     appendLog(`\n>>> TRANSAKSI BARU: ${pelanggan.nama} ingin menyewa ${kendaraan.merk} ${kendaraan.model} <<<`, 'info');
 
-    const success = pelanggan.sewaKendaraan(kendaraan);
+    const trxId = `TRX-` + String(transactionCounter++).padStart(3, '0');
+    const transaksi = new TransaksiSewa(trxId, pelanggan, kendaraan, new Date());
+    
+    const success = transaksi.sewaKendaraan();
     if (success) {
-      const trxId = `TRX-` + String(transactionCounter++).padStart(3, '0');
-      const transaksi = new TransaksiSewa(trxId, pelanggan, kendaraan, new Date());
       activeTransactions.push(transaksi);
 
       appendLog("==================================================", "info");
@@ -432,7 +424,7 @@ function openDartpadInline() {
   const iframeContainer = document.getElementById('modalIframeContainer');
 
   const iframe = document.createElement('iframe');
-  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=5176802a60da6f77fcc55605ddad7166`;
+  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=3644c4cda0cc52276fa07e95ef71ab31`;
   iframe.style.width = '100%';
   iframe.style.height = '100%';
   iframe.style.border = 'none';

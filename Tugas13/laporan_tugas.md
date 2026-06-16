@@ -84,18 +84,20 @@ Berikut adalah tahapan pengerjaan sistem penyewaan kendaraan ini:
   * `nama` (String): Nama pelanggan.
   * `nik` (String): Nomor Induk Kependudukan.
   * `jumlahSewaAktif` (int): Jumlah kendaraan yang sedang disewa saat ini.
+  * `sewaAktif` (List<Kendaraan>): Daftar objek kendaraan yang sedang disewa secara aktif oleh pelanggan ini.
 * **Metode (Behavior)**:
-  * `tampilkanInfo()`: Menampilkan info pelanggan.
-  * `sewaKendaraan(Kendaraan k)`: Memvalidasi ketersediaan kendaraan dan batas sewa aktif (maksimal 2). Jika lolos, memanggil metode `k.sewa()` dan menambah `jumlahSewaAktif`.
-  * `kembalikanKendaraan(Kendaraan k)`: Memanggil metode `k.kembalikan()` dan mengurangi `jumlahSewaAktif`.
+  * `tampilkanInfo()`: Menampilkan nama pelanggan, NIK, dan jumlah unit yang sedang disewa aktif.
 
 ### E. Kelas `TransaksiSewa` (Loan/Transaction)
 * **Atribut (State)**:
   * `idTransaksi` (String): Kode transaksi unik.
-  * `pelanggan` (Pelanggan): Objek pelanggan yang menyewa.
+  * `pelanggan` (Pelanggan): Objek pelanggan yang melakukan transaksi.
   * `kendaraan` (Kendaraan): Objek kendaraan yang disewa.
-  * `tanggalSewa` (DateTime): Waktu mulai sewa.
-  * `tanggalKembali` (DateTime?): Waktu pengembalian (null jika belum dikembalikan).
+  * `tanggalSewa` (DateTime): Tanggal dan waktu mulai penyewaan.
+  * `tanggalKembali` (DateTime?): Tanggal dan waktu pengembalian kendaraan (null saat aktif).
+  * `totalBiaya` (double?): Total biaya sewa yang dihitung setelah kendaraan dikembalikan (null saat aktif).
+  * `isSukses` (bool): Status penanda apakah transaksi penyewaan ini aktif dan berhasil (true/false).
 * **Metode (Behavior)**:
-  * `tampilkanDetailTransaksi()`: Menampilkan struk sewa lengkap.
-  * `selesaikanTransaksi(int durasiHari)`: Mengisi `tanggalKembali` dan menghitung total biaya sewa (`durasiHari * hargaSewaPerHari`).
+  * `tampilkanDetailTransaksi()`: Mencetak/menampilkan struk nota detail transaksi secara lengkap (termasuk status aktif/selesai, tanggal sewa/kembali, dan biaya).
+  * `sewaKendaraan()`: Memvalidasi ketersediaan kendaraan dan batas maksimal sewa pelanggan (maksimal 2). Jika lolos validasi, mengubah status ketersediaan kendaraan menjadi tidak tersedia, memperbarui hitungan sewa aktif pelanggan, menandai transaksi aktif (`isSukses = true`), dan mencatat kendaraan ke daftar sewa pelanggan.
+  * `selesaikanTransaksi(int durasiHari)`: Mengubah status ketersediaan kendaraan kembali menjadi tersedia, memperbarui hitungan dan daftar sewa aktif pelanggan, menetapkan tanggal pengembalian, serta menghitung total biaya sewa berdasarkan tarif harian.

@@ -306,42 +306,6 @@ class Pelanggan {
     print("NIK             : $nik");
     print("Sewa Aktif Saat Ini: $jumlahSewaAktif kendaraan");
   }
-
-  bool sewaKendaraan(Kendaraan kendaraan) {
-    if (jumlahSewaAktif < 2) { // Batas maksimal sewa 2 kendaraan sekaligus
-      if (kendaraan.tersedia) {
-        kendaraan.sewa();
-        jumlahSewaAktif++;
-        sewaAktif.add(kendaraan);
-        print("Pemberitahuan: $nama berhasil menyewa kendaraan [${kendaraan.platNomor}].");
-        return true;
-      } else {
-        print("Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.");
-        return false;
-      }
-    } else {
-      print("Pemberitahuan: Transaksi gagal! $nama sudah mencapai batas maksimal sewa (2 kendaraan).");
-      return false;
-    }
-  }
-
-  bool kembalikanKendaraan(Kendaraan kendaraan) {
-    if (jumlahSewaAktif > 0) {
-      if (sewaAktif.contains(kendaraan)) {
-        kendaraan.kembalikan();
-        jumlahSewaAktif--;
-        sewaAktif.remove(kendaraan);
-        print("Pemberitahuan: $nama berhasil mengembalikan kendaraan [${kendaraan.platNomor}].");
-        return true;
-      } else {
-        print("Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] tidak disewa oleh $nama.");
-        return false;
-      }
-    } else {
-      print("Pemberitahuan: Pelanggan $nama tidak memiliki riwayat sewa aktif.");
-      return false;
-    }
-  }
 }
 
 class TransaksiSewa {
@@ -351,6 +315,7 @@ class TransaksiSewa {
   DateTime tanggalSewa;
   DateTime? tanggalKembali;
   double? totalBiaya;
+  bool isSukses = false; // Menunjukkan apakah transaksi sewa ini aktif/berhasil
 
   TransaksiSewa(this.idTransaksi, this.pelanggan, this.kendaraan, this.tanggalSewa, [this.tanggalKembali]);
 
@@ -366,26 +331,60 @@ class TransaksiSewa {
       print("Tanggal Kembali: ${tanggalKembali!.toLocal().toString().split(' ')[0]}");
       print("Total Biaya    : Rp ${totalBiaya?.toStringAsFixed(0)}");
       print("Status         : SELESAI ✅");
-    } else {
+    } else if (isSukses) {
       print("Tanggal Kembali: -");
       print("Total Biaya    : Rp - (Menunggu Pengembalian)");
       print("Status         : AKTIF (Sedang Sewa) 🔄");
+    } else {
+      print("Tanggal Kembali: -");
+      print("Total Biaya    : Rp - (Gagal/Tidak Aktif)");
+      print("Status         : BATAL / GAGAL ❌");
     }
     print("==================================================");
   }
 
-  void selesaikanTransaksi(int durasiHari) {
+  // LOGIKA UTAMA PENYEWAAN DI PINDAH KE KELAS TRANSAKSISEWA
+  bool sewaKendaraan() {
+    if (pelanggan.jumlahSewaAktif >= 2) {
+      print("Pemberitahuan: Transaksi $idTransaksi Gagal! ${pelanggan.nama} sudah mencapai batas maksimal sewa (2 kendaraan).");
+      return false;
+    }
+    if (!kendaraan.tersedia) {
+      print("Pemberitahuan: Transaksi $idTransaksi Gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.");
+      return false;
+    }
+
+    // Jika lolos validasi, lakukan transaksi sewa
+    kendaraan.sewa();
+    pelanggan.jumlahSewaAktif++;
+    pelanggan.sewaAktif.add(kendaraan);
+    isSukses = true;
+    print("Pemberitahuan: Transaksi $idTransaksi Berhasil! ${pelanggan.nama} berhasil menyewa kendaraan [${kendaraan.platNomor}].");
+    return true;
+  }
+
+  bool selesaikanTransaksi(int durasiHari) {
+    if (!isSukses) {
+      print("Transaksi $idTransaksi gagal diselesaikan karena transaksi sewa tidak aktif/sukses.");
+      return false;
+    }
     if (tanggalKembali == null) {
-      bool suksesKembali = pelanggan.kembalikanKendaraan(kendaraan);
-      if (suksesKembali) {
+      if (pelanggan.sewaAktif.contains(kendaraan)) {
+        kendaraan.kembalikan();
+        pelanggan.jumlahSewaAktif--;
+        pelanggan.sewaAktif.remove(kendaraan);
+        
         tanggalKembali = tanggalSewa.add(Duration(days: durasiHari));
         totalBiaya = durasiHari * kendaraan.hargaSewaPerHari;
         print("Transaksi $idTransaksi berhasil diselesaikan untuk durasi $durasiHari hari.");
+        return true;
       } else {
-        print("Transaksi $idTransaksi gagal diselesaikan karena proses pengembalian tidak valid.");
+        print("Transaksi $idTransaksi gagal diselesaikan! Kendaraan [${kendaraan.platNomor}] tidak disewa oleh ${pelanggan.nama}.");
+        return false;
       }
     } else {
       print("Transaksi $idTransaksi ini sudah selesai sebelumnya.");
+      return false;
     }
   }
 }
@@ -417,29 +416,30 @@ void main() {
 
   // 4. Simulasi Pelanggan 1 (Herly) menyewa mobil1
   print(">>> SIMULASI TRANSAKSI 1: Herly menyewa Avanza <<<");
-  TransaksiSewa? ts1;
-  if (pelanggan1.sewaKendaraan(mobil1)) {
-    ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
+  TransaksiSewa ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
+  if (ts1.sewaKendaraan()) {
     ts1.tampilkanDetailTransaksi();
   }
   print("");
 
   // 5. Herly mencoba menyewa Avanza lagi (seharusnya gagal karena sudah disewa)
   print(">>> SIMULASI TRANSAKSI 2: Herly mencoba menyewa Avanza lagi <<<");
-  pelanggan1.sewaKendaraan(mobil1);
+  TransaksiSewa ts2 = TransaksiSewa("TRX-002", pelanggan1, mobil1, DateTime.now());
+  ts2.sewaKendaraan();
   print("");
 
   // 6. Herly menyewa Motor Beat
   print(">>> SIMULASI TRANSAKSI 3: Herly menyewa Honda Beat <<<");
-  if (pelanggan1.sewaKendaraan(motor1)) {
-    var ts2 = TransaksiSewa("TRX-002", pelanggan1, motor1, DateTime.now());
-    ts2.tampilkanDetailTransaksi();
+  TransaksiSewa ts3 = TransaksiSewa("TRX-003", pelanggan1, motor1, DateTime.now());
+  if (ts3.sewaKendaraan()) {
+    ts3.tampilkanDetailTransaksi();
   }
   print("");
 
   // 7. Herly mencoba menyewa Mobil Civic (seharusnya gagal karena batas sewa maksimal = 2)
   print(">>> SIMULASI TRANSAKSI 4: Herly menyewa Civic (Batas sewa tercapai) <<<");
-  pelanggan1.sewaKendaraan(mobil2);
+  TransaksiSewa ts4 = TransaksiSewa("TRX-004", pelanggan1, mobil2, DateTime.now());
+  ts4.sewaKendaraan();
   print("");
 
   // 8. Menampilkan detail status sewa Herly
@@ -449,7 +449,7 @@ void main() {
 
   // 9. Simulasi pengembalian mobil1 oleh Herly setelah 3 hari sewa
   print(">>> SIMULASI PENGEMBALIAN: Herly mengembalikan Avanza setelah 3 hari <<<");
-  if (ts1 != null) {
+  if (ts1.isSukses) {
     ts1.selesaikanTransaksi(3);
     print("");
     ts1.tampilkanDetailTransaksi();
@@ -458,9 +458,9 @@ void main() {
 
   // 10. Sekarang Herly bisa menyewa Civic karena satu slot sewa sudah kosong
   print(">>> SIMULASI TRANSAKSI 5: Herly sekarang menyewa Civic <<<");
-  if (pelanggan1.sewaKendaraan(mobil2)) {
-    var ts3 = TransaksiSewa("TRX-003", pelanggan1, mobil2, DateTime.now());
-    ts3.tampilkanDetailTransaksi();
+  TransaksiSewa ts5 = TransaksiSewa("TRX-005", pelanggan1, mobil2, DateTime.now());
+  if (ts5.sewaKendaraan()) {
+    ts5.tampilkanDetailTransaksi();
   }
   print("\n----------------------------------------------------------\n");
 
@@ -481,29 +481,104 @@ void main() {
 
 **Anggota Kelompok:**
 1. **Herly Afrizal** (NIM: 251410002)
-2. **Marta Saputra**
+2. **Marta Saputra** (NIM: 251410020)
 
 **Topik Tugas:** Sistem Penyewaan Kendaraan (Vehicle Rental System)
 
 ---
 
 ## 1. Deskripsi Permasalahan
-Dalam bisnis penyewaan kendaraan, terdapat tantangan dalam mengelola inventaris kendaraan yang dinamis, data pelanggan yang bervariasi, serta pencatatan transaksi penyewaan secara akurat. Beberapa masalah utama yang sering dihadapi adalah:
+Dalam bisnis penyewaan kendaraan (seperti rental mobil dan motor), terdapat tantangan dalam mengelola inventaris kendaraan yang dinamis, data pelanggan yang bervariasi, serta pencatatan transaksi penyewaan secara akurat. Beberapa masalah utama yang sering dihadapi adalah:
 * **Pelacakan Status Kendaraan**: Mengetahui dengan pasti apakah suatu kendaraan sedang tersedia, sedang disewa, atau sedang dalam perawatan.
 * **Manajemen Pelanggan**: Mengontrol batas maksimal penyewaan kendaraan per pelanggan untuk meminimalkan risiko keamanan.
 * **Pencatatan Transaksi**: Menghitung biaya sewa berdasarkan durasi pinjam dan tipe kendaraan yang disewa secara otomatis dan real-time.
-* **Variasi Kendaraan**: Penanganan jenis kendaraan yang berbeda (mobil vs motor) yang masing-masing memiliki karakteristik unik.
+* **Variasi Kendaraan**: Penanganan jenis kendaraan yang berbeda (mobil vs motor) yang masing-masing memiliki karakteristik unik (misalnya mobil memiliki kapasitas penumpang, sedangkan motor memiliki kapasitas mesin/CC).
 
 ---
 
 ## 2. Mengapa Masalah Ini Lebih Baik Diselesaikan dengan OOP?
 Menggunakan paradigma pemrograman prosedural biasa untuk sistem ini akan menghasilkan banyak percabangan (if-else) yang rumit dan rentan bug ketika jenis kendaraan bertambah. Dengan OOP, masalah ini dapat dipecahkan secara elegan dan terstruktur menggunakan pilar-pilar berikut:
 
-1. **Class dan Object**: Kita membuat blueprint/template untuk entitas nyata seperti Kendaraan, Pelanggan, dan TransaksiSewa.
-2. **Enkapsulasi**: Status ketersediaan kendaraan (tersedia) disembunyikan dan dilindungi di dalam kelas masing-masing.
-3. **Pewarisan (Inheritance)**: Kelas Mobil dan Motor diturunkan dari kelas induk Kendaraan.
-4. **Polimorfisme**: Metode tampilkanInfo() dapat didefinisikan secara umum pada kelas induk, namun diimplementasikan ulang (override) pada kelas Mobil dan Motor sesuai spesifikasinya.
-5. **Interaksi Objek**: Objek Pelanggan menyewa objek Kendaraan melalui objek TransaksiSewa.</code></pre>
+1. **Class dan Object (Kelas dan Objek)**:
+   Kita dapat membuat blueprint/template untuk entitas nyata seperti Kendaraan, Pelanggan, dan TransaksiSewa. Setiap kendaraan atau pelanggan riil akan direpresentasikan sebagai objek tersendiri.
+   
+2. **Enkapsulasi (Encapsulation)**:
+   Status ketersediaan kendaraan (tersedia) dan data jumlah sewa pelanggan (jumlahSewaAktif) disembunyikan (encapsulated) di dalam kelas masing-masing. Perubahan status hanya dapat dilakukan melalui metode resmi seperti sewaKendaraan() atau kembalikanKendaraan(), sehingga integritas data terjaga.
+
+3. **Pewarisan (Inheritance)**:
+   Kita dapat membuat kelas induk (superclass) bernama Kendaraan yang menyimpan atribut umum (plat nomor, merk, model, harga sewa). Kemudian kita dapat membuat subclass Mobil dan Motor yang mewarisi atribut tersebut sekaligus menambahkan atribut khusus (seperti kapasitasPenumpang untuk mobil dan kapasitasMesinCc untuk motor).
+
+4. **Polimorfisme (Polymorphism)**:
+   Metode seperti tampilkanInfo() dapat didefinisikan secara umum pada kelas induk Kendaraan, namun diimplementasikan ulang (override) pada kelas Mobil dan Motor untuk menampilkan detail yang berbeda sesuai spesifikasi kendaraan masing-masing.
+
+5. **Interaksi Objek (Object Interaction)**:
+   Objek Pelanggan dapat berinteraksi langsung dengan objek Kendaraan untuk mengubah statusnya, dan objek TransaksiSewa dapat menghubungkan kedua objek tersebut untuk menghitung total biaya sewa secara otomatis.
+
+---
+
+## 3. Langkah-langkah untuk Mengerjakan Masalah
+Berikut adalah tahapan pengerjaan sistem penyewaan kendaraan ini:
+1. **Mendefinisikan Kelas Kendaraan (Superclass)**:
+   Membuat kelas dasar Kendaraan dengan properti umum dan metode untuk memperbarui status sewa.
+2. **Membuat Kelas Turunan (Subclass) Mobil dan Motor**:
+   Mengimplementasikan konsep inheritance dan polimorfisme dengan menambahkan fitur spesifik masing-masing jenis kendaraan.
+3. **Mendefinisikan Kelas Pelanggan**:
+   Membuat kelas Pelanggan untuk menyimpan data penyewa beserta batas maksimal sewa (misalnya maksimal 2 kendaraan sekaligus).
+4. **Mendefinisikan Kelas TransaksiSewa**:
+   Membuat kelas untuk mencatat relasi antara Pelanggan, Kendaraan, tanggal sewa, tanggal pengembalian, dan perhitungan total biaya.
+5. **Membuat Simulasi Program (main)**:
+   Menulis skenario di mana pelanggan menyewa beberapa kendaraan, sistem memvalidasi ketersediaan dan batas sewa, serta menghitung biaya saat kendaraan dikembalikan.
+
+---
+
+## 4. Perancangan Kelas (Class Design)
+
+### A. Kelas Kendaraan (Superclass)
+* **Atribut (State)**:
+  * platNomor (String): Nomor plat kendaraan.
+  * merk (String): Merk kendaraan (Toyota, Honda, dll).
+  * model (String): Model kendaraan (Avanza, Beat, dll).
+  * hargaSewaPerHari (double): Tarif sewa per hari.
+  * tersedia (bool): Status ketersediaan (true/false).
+* **Metode (Behavior)**:
+  * tampilkanInfo(): Menampilkan informasi dasar kendaraan.
+  * sewa(): Mengubah status tersedia menjadi false.
+  * kembalikan(): Mengubah status tersedia menjadi true.
+
+### B. Kelas Mobil (Subclass dari Kendaraan)
+* **Atribut Tambahan**:
+  * kapasitasPenumpang (int): Jumlah maksimal penumpang.
+* **Metode (Override)**:
+  * tampilkanInfo(): Menampilkan info dasar ditambah kapasitas penumpang.
+
+### C. Kelas Motor (Subclass dari Kendaraan)
+* **Atribut Tambahan**:
+  * kapasitasMesinCc (int): Ukuran mesin dalam CC.
+* **Metode (Override)**:
+  * tampilkanInfo(): Menampilkan info dasar ditambah kapasitas CC mesin.
+
+### D. Kelas Pelanggan (Member)
+* **Atribut (State)**:
+  * nama (String): Nama pelanggan.
+  * nik (String): Nomor Induk Kependudukan.
+  * jumlahSewaAktif (int): Jumlah kendaraan yang sedang disewa saat ini.
+  * sewaAktif (List<Kendaraan>): Daftar objek kendaraan yang sedang disewa secara aktif oleh pelanggan ini.
+* **Metode (Behavior)**:
+  * tampilkanInfo(): Menampilkan nama pelanggan, NIK, dan jumlah unit yang sedang disewa aktif.
+
+### E. Kelas TransaksiSewa (Loan/Transaction)
+* **Atribut (State)**:
+  * idTransaksi (String): Kode transaksi unik.
+  * pelanggan (Pelanggan): Objek pelanggan yang melakukan transaksi.
+  * kendaraan (Kendaraan): Objek kendaraan yang disewa.
+  * tanggalSewa (DateTime): Tanggal dan waktu mulai penyewaan.
+  * tanggalKembali (DateTime?): Tanggal dan waktu pengembalian kendaraan (null saat aktif).
+  * totalBiaya (double?): Total biaya sewa yang dihitung setelah kendaraan dikembalikan (null saat aktif).
+  * isSukses (bool): Status penanda apakah transaksi penyewaan ini aktif dan berhasil (true/false).
+* **Metode (Behavior)**:
+  * tampilkanDetailTransaksi(): Mencetak/menampilkan struk nota detail transaksi secara lengkap.
+  * sewaKendaraan(): Memvalidasi ketersediaan kendaraan dan batas maksimal sewa pelanggan (maksimal 2). Jika lolos validasi, mengubah status ketersediaan kendaraan menjadi tidak tersedia, memperbarui hitungan sewa aktif pelanggan, menandai transaksi aktif (isSukses = true), dan mencatat kendaraan ke daftar sewa pelanggan.
+  * selesaikanTransaksi(int durasiHari): Mengubah status ketersediaan kendaraan kembali menjadi tersedia, memperbarui hitungan dan daftar sewa aktif pelanggan, menetapkan tanggal pengembalian, serta menghitung total biaya sewa berdasarkan tarif harian.</code></pre>
         </div>
       </div>
     </div>

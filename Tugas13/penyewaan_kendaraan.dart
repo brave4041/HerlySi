@@ -81,42 +81,6 @@ class Pelanggan {
     print("NIK             : $nik");
     print("Sewa Aktif Saat Ini: $jumlahSewaAktif kendaraan");
   }
-
-  bool sewaKendaraan(Kendaraan kendaraan) {
-    if (jumlahSewaAktif < 2) { // Batas maksimal sewa 2 kendaraan sekaligus
-      if (kendaraan.tersedia) {
-        kendaraan.sewa();
-        jumlahSewaAktif++;
-        sewaAktif.add(kendaraan);
-        print("Pemberitahuan: $nama berhasil menyewa kendaraan [${kendaraan.platNomor}].");
-        return true;
-      } else {
-        print("Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.");
-        return false;
-      }
-    } else {
-      print("Pemberitahuan: Transaksi gagal! $nama sudah mencapai batas maksimal sewa (2 kendaraan).");
-      return false;
-    }
-  }
-
-  bool kembalikanKendaraan(Kendaraan kendaraan) {
-    if (jumlahSewaAktif > 0) {
-      if (sewaAktif.contains(kendaraan)) {
-        kendaraan.kembalikan();
-        jumlahSewaAktif--;
-        sewaAktif.remove(kendaraan);
-        print("Pemberitahuan: $nama berhasil mengembalikan kendaraan [${kendaraan.platNomor}].");
-        return true;
-      } else {
-        print("Pemberitahuan: Transaksi gagal! Kendaraan [${kendaraan.platNomor}] tidak disewa oleh $nama.");
-        return false;
-      }
-    } else {
-      print("Pemberitahuan: Pelanggan $nama tidak memiliki riwayat sewa aktif.");
-      return false;
-    }
-  }
 }
 
 class TransaksiSewa {
@@ -126,6 +90,7 @@ class TransaksiSewa {
   DateTime tanggalSewa;
   DateTime? tanggalKembali;
   double? totalBiaya;
+  bool isSukses = false; // Menunjukkan apakah transaksi sewa ini aktif/berhasil
 
   TransaksiSewa(this.idTransaksi, this.pelanggan, this.kendaraan, this.tanggalSewa, [this.tanggalKembali]);
 
@@ -141,26 +106,60 @@ class TransaksiSewa {
       print("Tanggal Kembali: ${tanggalKembali!.toLocal().toString().split(' ')[0]}");
       print("Total Biaya    : Rp ${totalBiaya?.toStringAsFixed(0)}");
       print("Status         : SELESAI ✅");
-    } else {
+    } else if (isSukses) {
       print("Tanggal Kembali: -");
       print("Total Biaya    : Rp - (Menunggu Pengembalian)");
       print("Status         : AKTIF (Sedang Sewa) 🔄");
+    } else {
+      print("Tanggal Kembali: -");
+      print("Total Biaya    : Rp - (Gagal/Tidak Aktif)");
+      print("Status         : BATAL / GAGAL ❌");
     }
     print("==================================================");
   }
 
-  void selesaikanTransaksi(int durasiHari) {
+  // LOGIKA UTAMA PENYEWAAN DI PINDAH KE KELAS TRANSAKSISEWA
+  bool sewaKendaraan() {
+    if (pelanggan.jumlahSewaAktif >= 2) {
+      print("Pemberitahuan: Transaksi $idTransaksi Gagal! ${pelanggan.nama} sudah mencapai batas maksimal sewa (2 kendaraan).");
+      return false;
+    }
+    if (!kendaraan.tersedia) {
+      print("Pemberitahuan: Transaksi $idTransaksi Gagal! Kendaraan [${kendaraan.platNomor}] sedang disewa.");
+      return false;
+    }
+
+    // Jika lolos validasi, lakukan transaksi sewa
+    kendaraan.sewa();
+    pelanggan.jumlahSewaAktif++;
+    pelanggan.sewaAktif.add(kendaraan);
+    isSukses = true;
+    print("Pemberitahuan: Transaksi $idTransaksi Berhasil! ${pelanggan.nama} berhasil menyewa kendaraan [${kendaraan.platNomor}].");
+    return true;
+  }
+
+  bool selesaikanTransaksi(int durasiHari) {
+    if (!isSukses) {
+      print("Transaksi $idTransaksi gagal diselesaikan karena transaksi sewa tidak aktif/sukses.");
+      return false;
+    }
     if (tanggalKembali == null) {
-      bool suksesKembali = pelanggan.kembalikanKendaraan(kendaraan);
-      if (suksesKembali) {
+      if (pelanggan.sewaAktif.contains(kendaraan)) {
+        kendaraan.kembalikan();
+        pelanggan.jumlahSewaAktif--;
+        pelanggan.sewaAktif.remove(kendaraan);
+        
         tanggalKembali = tanggalSewa.add(Duration(days: durasiHari));
         totalBiaya = durasiHari * kendaraan.hargaSewaPerHari;
         print("Transaksi $idTransaksi berhasil diselesaikan untuk durasi $durasiHari hari.");
+        return true;
       } else {
-        print("Transaksi $idTransaksi gagal diselesaikan karena proses pengembalian tidak valid.");
+        print("Transaksi $idTransaksi gagal diselesaikan! Kendaraan [${kendaraan.platNomor}] tidak disewa oleh ${pelanggan.nama}.");
+        return false;
       }
     } else {
       print("Transaksi $idTransaksi ini sudah selesai sebelumnya.");
+      return false;
     }
   }
 }
@@ -192,29 +191,30 @@ void main() {
 
   // 4. Simulasi Pelanggan 1 (Herly) menyewa mobil1
   print(">>> SIMULASI TRANSAKSI 1: Herly menyewa Avanza <<<");
-  TransaksiSewa? ts1;
-  if (pelanggan1.sewaKendaraan(mobil1)) {
-    ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
+  TransaksiSewa ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
+  if (ts1.sewaKendaraan()) {
     ts1.tampilkanDetailTransaksi();
   }
   print("");
 
   // 5. Herly mencoba menyewa Avanza lagi (seharusnya gagal karena sudah disewa)
   print(">>> SIMULASI TRANSAKSI 2: Herly mencoba menyewa Avanza lagi <<<");
-  pelanggan1.sewaKendaraan(mobil1);
+  TransaksiSewa ts2 = TransaksiSewa("TRX-002", pelanggan1, mobil1, DateTime.now());
+  ts2.sewaKendaraan();
   print("");
 
   // 6. Herly menyewa Motor Beat
   print(">>> SIMULASI TRANSAKSI 3: Herly menyewa Honda Beat <<<");
-  if (pelanggan1.sewaKendaraan(motor1)) {
-    var ts2 = TransaksiSewa("TRX-002", pelanggan1, motor1, DateTime.now());
-    ts2.tampilkanDetailTransaksi();
+  TransaksiSewa ts3 = TransaksiSewa("TRX-003", pelanggan1, motor1, DateTime.now());
+  if (ts3.sewaKendaraan()) {
+    ts3.tampilkanDetailTransaksi();
   }
   print("");
 
   // 7. Herly mencoba menyewa Mobil Civic (seharusnya gagal karena batas sewa maksimal = 2)
   print(">>> SIMULASI TRANSAKSI 4: Herly menyewa Civic (Batas sewa tercapai) <<<");
-  pelanggan1.sewaKendaraan(mobil2);
+  TransaksiSewa ts4 = TransaksiSewa("TRX-004", pelanggan1, mobil2, DateTime.now());
+  ts4.sewaKendaraan();
   print("");
 
   // 8. Menampilkan detail status sewa Herly
@@ -224,7 +224,7 @@ void main() {
 
   // 9. Simulasi pengembalian mobil1 oleh Herly setelah 3 hari sewa
   print(">>> SIMULASI PENGEMBALIAN: Herly mengembalikan Avanza setelah 3 hari <<<");
-  if (ts1 != null) {
+  if (ts1.isSukses) {
     ts1.selesaikanTransaksi(3);
     print("");
     ts1.tampilkanDetailTransaksi();
@@ -233,9 +233,9 @@ void main() {
 
   // 10. Sekarang Herly bisa menyewa Civic karena satu slot sewa sudah kosong
   print(">>> SIMULASI TRANSAKSI 5: Herly sekarang menyewa Civic <<<");
-  if (pelanggan1.sewaKendaraan(mobil2)) {
-    var ts3 = TransaksiSewa("TRX-003", pelanggan1, mobil2, DateTime.now());
-    ts3.tampilkanDetailTransaksi();
+  TransaksiSewa ts5 = TransaksiSewa("TRX-005", pelanggan1, mobil2, DateTime.now());
+  if (ts5.sewaKendaraan()) {
+    ts5.tampilkanDetailTransaksi();
   }
   print("\n----------------------------------------------------------\n");
 
