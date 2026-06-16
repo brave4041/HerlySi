@@ -107,11 +107,21 @@ class TransaksiSewa {
   }
 
   selesaikanTransaksi(durasiHari) {
-    this.tanggalKembali = new Date(this.tanggalSewa.getTime() + durasiHari * 24 * 60 * 60 * 1000);
-    this.totalBiaya = durasiHari * this.kendaraan.hargaSewaPerHari;
-    this.pelanggan.kembalikanKendaraan(this.kendaraan);
-    appendLog(`Transaksi ${this.idTransaksi} berhasil diselesaikan untuk durasi ${durasiHari} hari.`, 'success');
-    return this;
+    if (this.tanggalKembali === null) {
+      const suksesKembali = this.pelanggan.kembalikanKendaraan(this.kendaraan);
+      if (suksesKembali) {
+        this.tanggalKembali = new Date(this.tanggalSewa.getTime() + durasiHari * 24 * 60 * 60 * 1000);
+        this.totalBiaya = durasiHari * this.kendaraan.hargaSewaPerHari;
+        appendLog(`Transaksi ${this.idTransaksi} berhasil diselesaikan untuk durasi ${durasiHari} hari.`, 'success');
+        return true;
+      } else {
+        appendLog(`Transaksi ${this.idTransaksi} gagal diselesaikan karena proses pengembalian tidak valid.`, 'error');
+        return false;
+      }
+    } else {
+      appendLog(`Transaksi ${this.idTransaksi} ini sudah selesai sebelumnya.`, 'error');
+      return false;
+    }
   }
 }
 
@@ -189,7 +199,7 @@ function addNewCustomer() {
   // Instansiasi Objek Pelanggan Baru (OOP)
   const newCust = new Pelanggan(name, nik, 0);
   DB_CUSTOMERS.push(newCust);
-  
+
   // Pilih pelanggan baru tersebut
   activeCustomerId = DB_CUSTOMERS.length - 1;
 
@@ -264,7 +274,8 @@ function submitReturn() {
   appendLog(`\n>>> PENGEMBALIAN KENDARAAN: ${transaksi.pelanggan.nama} mengembalikan ${kendaraan.merk} ${kendaraan.model} <<<`, 'info');
 
   // Selesaikan Transaksi
-  transaksi.selesaikanTransaksi(days);
+  const sukses = transaksi.selesaikanTransaksi(days);
+  if (!sukses) return;
 
   // Cetak detail di virtual console
   appendLog("==================================================", "success");
@@ -357,7 +368,7 @@ function switchTab(evt, tabId) {
 
 function copyCode(codeElementId) {
   const codeText = document.getElementById(codeElementId).innerText;
-  
+
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(codeText).then(() => {
       alert("Kode berhasil disalin!");
@@ -375,11 +386,11 @@ function fallbackCopyText(text) {
   textArea.style.top = "0";
   textArea.style.left = "0";
   textArea.style.position = "fixed";
-  
+
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
-  
+
   try {
     const successful = document.execCommand('copy');
     if (successful) {
@@ -390,7 +401,7 @@ function fallbackCopyText(text) {
   } catch (err) {
     alert("Gagal menyalin kode: " + err);
   }
-  
+
   document.body.removeChild(textArea);
 }
 
@@ -421,7 +432,7 @@ function openDartpadInline() {
   const iframeContainer = document.getElementById('modalIframeContainer');
 
   const iframe = document.createElement('iframe');
-  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=7a31adf504470e5c6e6e0412ad718458`;
+  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=5176802a60da6f77fcc55605ddad7166`;
   iframe.style.width = '100%';
   iframe.style.height = '100%';
   iframe.style.border = 'none';
