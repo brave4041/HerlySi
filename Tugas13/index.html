@@ -207,31 +207,88 @@ classDiagram
       <!-- Tab Alur Penyewaan -->
       <div class="diag-tab-content hidden-tab" id="diag-rent">
         <p style="margin-bottom: 20px; color: var(--text-dim);">
-          Menunjukkan alur validasi saat pelanggan melakukan penyewaan kendaraan (mengecek batas maksimal sewa dan ketersediaan unit).
+          Menunjukkan alur validasi saat pelanggan melakukan penyewaan kendaraan (mengecek batas maksimal sewa dan ketersediaan unit) beserta pseudocode algoritmanya.
         </p>
-        <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
-          <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
+        <div class="diagram-pseudo-grid">
+          <!-- Flowchart -->
+          <div class="diagram-panel">
+            <div class="panel-label">📊 FLOWCHART ALUR PENYEWAAN</div>
+            <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+              <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
 flowchart TD
-    Start([Mulai Penyewaan]) --> InitTrx[Inisialisasi TransaksiSewa]
-    InitTrx --> CheckLimit{Apakah sewaAktif Pelanggan >= 2?}
-    
-    CheckLimit -- Ya --> LogLimit[Tampilkan Pesan Error: <br> Maksimal sewa 2 kendaraan]
-    LogLimit --> Fail[Penyewaan GAGAL]
-    
-    CheckLimit -- Tidak --> CheckAvail{Apakah status tersedia Kendaraan = true?}
-    
-    CheckAvail -- Tidak --> LogAvail[Tampilkan Pesan Error: <br> Kendaraan sedang disewa]
-    LogAvail --> Fail
-    
-    CheckAvail -- Ya --> ExecRent[Eksekusi Penyewaan]
-    
-    ExecRent --> SetVehicleState[Ubah status kendaraan: <br> tersedia = false]
-    SetVehicleState --> IncCustRent[Tambah sewa aktif pelanggan: <br> jumlahSewaAktif++]
-    IncCustRent --> SetSuccess[Tandai Transaksi SUKSES: <br> isSukses = true]
-    SetSuccess --> PrintStruk[Cetak Struk Transaksi Aktif]
-    
-    PrintStruk --> EndSuccess([Penyewaan Sukses])
-    Fail --> EndFail([Penyewaan Gagal])
+    A([START]) --> B[/Input: data pelanggan, data kendaraan/]
+    B --> C["Buat objek TransaksiSewa(id, pelanggan, kendaraan, tanggalSewa)"]
+    C --> D{jumlahSewaAktif >= 2 ?}
+    D -- Ya --> E[/Output: Error - Batas maksimal sewa 2 kendaraan/]
+    E --> F["isSukses = false"]
+    F --> Z1([END - GAGAL])
+    D -- Tidak --> G{kendaraan.tersedia == true ?}
+    G -- Tidak --> H[/Output: Error - Kendaraan sedang disewa/]
+    H --> I["isSukses = false"]
+    I --> Z1
+    G -- Ya --> J["kendaraan.tersedia = false"]
+    J --> K["pelanggan.jumlahSewaAktif++"]
+    K --> L["sewaAktif.add(kendaraan)"]
+    L --> M["isSukses = true"]
+    M --> N[/Output: Cetak struk transaksi aktif/]
+    N --> Z2([END - SUKSES])
+              </div>
+            </div>
+          </div>
+          <!-- Pseudocode -->
+          <div class="pseudo-panel">
+            <div class="panel-label">📝 PSEUDOCODE PENYEWAAN</div>
+            <div class="pseudocode-box">
+              <pre><code class="pseudo-code">ALGORITMA SewaKendaraan
+
+INPUT:
+  pelanggan   : objek Pelanggan
+  kendaraan   : objek Kendaraan
+  tanggalSewa : DateTime
+
+PROSES:
+  // Inisialisasi transaksi baru
+  trx ← new TransaksiSewa(
+    generateId(), pelanggan,
+    kendaraan, tanggalSewa
+  )
+  trx.isSukses ← false
+
+  // Validasi 1: Cek batas sewa
+  IF pelanggan.jumlahSewaAktif >= 2 THEN
+    OUTPUT "Error: Batas maksimal sewa
+            2 kendaraan telah tercapai"
+    RETURN false
+  END IF
+
+  // Validasi 2: Cek ketersediaan
+  IF kendaraan.tersedia == false THEN
+    OUTPUT "Error: Kendaraan sedang
+            disewa pihak lain"
+    RETURN false
+  END IF
+
+  // Eksekusi penyewaan
+  kendaraan.tersedia ← false
+  pelanggan.jumlahSewaAktif ← 
+    pelanggan.jumlahSewaAktif + 1
+  pelanggan.sewaAktif.add(kendaraan)
+  trx.isSukses ← true
+
+  // Cetak struk
+  OUTPUT "Struk Transaksi Aktif:"
+  OUTPUT trx.idTransaksi
+  OUTPUT pelanggan.nama
+  OUTPUT kendaraan.merk + kendaraan.model
+  OUTPUT kendaraan.platNomor
+  OUTPUT tanggalSewa
+
+  RETURN true
+
+OUTPUT:
+  Status transaksi (sukses/gagal)
+  Struk transaksi jika sukses</code></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -239,35 +296,95 @@ flowchart TD
       <!-- Tab Alur Pengembalian -->
       <div class="diag-tab-content hidden-tab" id="diag-return">
         <p style="margin-bottom: 20px; color: var(--text-dim);">
-          Menunjukkan alur penyelesaian transaksi sewa, kalkulasi durasi dan total tarif, serta pembaruan status unit kendaraan.
+          Menunjukkan alur penyelesaian transaksi sewa, kalkulasi durasi dan total tarif, serta pembaruan status unit kendaraan beserta pseudocode algoritmanya.
         </p>
-        <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
-          <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
+        <div class="diagram-pseudo-grid">
+          <!-- Flowchart -->
+          <div class="diagram-panel">
+            <div class="panel-label">📊 FLOWCHART ALUR PENGEMBALIAN</div>
+            <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+              <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
 flowchart TD
-    Start([Mulai Pengembalian]) --> CheckActive{Apakah transaksi isSukses = true?}
-    
-    CheckActive -- Tidak --> LogErrActive[Tampilkan Pesan Error: <br> Transaksi sewa tidak aktif]
-    LogErrActive --> Fail([Pengembalian Gagal])
-    
-    CheckActive -- Ya --> CheckReturned{Apakah tanggalKembali != null?}
-    
-    CheckReturned -- Ya --> LogErrReturned[Tampilkan Pesan Error: <br> Transaksi sudah selesai]
-    LogErrReturned --> Fail
-    
-    CheckReturned -- Tidak --> CheckCustVehicle{Apakah kendaraan ada di sewaAktif Pelanggan?}
-    
-    CheckCustVehicle -- Tidak --> LogErrCust[Tampilkan Pesan Error: <br> Kendaraan tidak disewa pelanggan ini]
-    LogErrCust --> Fail
-    
-    CheckCustVehicle -- Ya --> ExecReturn[Eksekusi Pengembalian]
-    
-    ExecReturn --> SetVehicleAvail[Ubah status kendaraan: <br> tersedia = true]
-    SetVehicleAvail --> DecCustRent[Kurangi sewa aktif pelanggan: <br> jumlahSewaAktif--]
-    DecCustRent --> CalcBill[Hitung Biaya Sewa: <br> totalBiaya = durasiHari * hargaSewaPerHari]
-    CalcBill --> SetReturnDate[Catat Tanggal Pengembalian]
-    SetReturnDate --> PrintInvoice[Cetak Invoice Transaksi Selesai]
-    
-    PrintInvoice --> EndSuccess([Pengembalian Sukses])
+    A([START]) --> B[/Input: objek transaksi, durasiHari/]
+    B --> C{trx.isSukses == true ?}
+    C -- Tidak --> D[/Output: Error - Transaksi tidak aktif/]
+    D --> Z1([END - GAGAL])
+    C -- Ya --> E{trx.tanggalKembali != null ?}
+    E -- Ya --> F[/Output: Error - Transaksi sudah selesai/]
+    F --> Z1
+    E -- Tidak --> G{kendaraan ada di sewaAktif pelanggan ?}
+    G -- Tidak --> H[/Output: Error - Kendaraan bukan milik pelanggan/]
+    H --> Z1
+    G -- Ya --> I["kendaraan.tersedia = true"]
+    I --> J["pelanggan.jumlahSewaAktif--"]
+    J --> K["sewaAktif.remove(kendaraan)"]
+    K --> L["tanggalKembali = tanggalSewa + durasiHari"]
+    L --> M["totalBiaya = durasiHari * hargaSewaPerHari"]
+    M --> N[/Output: Cetak invoice transaksi selesai/]
+    N --> Z2([END - SUKSES])
+              </div>
+            </div>
+          </div>
+          <!-- Pseudocode -->
+          <div class="pseudo-panel">
+            <div class="panel-label">📝 PSEUDOCODE PENGEMBALIAN</div>
+            <div class="pseudocode-box">
+              <pre><code class="pseudo-code">ALGORITMA SelesaikanTransaksi
+
+INPUT:
+  trx       : objek TransaksiSewa
+  durasiHari : integer (jumlah hari sewa)
+
+PROSES:
+  // Validasi 1: Cek status transaksi
+  IF trx.isSukses == false THEN
+    OUTPUT "Error: Transaksi sewa
+            tidak aktif/sukses"
+    RETURN false
+  END IF
+
+  // Validasi 2: Cek apakah sudah kembali
+  IF trx.tanggalKembali != null THEN
+    OUTPUT "Error: Transaksi ini
+            sudah diselesaikan"
+    RETURN false
+  END IF
+
+  // Validasi 3: Cek kepemilikan sewa
+  IF kendaraan NOT IN 
+     pelanggan.sewaAktif THEN
+    OUTPUT "Error: Kendaraan tidak
+            disewa oleh pelanggan ini"
+    RETURN false
+  END IF
+
+  // Eksekusi pengembalian
+  kendaraan.tersedia ← true
+  pelanggan.jumlahSewaAktif ← 
+    pelanggan.jumlahSewaAktif - 1
+  pelanggan.sewaAktif.remove(kendaraan)
+
+  // Hitung biaya & catat tanggal
+  trx.tanggalKembali ← 
+    trx.tanggalSewa + durasiHari
+  trx.totalBiaya ← 
+    durasiHari * kendaraan.hargaSewaPerHari
+
+  // Cetak invoice
+  OUTPUT "Invoice Transaksi Selesai:"
+  OUTPUT trx.idTransaksi
+  OUTPUT pelanggan.nama
+  OUTPUT kendaraan.merk + kendaraan.model
+  OUTPUT trx.tanggalSewa
+  OUTPUT trx.tanggalKembali
+  OUTPUT trx.totalBiaya
+
+  RETURN true
+
+OUTPUT:
+  Status pengembalian (sukses/gagal)
+  Invoice transaksi jika sukses</code></pre>
+            </div>
           </div>
         </div>
       </div>
