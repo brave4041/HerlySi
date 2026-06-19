@@ -584,7 +584,7 @@ function openDartpadInline() {
   const iframeContainer = document.getElementById('modalIframeContainer');
 
   const iframe = document.createElement('iframe');
-  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=3644c4cda0cc52276fa07e95ef71ab31`;
+  iframe.src = `https://dartpad.dev/embed-inline.html?theme=dark&run=true&id=8ee96434d62e2ec0c4f2cad890ce7104`;
   iframe.style.width = '100%';
   iframe.style.height = '100%';
   iframe.style.border = 'none';
