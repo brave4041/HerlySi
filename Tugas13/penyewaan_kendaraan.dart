@@ -1,6 +1,6 @@
 // Nama Anggota Kelompok:
-// 1. Herly Afrizal
-// 2. Marta Saputra
+// 1. Herly Afrizal (NIM: 251410002)
+// 2. Marta Saputra (NIM: 251410020)
 // Topik: Sistem Penyewaan Kendaraan (Penerapan Bab 10 OOP)
 
 class Kendaraan {
@@ -118,7 +118,6 @@ class TransaksiSewa {
     print("==================================================");
   }
 
-  // LOGIKA UTAMA PENYEWAAN DI PINDAH KE KELAS TRANSAKSISEWA
   bool sewaKendaraan() {
     if (pelanggan.jumlahSewaAktif >= 2) {
       print("Pemberitahuan: Transaksi $idTransaksi Gagal! ${pelanggan.nama} sudah mencapai batas maksimal sewa (2 kendaraan).");
@@ -167,77 +166,137 @@ class TransaksiSewa {
 void main() {
   print("==========================================================");
   print("   SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)    ");
+  print("      EKSPANSI SIMULASI: SKENARIO 15 TRANSAKSI OOP        ");
   print("==========================================================\n");
 
-  // 1. Membuat objek kendaraan (Mobil dan Motor)
+  // 1. Membuat objek-objek Kendaraan (5 Mobil, 5 Motor)
   Mobil mobil1 = Mobil("B 1234 ABC", "Toyota", "Avanza", 350000, true, 7);
-  Motor motor1 = Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110);
   Mobil mobil2 = Mobil("D 9999 VVV", "Honda", "Civic Turbo", 800000, true, 5);
+  Mobil mobil3 = Mobil("B 5678 EEE", "Daihatsu", "Xenia", 300000, true, 7);
+  Mobil mobil4 = Mobil("F 1111 SSS", "Mitsubishi", "Pajero", 1200000, true, 7);
+  Mobil mobil5 = Mobil("B 2222 GGG", "Suzuki", "Ertiga", 320000, true, 7);
 
-  // 2. Membuat objek pelanggan
-  Pelanggan pelanggan1 = Pelanggan("Herly Afrizal", "3201010101010001", 0);
-  Pelanggan pelanggan2 = Pelanggan("Marta Saputra", "3201010202020002", 0);
+  Motor motor1 = Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110);
+  Motor motor2 = Motor("B 3456 JJJ", "Yamaha", "NMAX", 150000, true, 155);
+  Motor motor3 = Motor("D 7890 KKK", "Honda", "Vario", 100000, true, 125);
+  Motor motor4 = Motor("F 4321 PPP", "Honda", "PCX", 180000, true, 160);
+  Motor motor5 = Motor("B 8765 LLL", "Yamaha", "Mio", 75000, true, 125);
 
-  // 3. Menampilkan info awal
-  print(">>> INFO AWAL KENDARAAN DAN PELANGGAN <<<");
-  mobil1.tampilkanInfo();
-  print("");
-  motor1.tampilkanInfo();
-  print("");
-  pelanggan1.tampilkanInfo();
-  print("");
-  pelanggan2.tampilkanInfo();
-  print("\n----------------------------------------------------------\n");
+  // 2. Membuat objek-objek Pelanggan (12 Pelanggan)
+  Pelanggan p1 = Pelanggan("Herly Afrizal", "3201010101010001", 0);
+  Pelanggan p2 = Pelanggan("Marta Saputra", "3201010202020002", 0);
+  Pelanggan p3 = Pelanggan("Budi Santoso", "3201010303030003", 0);
+  Pelanggan p4 = Pelanggan("Siti Aminah", "3201010404040004", 0);
+  Pelanggan p5 = Pelanggan("Ahmad Fauzi", "3201010505050005", 0);
+  Pelanggan p6 = Pelanggan("Rizky Pratama", "3201010606060006", 0);
+  Pelanggan p7 = Pelanggan("Dewi Lestari", "3201010707070007", 0);
+  Pelanggan p8 = Pelanggan("Aditya Wijaya", "3201010808080008", 0);
+  Pelanggan p9 = Pelanggan("Eko Prasetyo", "3201010909090009", 0);
+  Pelanggan p10 = Pelanggan("Fitriani", "3201011010100010", 0);
+  Pelanggan p11 = Pelanggan("Hendra Kusuma", "3201011111110011", 0);
+  Pelanggan p12 = Pelanggan("Gracia Putri", "3201011212120012", 0);
 
-  // 4. Simulasi Pelanggan 1 (Herly) menyewa mobil1
-  print(">>> SIMULASI TRANSAKSI 1: Herly menyewa Avanza <<<");
-  TransaksiSewa ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
-  if (ts1.sewaKendaraan()) {
-    ts1.tampilkanDetailTransaksi();
-  }
+  // 3. Eksekusi 15 Transaksi Simulasi
+  print(">>> MEMULAI SIMULASI PENYEWAAN <<<\n");
+
+  // Transaksi 1: Herly menyewa Avanza
+  print(">>> TRANSAKSI 1: Herly menyewa Avanza <<<");
+  TransaksiSewa ts1 = TransaksiSewa("TRX-001", p1, mobil1, DateTime.now());
+  ts1.sewaKendaraan();
   print("");
 
-  // 5. Herly mencoba menyewa Avanza lagi (seharusnya gagal karena sudah disewa)
-  print(">>> SIMULASI TRANSAKSI 2: Herly mencoba menyewa Avanza lagi <<<");
-  TransaksiSewa ts2 = TransaksiSewa("TRX-002", pelanggan1, mobil1, DateTime.now());
+  // Transaksi 2: Marta menyewa Civic Turbo
+  print(">>> TRANSAKSI 2: Marta menyewa Civic Turbo <<<");
+  TransaksiSewa ts2 = TransaksiSewa("TRX-002", p2, mobil2, DateTime.now());
   ts2.sewaKendaraan();
   print("");
 
-  // 6. Herly menyewa Motor Beat
-  print(">>> SIMULASI TRANSAKSI 3: Herly menyewa Honda Beat <<<");
-  TransaksiSewa ts3 = TransaksiSewa("TRX-003", pelanggan1, motor1, DateTime.now());
-  if (ts3.sewaKendaraan()) {
-    ts3.tampilkanDetailTransaksi();
-  }
+  // Transaksi 3: Budi menyewa NMAX
+  print(">>> TRANSAKSI 3: Budi menyewa NMAX <<<");
+  TransaksiSewa ts3 = TransaksiSewa("TRX-003", p3, motor2, DateTime.now());
+  ts3.sewaKendaraan();
   print("");
 
-  // 7. Herly mencoba menyewa Mobil Civic (seharusnya gagal karena batas sewa maksimal = 2)
-  print(">>> SIMULASI TRANSAKSI 4: Herly menyewa Civic (Batas sewa tercapai) <<<");
-  TransaksiSewa ts4 = TransaksiSewa("TRX-004", pelanggan1, mobil2, DateTime.now());
+  // Transaksi 4: Siti menyewa Xenia
+  print(">>> TRANSAKSI 4: Siti menyewa Xenia <<<");
+  TransaksiSewa ts4 = TransaksiSewa("TRX-004", p4, mobil3, DateTime.now());
   ts4.sewaKendaraan();
   print("");
 
-  // 8. Menampilkan detail status sewa Herly
-  print(">>> STATUS SEWA AKTIF HERLY <<<");
-  pelanggan1.tampilkanInfo();
-  print("\n----------------------------------------------------------\n");
+  // Transaksi 5: Ahmad menyewa Beat
+  print(">>> TRANSAKSI 5: Ahmad menyewa Beat <<<");
+  TransaksiSewa ts5 = TransaksiSewa("TRX-005", p5, motor1, DateTime.now());
+  ts5.sewaKendaraan();
+  print("");
 
-  // 9. Simulasi pengembalian mobil1 oleh Herly setelah 3 hari sewa
-  print(">>> SIMULASI PENGEMBALIAN: Herly mengembalikan Avanza setelah 3 hari <<<");
+  // Transaksi 6: Rizky menyewa Vario
+  print(">>> TRANSAKSI 6: Rizky menyewa Vario <<<");
+  TransaksiSewa ts6 = TransaksiSewa("TRX-006", p6, motor3, DateTime.now());
+  ts6.sewaKendaraan();
+  print("");
+
+  // Transaksi 7: Dewi menyewa Ertiga
+  print(">>> TRANSAKSI 7: Dewi menyewa Ertiga <<<");
+  TransaksiSewa ts7 = TransaksiSewa("TRX-007", p7, mobil5, DateTime.now());
+  ts7.sewaKendaraan();
+  print("");
+
+  // Transaksi 8: Aditya menyewa PCX
+  print(">>> TRANSAKSI 8: Aditya menyewa PCX <<<");
+  TransaksiSewa ts8 = TransaksiSewa("TRX-008", p8, motor4, DateTime.now());
+  ts8.sewaKendaraan();
+  print("");
+
+  // Transaksi 9: Eko menyewa Pajero
+  print(">>> TRANSAKSI 9: Eko menyewa Pajero <<<");
+  TransaksiSewa ts9 = TransaksiSewa("TRX-009", p9, mobil4, DateTime.now());
+  ts9.sewaKendaraan();
+  print("");
+
+  // Transaksi 10: Fitriani menyewa Mio
+  print(">>> TRANSAKSI 10: Fitriani menyewa Mio <<<");
+  TransaksiSewa ts10 = TransaksiSewa("TRX-010", p10, motor5, DateTime.now());
+  ts10.sewaKendaraan();
+  print("");
+
+  // Transaksi 11: Hendra mencoba menyewa Avanza (Gagal karena sedang disewa Herly)
+  print(">>> TRANSAKSI 11: Hendra mencoba menyewa Avanza (Seharusnya Gagal) <<<");
+  TransaksiSewa ts11 = TransaksiSewa("TRX-011", p11, mobil1, DateTime.now());
+  ts11.sewaKendaraan();
+  print("");
+
+  // Transaksi 12: Gracia mencoba menyewa NMAX (Gagal karena sedang disewa Budi)
+  print(">>> TRANSAKSI 12: Gracia mencoba menyewa NMAX (Seharusnya Gagal) <<<");
+  TransaksiSewa ts12 = TransaksiSewa("TRX-012", p12, motor2, DateTime.now());
+  ts12.sewaKendaraan();
+  print("");
+
+  // Transaksi 13: Herly mengembalikan Avanza setelah 4 hari sewa
+  print(">>> TRANSAKSI 13: Herly mengembalikan Avanza setelah 4 hari <<<");
   if (ts1.isSukses) {
-    ts1.selesaikanTransaksi(3);
-    print("");
+    ts1.selesaikanTransaksi(4);
     ts1.tampilkanDetailTransaksi();
   }
   print("");
 
-  // 10. Sekarang Herly bisa menyewa Civic karena satu slot sewa sudah kosong
-  print(">>> SIMULASI TRANSAKSI 5: Herly sekarang menyewa Civic <<<");
-  TransaksiSewa ts5 = TransaksiSewa("TRX-005", pelanggan1, mobil2, DateTime.now());
-  if (ts5.sewaKendaraan()) {
-    ts5.tampilkanDetailTransaksi();
-  }
+  // Transaksi 14: Hendra sekarang bisa menyewa Avanza yang sudah dikembalikan
+  print(">>> TRANSAKSI 14: Hendra kini menyewa Avanza (Seharusnya Sukses) <<<");
+  TransaksiSewa ts13 = TransaksiSewa("TRX-013", p11, mobil1, DateTime.now());
+  ts13.sewaKendaraan();
+  print("");
+
+  // Transaksi 15: Marta menyewa Vario (Gagal karena Vario sedang disewa Rizky)
+  print(">>> TRANSAKSI 15: Marta menyewa Vario (Seharusnya Gagal) <<<");
+  TransaksiSewa ts14 = TransaksiSewa("TRX-014", p2, motor3, DateTime.now());
+  ts14.sewaKendaraan();
   print("\n----------------------------------------------------------\n");
 
-  print(">>> SIMULASI SELESAI <<<");
+  print(">>> PROFIL STATUS AKHIR PELANGGAN UTAMA <<<");
+  p1.tampilkanInfo();
+  print("");
+  p2.tampilkanInfo();
+  print("");
+  p11.tampilkanInfo();
+  print("\n----------------------------------------------------------\n");
+  print(">>> SIMULASI DART SELESAI <<<");
 }

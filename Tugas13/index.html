@@ -58,85 +58,9 @@
         </div>
 
         <!-- Daftar Kendaraan -->
-        <h4 class="form-label" style="margin-bottom: 15px;">Unit Kendaraan Tersedia:</h4>
-        <div class="vehicle-list">
-          <!-- Avanza -->
-          <div class="vehicle-card" id="card-avanza">
-            <div class="vehicle-header">
-              <span class="vehicle-type">MOBIL (7 Seat)</span>
-              <span class="vehicle-plat">B 1234 ABC</span>
-            </div>
-            <div>
-              <div class="vehicle-title">Toyota Avanza</div>
-              <div class="vehicle-desc">Mobil MPV keluarga yang irit, nyaman, dan luas.</div>
-              <div class="vehicle-specs">
-                <div class="spec-item">
-                  <span>Kapasitas</span>
-                  <span>7 Penumpang</span>
-                </div>
-                <div class="spec-item">
-                  <span>Penyewa Aktif</span>
-                  <span id="tenant-avanza">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-footer">
-              <div class="price-tag"><b id="price-avanza">Rp 350.000</b>/hari</div>
-              <button class="btn-action" id="btn-avanza" onclick="toggleRent('avanza')">Sewa</button>
-            </div>
-          </div>
-
-          <!-- Civic -->
-          <div class="vehicle-card" id="card-civic">
-            <div class="vehicle-header">
-              <span class="vehicle-type">MOBIL (Sport)</span>
-              <span class="vehicle-plat">D 9999 VVV</span>
-            </div>
-            <div>
-              <div class="vehicle-title">Civic Turbo</div>
-              <div class="vehicle-desc">Sedan sport premium dengan performa mesin turbo kencang.</div>
-              <div class="vehicle-specs">
-                <div class="spec-item">
-                  <span>Kapasitas</span>
-                  <span>5 Penumpang</span>
-                </div>
-                <div class="spec-item">
-                  <span>Penyewa Aktif</span>
-                  <span id="tenant-civic">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-footer">
-              <div class="price-tag"><b id="price-civic">Rp 800.000</b>/hari</div>
-              <button class="btn-action" id="btn-civic" onclick="toggleRent('civic')">Sewa</button>
-            </div>
-          </div>
-
-          <!-- Beat -->
-          <div class="vehicle-card" id="card-beat">
-            <div class="vehicle-header">
-              <span class="vehicle-type">MOTOR (Matic)</span>
-              <span class="vehicle-plat">F 5678 XYZ</span>
-            </div>
-            <div>
-              <div class="vehicle-title">Honda Beat</div>
-              <div class="vehicle-desc">Motor matic lincah untuk jalanan perkotaan yang padat.</div>
-              <div class="vehicle-specs">
-                <div class="spec-item">
-                  <span>Mesin / CC</span>
-                  <span>110 CC</span>
-                </div>
-                <div class="spec-item">
-                  <span>Penyewa Aktif</span>
-                  <span id="tenant-beat">-</span>
-                </div>
-              </div>
-            </div>
-            <div class="vehicle-footer">
-              <div class="price-tag"><b id="price-beat">Rp 80.000</b>/hari</div>
-              <button class="btn-action" id="btn-beat" onclick="toggleRent('beat')">Sewa</button>
-            </div>
-          </div>
+        <h4 class="form-label" style="margin-bottom: 15px;">Armada Kendaraan Tersedia:</h4>
+        <div class="vehicle-list" id="vehicle-list-container">
+          <!-- Rendered dynamically by app.js -->
         </div>
       </div>
 
@@ -206,6 +130,149 @@
       </div>
     </div>
 
+    <!-- UML Class Diagram & Logic Flowchart Section -->
+    <div class="session-title" style="margin-top: 60px;">LOGIKA & DIAGRAM <span>SISTEM</span></div>
+    <div class="cyber-card" style="margin-bottom: 50px;">
+      <div class="card-title">
+        <span>SYSTEM_DIAGRAMS</span> VISUALISASI LOGIKA OOP & ALUR KERJA
+      </div>
+      
+      <div class="tabs-container" style="margin-bottom: 25px;">
+        <button class="diag-tab-btn active" onclick="switchDiagramTab(event, 'diag-class')">DIAGRAM KELAS (UML)</button>
+        <button class="diag-tab-btn" onclick="switchDiagramTab(event, 'diag-rent')">ALUR PENYEWAAN (RENT)</button>
+        <button class="diag-tab-btn" onclick="switchDiagramTab(event, 'diag-return')">ALUR PENGEMBALIAN (RETURN)</button>
+      </div>
+
+      <!-- Tab Diagram Kelas -->
+      <div class="diag-tab-content active" id="diag-class">
+        <p style="margin-bottom: 20px; color: var(--text-dim);">
+          Menunjukkan arsitektur kelas OOP (Inheritance, Association, dan Dependency) beserta atribut dan metode masing-masing kelas.
+        </p>
+        <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+          <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
+classDiagram
+    direction TB
+    
+    class Kendaraan {
+        +String platNomor
+        +String merk
+        +String model
+        +double hargaSewaPerHari
+        +bool tersedia
+        +sewa() void
+        +kembalikan() void
+        +tampilkanInfo() void
+    }
+
+    class Mobil {
+        +int kapasitasPenumpang
+        +tampilkanInfo() void
+    }
+
+    class Motor {
+        +int kapasitasMesinCc
+        +tampilkanInfo() void
+    }
+
+    class Pelanggan {
+        +String nama
+        +String nik
+        +int jumlahSewaAktif
+        +List~Kendaraan~ sewaAktif
+        +tampilkanInfo() void
+    }
+
+    class TransaksiSewa {
+        +String idTransaksi
+        +Pelanggan pelanggan
+        +Kendaraan kendaraan
+        +DateTime tanggalSewa
+        +DateTime tanggalKembali
+        +double totalBiaya
+        +bool isSukses
+        +sewaKendaraan() bool
+        +selesaikanTransaksi(int durasiHari) bool
+        +tampilkanDetailTransaksi() void
+    }
+
+    Kendaraan <|-- Mobil : Inherits
+    Kendaraan <|-- Motor : Inherits
+    Pelanggan "1" --> "0..2" Kendaraan : sewaAktif
+    TransaksiSewa "1" --> "1" Pelanggan : pelanggan
+    TransaksiSewa "1" --> "1" Kendaraan : kendaraan
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Alur Penyewaan -->
+      <div class="diag-tab-content hidden-tab" id="diag-rent">
+        <p style="margin-bottom: 20px; color: var(--text-dim);">
+          Menunjukkan alur validasi saat pelanggan melakukan penyewaan kendaraan (mengecek batas maksimal sewa dan ketersediaan unit).
+        </p>
+        <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+          <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
+flowchart TD
+    Start([Mulai Penyewaan]) --> InitTrx[Inisialisasi TransaksiSewa]
+    InitTrx --> CheckLimit{Apakah sewaAktif Pelanggan >= 2?}
+    
+    CheckLimit -- Ya --> LogLimit[Tampilkan Pesan Error: <br> Maksimal sewa 2 kendaraan]
+    LogLimit --> Fail[Penyewaan GAGAL]
+    
+    CheckLimit -- Tidak --> CheckAvail{Apakah status tersedia Kendaraan = true?}
+    
+    CheckAvail -- Tidak --> LogAvail[Tampilkan Pesan Error: <br> Kendaraan sedang disewa]
+    LogAvail --> Fail
+    
+    CheckAvail -- Ya --> ExecRent[Eksekusi Penyewaan]
+    
+    ExecRent --> SetVehicleState[Ubah status kendaraan: <br> tersedia = false]
+    SetVehicleState --> IncCustRent[Tambah sewa aktif pelanggan: <br> jumlahSewaAktif++]
+    IncCustRent --> SetSuccess[Tandai Transaksi SUKSES: <br> isSukses = true]
+    SetSuccess --> PrintStruk[Cetak Struk Transaksi Aktif]
+    
+    PrintStruk --> EndSuccess([Penyewaan Sukses])
+    Fail --> EndFail([Penyewaan Gagal])
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab Alur Pengembalian -->
+      <div class="diag-tab-content hidden-tab" id="diag-return">
+        <p style="margin-bottom: 20px; color: var(--text-dim);">
+          Menunjukkan alur penyelesaian transaksi sewa, kalkulasi durasi dan total tarif, serta pembaruan status unit kendaraan.
+        </p>
+        <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
+          <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
+flowchart TD
+    Start([Mulai Pengembalian]) --> CheckActive{Apakah transaksi isSukses = true?}
+    
+    CheckActive -- Tidak --> LogErrActive[Tampilkan Pesan Error: <br> Transaksi sewa tidak aktif]
+    LogErrActive --> Fail([Pengembalian Gagal])
+    
+    CheckActive -- Ya --> CheckReturned{Apakah tanggalKembali != null?}
+    
+    CheckReturned -- Ya --> LogErrReturned[Tampilkan Pesan Error: <br> Transaksi sudah selesai]
+    LogErrReturned --> Fail
+    
+    CheckReturned -- Tidak --> CheckCustVehicle{Apakah kendaraan ada di sewaAktif Pelanggan?}
+    
+    CheckCustVehicle -- Tidak --> LogErrCust[Tampilkan Pesan Error: <br> Kendaraan tidak disewa pelanggan ini]
+    LogErrCust --> Fail
+    
+    CheckCustVehicle -- Ya --> ExecReturn[Eksekusi Pengembalian]
+    
+    ExecReturn --> SetVehicleAvail[Ubah status kendaraan: <br> tersedia = true]
+    SetVehicleAvail --> DecCustRent[Kurangi sewa aktif pelanggan: <br> jumlahSewaAktif--]
+    DecCustRent --> CalcBill[Hitung Biaya Sewa: <br> totalBiaya = durasiHari * hargaSewaPerHari]
+    CalcBill --> SetReturnDate[Catat Tanggal Pengembalian]
+    SetReturnDate --> PrintInvoice[Cetak Invoice Transaksi Selesai]
+    
+    PrintInvoice --> EndSuccess([Pengembalian Sukses])
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Code Viewer Section -->
     <div class="cyber-card code-viewer-card" style="margin-top: 60px;">
       <div class="card-title">
@@ -218,14 +285,9 @@
 
       <!-- Tab Dart -->
       <div class="tab-content active" id="tab-dart">
-        <div class="code-wrapper">
-          <div class="code-actions">
-            <button class="btn-copy" onclick="copyCode('code-dart')">COPY CODE</button>
-            <button class="btn-copy" onclick="openDartpadInline()">OPEN DARTPAD</button>
-          </div>
           <pre><code id="code-dart">// Nama Anggota Kelompok:
-// 1. Herly Afrizal
-// 2. Marta Saputra
+// 1. Herly Afrizal (NIM: 251410002)
+// 2. Marta Saputra (NIM: 251410020)
 // Topik: Sistem Penyewaan Kendaraan (Penerapan Bab 10 OOP)
 
 class Kendaraan {
@@ -343,7 +405,6 @@ class TransaksiSewa {
     print("==================================================");
   }
 
-  // LOGIKA UTAMA PENYEWAAN DI PINDAH KE KELAS TRANSAKSISEWA
   bool sewaKendaraan() {
     if (pelanggan.jumlahSewaAktif >= 2) {
       print("Pemberitahuan: Transaksi $idTransaksi Gagal! ${pelanggan.nama} sudah mencapai batas maksimal sewa (2 kendaraan).");
@@ -392,79 +453,139 @@ class TransaksiSewa {
 void main() {
   print("==========================================================");
   print("   SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)    ");
+  print("      EKSPANSI SIMULASI: SKENARIO 15 TRANSAKSI OOP        ");
   print("==========================================================\n");
 
-  // 1. Membuat objek kendaraan (Mobil dan Motor)
+  // 1. Membuat objek-objek Kendaraan (5 Mobil, 5 Motor)
   Mobil mobil1 = Mobil("B 1234 ABC", "Toyota", "Avanza", 350000, true, 7);
-  Motor motor1 = Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110);
   Mobil mobil2 = Mobil("D 9999 VVV", "Honda", "Civic Turbo", 800000, true, 5);
+  Mobil mobil3 = Mobil("B 5678 EEE", "Daihatsu", "Xenia", 300000, true, 7);
+  Mobil mobil4 = Mobil("F 1111 SSS", "Mitsubishi", "Pajero", 1200000, true, 7);
+  Mobil mobil5 = Mobil("B 2222 GGG", "Suzuki", "Ertiga", 320000, true, 7);
 
-  // 2. Membuat objek pelanggan
-  Pelanggan pelanggan1 = Pelanggan("Herly Afrizal", "3201010101010001", 0);
-  Pelanggan pelanggan2 = Pelanggan("Marta Saputra", "3201010202020002", 0);
+  Motor motor1 = Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110);
+  Motor motor2 = Motor("B 3456 JJJ", "Yamaha", "NMAX", 150000, true, 155);
+  Motor motor3 = Motor("D 7890 KKK", "Honda", "Vario", 100000, true, 125);
+  Motor motor4 = Motor("F 4321 PPP", "Honda", "PCX", 180000, true, 160);
+  Motor motor5 = Motor("B 8765 LLL", "Yamaha", "Mio", 75000, true, 125);
 
-  // 3. Menampilkan info awal
-  print(">>> INFO AWAL KENDARAAN DAN PELANGGAN <<<");
-  mobil1.tampilkanInfo();
-  print("");
-  motor1.tampilkanInfo();
-  print("");
-  pelanggan1.tampilkanInfo();
-  print("");
-  pelanggan2.tampilkanInfo();
-  print("\n----------------------------------------------------------\n");
+  // 2. Membuat objek-objek Pelanggan (12 Pelanggan)
+  Pelanggan p1 = Pelanggan("Herly Afrizal", "3201010101010001", 0);
+  Pelanggan p2 = Pelanggan("Marta Saputra", "3201010202020002", 0);
+  Pelanggan p3 = Pelanggan("Budi Santoso", "3201010303030003", 0);
+  Pelanggan p4 = Pelanggan("Siti Aminah", "3201010404040004", 0);
+  Pelanggan p5 = Pelanggan("Ahmad Fauzi", "3201010505050005", 0);
+  Pelanggan p6 = Pelanggan("Rizky Pratama", "3201010606060006", 0);
+  Pelanggan p7 = Pelanggan("Dewi Lestari", "3201010707070007", 0);
+  Pelanggan p8 = Pelanggan("Aditya Wijaya", "3201010808080008", 0);
+  Pelanggan p9 = Pelanggan("Eko Prasetyo", "3201010909090009", 0);
+  Pelanggan p10 = Pelanggan("Fitriani", "3201011010100010", 0);
+  Pelanggan p11 = Pelanggan("Hendra Kusuma", "3201011111110011", 0);
+  Pelanggan p12 = Pelanggan("Gracia Putri", "3201011212120012", 0);
 
-  // 4. Simulasi Pelanggan 1 (Herly) menyewa mobil1
-  print(">>> SIMULASI TRANSAKSI 1: Herly menyewa Avanza <<<");
-  TransaksiSewa ts1 = TransaksiSewa("TRX-001", pelanggan1, mobil1, DateTime.now());
-  if (ts1.sewaKendaraan()) {
-    ts1.tampilkanDetailTransaksi();
-  }
+  // 3. Eksekusi 15 Transaksi Simulasi
+  print(">>> MEMULAI SIMULASI PENYEWAAN <<<\n");
+
+  // Transaksi 1: Herly menyewa Avanza
+  print(">>> TRANSAKSI 1: Herly menyewa Avanza <<<");
+  TransaksiSewa ts1 = TransaksiSewa("TRX-001", p1, mobil1, DateTime.now());
+  ts1.sewaKendaraan();
   print("");
 
-  // 5. Herly mencoba menyewa Avanza lagi (seharusnya gagal karena sudah disewa)
-  print(">>> SIMULASI TRANSAKSI 2: Herly mencoba menyewa Avanza lagi <<<");
-  TransaksiSewa ts2 = TransaksiSewa("TRX-002", pelanggan1, mobil1, DateTime.now());
+  // Transaksi 2: Marta menyewa Civic Turbo
+  print(">>> TRANSAKSI 2: Marta menyewa Civic Turbo <<<");
+  TransaksiSewa ts2 = TransaksiSewa("TRX-002", p2, mobil2, DateTime.now());
   ts2.sewaKendaraan();
   print("");
 
-  // 6. Herly menyewa Motor Beat
-  print(">>> SIMULASI TRANSAKSI 3: Herly menyewa Honda Beat <<<");
-  TransaksiSewa ts3 = TransaksiSewa("TRX-003", pelanggan1, motor1, DateTime.now());
-  if (ts3.sewaKendaraan()) {
-    ts3.tampilkanDetailTransaksi();
-  }
+  // Transaksi 3: Budi menyewa NMAX
+  print(">>> TRANSAKSI 3: Budi menyewa NMAX <<<");
+  TransaksiSewa ts3 = TransaksiSewa("TRX-003", p3, motor2, DateTime.now());
+  ts3.sewaKendaraan();
   print("");
 
-  // 7. Herly mencoba menyewa Mobil Civic (seharusnya gagal karena batas sewa maksimal = 2)
-  print(">>> SIMULASI TRANSAKSI 4: Herly menyewa Civic (Batas sewa tercapai) <<<");
-  TransaksiSewa ts4 = TransaksiSewa("TRX-004", pelanggan1, mobil2, DateTime.now());
+  // Transaksi 4: Siti menyewa Xenia
+  print(">>> TRANSAKSI 4: Siti menyewa Xenia <<<");
+  TransaksiSewa ts4 = TransaksiSewa("TRX-004", p4, mobil3, DateTime.now());
   ts4.sewaKendaraan();
   print("");
 
-  // 8. Menampilkan detail status sewa Herly
-  print(">>> STATUS SEWA AKTIF HERLY <<<");
-  pelanggan1.tampilkanInfo();
-  print("\n----------------------------------------------------------\n");
+  // Transaksi 5: Ahmad menyewa Beat
+  print(">>> TRANSAKSI 5: Ahmad menyewa Beat <<<");
+  TransaksiSewa ts5 = TransaksiSewa("TRX-005", p5, motor1, DateTime.now());
+  ts5.sewaKendaraan();
+  print("");
 
-  // 9. Simulasi pengembalian mobil1 oleh Herly setelah 3 hari sewa
-  print(">>> SIMULASI PENGEMBALIAN: Herly mengembalikan Avanza setelah 3 hari <<<");
+  // Transaksi 6: Rizky menyewa Vario
+  print(">>> TRANSAKSI 6: Rizky menyewa Vario <<<");
+  TransaksiSewa ts6 = TransaksiSewa("TRX-006", p6, motor3, DateTime.now());
+  ts6.sewaKendaraan();
+  print("");
+
+  // Transaksi 7: Dewi menyewa Ertiga
+  print(">>> TRANSAKSI 7: Dewi menyewa Ertiga <<<");
+  TransaksiSewa ts7 = TransaksiSewa("TRX-007", p7, mobil5, DateTime.now());
+  ts7.sewaKendaraan();
+  print("");
+
+  // Transaksi 8: Aditya menyewa PCX
+  print(">>> TRANSAKSI 8: Aditya menyewa PCX <<<");
+  TransaksiSewa ts8 = TransaksiSewa("TRX-008", p8, motor4, DateTime.now());
+  ts8.sewaKendaraan();
+  print("");
+
+  // Transaksi 9: Eko menyewa Pajero
+  print(">>> TRANSAKSI 9: Eko menyewa Pajero <<<");
+  TransaksiSewa ts9 = TransaksiSewa("TRX-009", p9, mobil4, DateTime.now());
+  ts9.sewaKendaraan();
+  print("");
+
+  // Transaksi 10: Fitriani menyewa Mio
+  print(">>> TRANSAKSI 10: Fitriani menyewa Mio <<<");
+  TransaksiSewa ts10 = TransaksiSewa("TRX-010", p10, motor5, DateTime.now());
+  ts10.sewaKendaraan();
+  print("");
+
+  // Transaksi 11: Hendra mencoba menyewa Avanza (Gagal karena sedang disewa Herly)
+  print(">>> TRANSAKSI 11: Hendra mencoba menyewa Avanza (Seharusnya Gagal) <<<");
+  TransaksiSewa ts11 = TransaksiSewa("TRX-011", p11, mobil1, DateTime.now());
+  ts11.sewaKendaraan();
+  print("");
+
+  // Transaksi 12: Gracia mencoba menyewa NMAX (Gagal karena sedang disewa Budi)
+  print(">>> TRANSAKSI 12: Gracia mencoba menyewa NMAX (Seharusnya Gagal) <<<");
+  TransaksiSewa ts12 = TransaksiSewa("TRX-012", p12, motor2, DateTime.now());
+  ts12.sewaKendaraan();
+  print("");
+
+  // Transaksi 13: Herly mengembalikan Avanza setelah 4 hari sewa
+  print(">>> TRANSAKSI 13: Herly mengembalikan Avanza setelah 4 hari <<<");
   if (ts1.isSukses) {
-    ts1.selesaikanTransaksi(3);
-    print("");
+    ts1.selesaikanTransaksi(4);
     ts1.tampilkanDetailTransaksi();
   }
   print("");
 
-  // 10. Sekarang Herly bisa menyewa Civic karena satu slot sewa sudah kosong
-  print(">>> SIMULASI TRANSAKSI 5: Herly sekarang menyewa Civic <<<");
-  TransaksiSewa ts5 = TransaksiSewa("TRX-005", pelanggan1, mobil2, DateTime.now());
-  if (ts5.sewaKendaraan()) {
-    ts5.tampilkanDetailTransaksi();
-  }
+  // Transaksi 14: Hendra sekarang bisa menyewa Avanza yang sudah dikembalikan
+  print(">>> TRANSAKSI 14: Hendra kini menyewa Avanza (Seharusnya Sukses) <<<");
+  TransaksiSewa ts13 = TransaksiSewa("TRX-013", p11, mobil1, DateTime.now());
+  ts13.sewaKendaraan();
+  print("");
+
+  // Transaksi 15: Marta menyewa Vario (Gagal karena Vario sedang disewa Rizky)
+  print(">>> TRANSAKSI 15: Marta menyewa Vario (Seharusnya Gagal) <<<");
+  TransaksiSewa ts14 = TransaksiSewa("TRX-014", p2, motor3, DateTime.now());
+  ts14.sewaKendaraan();
   print("\n----------------------------------------------------------\n");
 
-  print(">>> SIMULASI SELESAI <<<");
+  print(">>> PROFIL STATUS AKHIR PELANGGAN UTAMA <<<");
+  p1.tampilkanInfo();
+  print("");
+  p2.tampilkanInfo();
+  print("");
+  p11.tampilkanInfo();
+  print("\n----------------------------------------------------------\n");
+  print(">>> SIMULASI DART SELESAI <<<");
 }
 </code></pre>
         </div>
@@ -682,6 +803,36 @@ Berikut adalah tahapan pengerjaan sistem penyewaan kendaraan ini:
     </div>
   </div>
 
+  <!-- Pustaka Mermaid untuk rendering Diagram Kelas -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background: 'transparent',
+        primaryColor: '#120b0c',
+        primaryTextColor: '#f8f9fa',
+        primaryBorderColor: '#ef233c',
+        lineColor: '#ef233c',
+        secondaryColor: '#ef233c',
+        tertiaryColor: '#120b0c',
+        edgeLabelBackground: '#120b0c',
+        nodeBorder: '#ef233c',
+        mainBkg: '#120b0c',
+        actorBorder: '#ef233c',
+        actorBkg: '#120b0c',
+        labelBoxBkgColor: '#120b0c',
+        labelBoxBorderColor: '#ef233c',
+        labelTextColor: '#f8f9fa',
+        loopBkgColor: '#120b0c',
+        loopBorderColor: '#ef233c',
+        noteBorderColor: '#ef233c',
+        noteBkgColor: '#120b0c',
+        classText: '#f8f9fa'
+      }
+    });
+  </script>
   <script src="app.js"></script>
 </body>
 

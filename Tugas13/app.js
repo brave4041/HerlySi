@@ -122,16 +122,33 @@ class TransaksiSewa {
 const DB_VEHICLES = {
   avanza: new Mobil("B 1234 ABC", "Toyota", "Avanza", 350000, true, 7),
   civic: new Mobil("D 9999 VVV", "Honda", "Civic Turbo", 800000, true, 5),
-  beat: new Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110)
+  xenia: new Mobil("B 5678 EEE", "Daihatsu", "Xenia", 300000, true, 7),
+  pajero: new Mobil("F 1111 SSS", "Mitsubishi", "Pajero", 1200000, true, 7),
+  ertiga: new Mobil("B 2222 GGG", "Suzuki", "Ertiga", 320000, true, 7),
+  beat: new Motor("F 5678 XYZ", "Honda", "Beat", 80000, true, 110),
+  nmax: new Motor("B 3456 JJJ", "Yamaha", "NMAX", 150000, true, 155),
+  vario: new Motor("D 7890 KKK", "Honda", "Vario", 100000, true, 125),
+  pcx: new Motor("F 4321 PPP", "Honda", "PCX", 180000, true, 160),
+  mio: new Motor("B 8765 LLL", "Yamaha", "Mio", 75000, true, 125)
 };
 
 const DB_CUSTOMERS = [
   new Pelanggan("Herly Afrizal", "3201010101010001", 0),
-  new Pelanggan("Marta Saputra", "3201010202020002", 0)
+  new Pelanggan("Marta Saputra", "3201010202020002", 0),
+  new Pelanggan("Budi Santoso", "3201010303030003", 0),
+  new Pelanggan("Siti Aminah", "3201010404040004", 0),
+  new Pelanggan("Ahmad Fauzi", "3201010505050005", 0),
+  new Pelanggan("Rizky Pratama", "3201010606060006", 0),
+  new Pelanggan("Dewi Lestari", "3201010707070007", 0),
+  new Pelanggan("Aditya Wijaya", "3201010808080008", 0),
+  new Pelanggan("Eko Prasetyo", "3201010909090009", 0),
+  new Pelanggan("Fitriani", "3201011010100010", 0),
+  new Pelanggan("Hendra Kusuma", "3201011111110011", 0),
+  new Pelanggan("Gracia Putri", "3201011212120012", 0)
 ];
 
 let activeCustomerId = 0;
-let transactionCounter = 1;
+let transactionCounter = 14; // Start at 14 since 1-13 are simulated
 let activeTransactions = []; // List of active TransaksiSewa objects
 let pendingReturnVehicleKey = null;
 
@@ -139,9 +156,103 @@ let pendingReturnVehicleKey = null;
 window.onload = function () {
   appendLog("SYSTEM INITIALIZED", "system");
   appendLog("SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)", "info");
-  appendLog("Objek kendaraan dan pelanggan berhasil di-instansiasi di memori.", "info");
+  appendLog("Armada kendaraan (10 unit) dan Pelanggan (12 orang) berhasil di-instansiasi di memori.", "info");
+  
+  // Menjalankan simulasi awal
+  runInitialSimulation();
+  
   updateUI();
 };
+
+// =========================================================================
+// RUN SIMULATION
+// =========================================================================
+function runInitialSimulation() {
+  appendLog("==========================================================", "system");
+  appendLog("   SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)    ", "system");
+  appendLog("      EKSPANSI SIMULASI: SKENARIO 15 TRANSAKSI OOP        ", "system");
+  appendLog("==========================================================\n", "system");
+  appendLog(">>> MEMULAI SIMULASI PENYEWAAN <<<\n", "info");
+
+  // Transaksi 1: Herly sewa Avanza (nanti dikembalikan di TRX 13)
+  // Transaksi 2: Marta sewa Civic
+  // Transaksi 3: Budi sewa NMAX
+  // Transaksi 4: Siti sewa Xenia
+  // Transaksi 5: Ahmad sewa Beat
+  // Transaksi 6: Rizky sewa Vario
+  // Transaksi 7: Dewi sewa Ertiga
+  // Transaksi 8: Aditya sewa PCX
+  // Transaksi 9: Eko sewa Pajero
+  // Transaksi 10: Fitriani sewa Mio
+  
+  // Kita buat transaksi-transaksi ini
+  const initialTrxs = [
+    { id: "TRX-001", custIdx: 0, vehKey: "avanza" }, // Herly sewa Avanza
+    { id: "TRX-002", custIdx: 1, vehKey: "civic" },  // Marta sewa Civic
+    { id: "TRX-003", custIdx: 2, vehKey: "nmax" },   // Budi sewa NMAX
+    { id: "TRX-004", custIdx: 3, vehKey: "xenia" },  // Siti sewa Xenia
+    { id: "TRX-005", custIdx: 4, vehKey: "beat" },   // Ahmad sewa Beat
+    { id: "TRX-006", custIdx: 5, vehKey: "vario" },  // Rizky sewa Vario
+    { id: "TRX-007", custIdx: 6, vehKey: "ertiga" }, // Dewi sewa Ertiga
+    { id: "TRX-008", custIdx: 7, vehKey: "pcx" },    // Aditya sewa PCX
+    { id: "TRX-009", custIdx: 8, vehKey: "pajero" }, // Eko sewa Pajero
+    { id: "TRX-010", custIdx: 9, vehKey: "mio" }     // Fitriani sewa Mio
+  ];
+
+  initialTrxs.forEach(t => {
+    appendLog(`>>> TRANSAKSI ${t.id.split('-')[1].replace(/^0+/, '')}: ${DB_CUSTOMERS[t.custIdx].nama} menyewa ${DB_VEHICLES[t.vehKey].merk} ${DB_VEHICLES[t.vehKey].model} <<<`, 'info');
+    const trx = new TransaksiSewa(t.id, DB_CUSTOMERS[t.custIdx], DB_VEHICLES[t.vehKey], new Date());
+    if (trx.sewaKendaraan()) {
+      activeTransactions.push(trx);
+    }
+    appendLog("");
+  });
+
+  // Transaksi 11: Hendra mencoba menyewa Avanza (Gagal karena sedang disewa Herly)
+  appendLog(">>> TRANSAKSI 11: Hendra mencoba menyewa Avanza (Seharusnya Gagal) <<<", "info");
+  const trx11 = new TransaksiSewa("TRX-011", DB_CUSTOMERS[10], DB_VEHICLES.avanza, new Date());
+  trx11.sewaKendaraan();
+  appendLog("");
+
+  // Transaksi 12: Gracia mencoba menyewa NMAX (Gagal karena sedang disewa Budi)
+  appendLog(">>> TRANSAKSI 12: Gracia mencoba menyewa NMAX (Seharusnya Gagal) <<<", "info");
+  const trx12 = new TransaksiSewa("TRX-012", DB_CUSTOMERS[11], DB_VEHICLES.nmax, new Date());
+  trx12.sewaKendaraan();
+  appendLog("");
+
+  // Transaksi 13: Herly mengembalikan Avanza setelah 4 hari sewa
+  appendLog(">>> TRANSAKSI 13: Herly mengembalikan Avanza setelah 4 hari <<<", "info");
+  const t1Idx = activeTransactions.findIndex(t => t.idTransaksi === "TRX-001");
+  if (t1Idx !== -1) {
+    const trx1 = activeTransactions[t1Idx];
+    trx1.selesaikanTransaksi(4);
+    
+    // Cetak detail di virtual console
+    appendLog("==================================================", "info");
+    appendLog(`STRUK TRANSAKSI SEWA KENDARAAN:\nID Transaksi   : ${trx1.idTransaksi}\nPelanggan      : ${trx1.pelanggan.nama} (${trx1.pelanggan.nik})\nKendaraan      : ${trx1.kendaraan.merk} ${trx1.kendaraan.model} [${trx1.kendaraan.platNomor}]\nTanggal Sewa   : ${trx1.tanggalSewa.toISOString().split('T')[0]}\nTanggal Kembali: ${trx1.tanggalKembali.toISOString().split('T')[0]}\nTotal Biaya    : Rp ${trx1.totalBiaya.toLocaleString('id-ID')}\nStatus         : SELESAI ✅`, "info");
+    appendLog("==================================================", "info");
+    
+    // Hapus dari transaksi aktif
+    activeTransactions.splice(t1Idx, 1);
+  }
+  appendLog("");
+
+  // Transaksi 14: Hendra sekarang bisa menyewa Avanza yang sudah dikembalikan
+  appendLog(">>> TRANSAKSI 14: Hendra kini menyewa Avanza (Seharusnya Sukses) <<<", "info");
+  const trx13 = new TransaksiSewa("TRX-013", DB_CUSTOMERS[10], DB_VEHICLES.avanza, new Date());
+  if (trx13.sewaKendaraan()) {
+    activeTransactions.push(trx13);
+  }
+  appendLog("");
+
+  // Transaksi 15: Marta menyewa Vario (Gagal karena Vario sedang disewa Rizky)
+  appendLog(">>> TRANSAKSI 15: Marta menyewa Vario (Seharusnya Gagal) <<<", "info");
+  const trx14 = new TransaksiSewa("TRX-014", DB_CUSTOMERS[1], DB_VEHICLES.vario, new Date());
+  trx14.sewaKendaraan();
+
+  appendLog("\n----------------------------------------------------------\n", "system");
+  appendLog(">>> SIMULASI SELESAI. Silakan berinteraksi lewat visual dashboard! <<<\n", "success");
+}
 
 // =========================================================================
 // CORE EVENT HANDLERS & LOGIC
@@ -238,7 +349,6 @@ function toggleRent(vehicleKey) {
 
     // Tampilkan modal durasi sewa
     pendingReturnVehicleKey = vehicleKey;
-    const customerWhoRented = kendaraan.penyewa;
     document.getElementById('modal-return-title').innerText = `KEMBALIKAN: ${kendaraan.merk} ${kendaraan.model}`;
     document.getElementById('rental-days').value = 1;
     openModal('returnModal');
@@ -295,33 +405,58 @@ function submitReturn() {
 }
 
 // =========================================================================
-// UI UPDATES
+// UI RENDERING & UPDATES
 // =========================================================================
+function renderVehicles() {
+  const container = document.getElementById('vehicle-list-container');
+  if (!container) return;
+
+  container.innerHTML = '';
+  for (let key in DB_VEHICLES) {
+    const k = DB_VEHICLES[key];
+    const isMobil = k instanceof Mobil;
+    const specLabel = isMobil ? 'Kapasitas' : 'Mesin / CC';
+    const specVal = isMobil ? `${k.kapasitasPenumpang} Penumpang` : `${k.kapasitasMesinCc} CC`;
+    const typeLabel = isMobil ? `MOBIL (Seat: ${k.kapasitasPenumpang})` : `MOTOR (${k.kapasitasMesinCc} CC)`;
+
+    const card = document.createElement('div');
+    card.className = `vehicle-card ${k.tersedia ? '' : 'rented'}`;
+    card.id = `card-${key}`;
+
+    card.innerHTML = `
+      <div class="vehicle-header">
+        <span class="vehicle-type">${typeLabel}</span>
+        <span class="vehicle-plat">${k.platNomor}</span>
+      </div>
+      <div>
+        <div class="vehicle-title">${k.merk} ${k.model}</div>
+        <div class="vehicle-desc">${isMobil ? 'Mobil MPV/SUV rental premium yang bersih, terawat, dan nyaman.' : 'Motor matic/sport rental lincah, irit, dan ber-CC tinggi.'}</div>
+        <div class="vehicle-specs">
+          <div class="spec-item">
+            <span>${specLabel}</span>
+            <span>${specVal}</span>
+          </div>
+          <div class="spec-item">
+            <span>Penyewa Aktif</span>
+            <span id="tenant-${key}" style="color: ${k.tersedia ? 'var(--text-dim)' : 'var(--accent-light-red)'}; font-weight: ${k.tersedia ? 'normal' : 'bold'}">${k.tersedia ? '-' : k.penyewa.nama}</span>
+          </div>
+        </div>
+      </div>
+      <div class="vehicle-footer">
+        <div class="price-tag"><b id="price-${key}">Rp ${k.hargaSewaPerHari.toLocaleString('id-ID')}</b>/hari</div>
+        <button class="btn-action ${k.tersedia ? '' : 'return'}" id="btn-${key}" onclick="toggleRent('${key}')">${k.tersedia ? 'Sewa' : 'Kembalikan'}</button>
+      </div>
+    `;
+    container.appendChild(card);
+  }
+}
+
 function updateUI() {
   // 1. Render/Update Customer List
   renderCustomers();
 
-  // 2. Update Vehicle Cards UI
-  for (let key in DB_VEHICLES) {
-    const k = DB_VEHICLES[key];
-    const card = document.getElementById(`card-${key}`);
-    const btn = document.getElementById(`btn-${key}`);
-    const tenantText = document.getElementById(`tenant-${key}`);
-
-    if (k.tersedia) {
-      card.classList.remove('rented');
-      btn.classList.remove('return');
-      btn.innerText = "Sewa";
-      tenantText.innerText = "-";
-      tenantText.style.color = "var(--text-dim)";
-    } else {
-      card.classList.add('rented');
-      btn.classList.add('return');
-      btn.innerText = "Kembalikan";
-      tenantText.innerText = k.penyewa.nama;
-      tenantText.style.color = "var(--accent-light-red)";
-    }
-  }
+  // 2. Render/Update Vehicle List
+  renderVehicles();
 }
 
 // =========================================================================
@@ -329,6 +464,7 @@ function updateUI() {
 // =========================================================================
 function appendLog(message, type = 'info') {
   const logBody = document.getElementById('log-body');
+  if (!logBody) return;
   const line = document.createElement('div');
   line.className = `terminal-line ${type}`;
   line.innerText = message;
@@ -358,6 +494,26 @@ function switchTab(evt, tabId) {
   evt.currentTarget.classList.add('active');
 }
 
+function switchDiagramTab(evt, tabId) {
+  // Hide all diagram contents
+  const contents = document.getElementsByClassName('diag-tab-content');
+  for (let i = 0; i < contents.length; i++) {
+    contents[i].classList.remove('active');
+    contents[i].classList.add('hidden-tab');
+  }
+
+  // Deactivate all diagram buttons
+  const buttons = document.getElementsByClassName('diag-tab-btn');
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].classList.remove('active');
+  }
+
+  const activeContent = document.getElementById(tabId);
+  activeContent.classList.remove('hidden-tab');
+  activeContent.classList.add('active');
+  evt.currentTarget.classList.add('active');
+}
+
 function copyCode(codeElementId) {
   const codeText = document.getElementById(codeElementId).innerText;
 
@@ -373,15 +529,15 @@ function copyCode(codeElementId) {
 }
 
 function fallbackCopyText(text) {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.position = "fixed";
+  const textSpace = document.createElement("textarea");
+  textSpace.value = text;
+  textSpace.style.top = "0";
+  textSpace.style.left = "0";
+  textSpace.style.position = "fixed";
 
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
+  document.body.appendChild(textSpace);
+  textSpace.focus();
+  textSpace.select();
 
   try {
     const successful = document.execCommand('copy');
@@ -394,7 +550,7 @@ function fallbackCopyText(text) {
     alert("Gagal menyalin kode: " + err);
   }
 
-  document.body.removeChild(textArea);
+  document.body.removeChild(textSpace);
 }
 
 function openModal(id) {
@@ -406,12 +562,16 @@ function openModal(id) {
   document.body.style.overflow = "hidden";
 }
 
+// Global closeModal wrapper
+window.closeModal = function(id) {
+  closeModal(id);
+};
+
 function closeModal(id) {
   const modal = document.getElementById(id);
   modal.classList.remove('active');
   setTimeout(() => {
     modal.style.display = "none";
-    // Clean up iframe container inside modal to save resources
     const iframeContainer = modal.querySelector('#modalIframeContainer');
     if (iframeContainer) {
       iframeContainer.innerHTML = '';
@@ -438,37 +598,30 @@ function openDartpadInline() {
 // =========================================================================
 // SECURITY PROTOCOL (Anti-Copy, Anti-Inspect, Anti-Ctrl+U)
 // =========================================================================
-
-// 1. Disable Right-Click Context Menu
 document.addEventListener('contextmenu', function (e) {
   e.preventDefault();
   appendLog("Tindakan diblokir: Klik kanan dinonaktifkan untuk keamanan.", "error");
 });
 
-// 2. Disable Developer Tools & View Source Shortcuts
 document.addEventListener('keydown', function (e) {
-  // Disable F12
   if (e.key === 'F12' || e.keyCode === 123) {
     e.preventDefault();
     appendLog("Tindakan diblokir: F12 (Developer Tools) dinonaktifkan.", "error");
     return false;
   }
 
-  // Disable Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+Shift+C (Inspect Element)
   if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
     e.preventDefault();
     appendLog("Tindakan diblokir: Pintasan Inspect Element dinonaktifkan.", "error");
     return false;
   }
 
-  // Disable Ctrl+U (View Source)
   if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
     e.preventDefault();
     appendLog("Tindakan diblokir: View Source (Ctrl+U) dinonaktifkan.", "error");
     return false;
   }
 
-  // Disable Ctrl+S (Save Page)
   if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
     e.preventDefault();
     appendLog("Tindakan diblokir: Menyimpan halaman (Ctrl+S) dinonaktifkan.", "error");
@@ -476,11 +629,9 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
-// 3. Disable Text Selection (Except for Input fields and Textareas)
 document.addEventListener('selectstart', function (e) {
   const tagName = e.target.tagName;
   if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
     e.preventDefault();
   }
 });
-

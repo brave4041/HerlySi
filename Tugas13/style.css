@@ -234,20 +234,23 @@ header {
 
 /* Customer Selector and Status */
 .customer-selector {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 15px;
   margin-bottom: 30px;
 }
 
 .cust-btn {
-  flex: 1;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--border-color);
-  padding: 18px;
+  padding: 14px;
   border-radius: 8px;
   cursor: pointer;
   text-align: left;
   transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .cust-btn:hover {
@@ -265,22 +268,25 @@ header {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin-bottom: 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .cust-meta {
   font-family: 'Fira Code', monospace;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-dim);
 }
 
 .cust-status-badge {
   display: inline-block;
   margin-top: 10px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
-  padding: 4px 10px;
+  padding: 4px 8px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
   color: var(--text-dim);
@@ -294,15 +300,15 @@ header {
 /* Vehicle Grid Card */
 .vehicle-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
 }
 
 .vehicle-card {
   background: rgba(255, 255, 255, 0.01);
   border: 1px solid var(--border-color);
   border-radius: 10px;
-  padding: 25px;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -325,18 +331,20 @@ header {
 .vehicle-header {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 20px;
 }
 
 .vehicle-type {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--accent-light-red);
   background: rgba(217, 4, 41, 0.08);
-  padding: 4px 10px;
+  padding: 4px 8px;
   border-radius: 4px;
   font-weight: 600;
 }
@@ -348,9 +356,9 @@ header {
 
 .vehicle-plat {
   font-family: 'Fira Code', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   background: #0f090a;
-  padding: 4px 10px;
+  padding: 4px 8px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   color: #fff;
@@ -358,33 +366,35 @@ header {
 
 .vehicle-title {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.3rem;
+  font-size: clamp(1.1rem, 2.5vw, 1.3rem);
   font-weight: 700;
   color: #fff;
   margin-bottom: 8px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .vehicle-desc {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-dim);
-  margin-bottom: 20px;
-  min-height: 44px;
+  margin-bottom: 15px;
+  min-height: 40px;
 }
 
 .vehicle-specs {
   font-family: 'Outfit', sans-serif;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   background: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--border-color);
-  padding: 15px;
+  padding: 12px;
   border-radius: 6px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .spec-item {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .spec-item:last-child {
@@ -404,6 +414,8 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-top: auto;
 }
 
@@ -1122,4 +1134,121 @@ pre {
     padding-top: 10px;
     margin-top: 10px;
   }
+}
+
+/* Mermaid UML Class Diagram Custom Styles */
+.mermaid svg {
+  font-family: 'Outfit', 'Inter', sans-serif !important;
+  max-width: 100% !important;
+  height: auto !important;
+}
+
+.mermaid .classGroup rect {
+  fill: #120b0c !important;
+  stroke: #ef233c !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid .classGroup line {
+  stroke: #ef233c !important;
+  stroke-width: 1.5px !important;
+}
+
+.mermaid .classGroup text {
+  fill: #f8f9fa !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 13px !important;
+}
+
+.mermaid .classGroup .title {
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: bold !important;
+  fill: #fff !important;
+  font-size: 14px !important;
+}
+
+.mermaid .relation {
+  stroke: #ef233c !important;
+  stroke-width: 2px !important;
+}
+
+.mermaid .relation-label {
+  fill: #b1a7a6 !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 11px !important;
+}
+
+.mermaid #compositionStart,
+.mermaid #compositionEnd,
+.mermaid #aggregationStart,
+.mermaid #aggregationEnd,
+.mermaid #dependencyStart,
+.mermaid #dependencyEnd,
+.mermaid #extensionStart,
+.mermaid #extensionEnd,
+.mermaid #extensionStartMarker,
+.mermaid #extensionEndMarker,
+.mermaid [id*="extension"] {
+  fill: #ef233c !important;
+  stroke: #ef233c !important;
+}
+
+.mermaid .edgeTerminals text {
+  fill: #b1a7a6 !important;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 11px !important;
+}
+
+/* Diagram Tabs Styling */
+.diag-tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  padding: 12px 24px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+}
+
+.diag-tab-btn:hover {
+  color: #fff;
+}
+
+.diag-tab-btn.active {
+  color: var(--accent-light-red);
+  font-weight: bold;
+}
+
+.diag-tab-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--accent-red);
+  box-shadow: 0 0 10px var(--accent-red-glow);
+}
+
+.diag-tab-content {
+  transition: opacity 0.35s ease;
+}
+
+.diag-tab-content.hidden-tab {
+  position: absolute;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.diag-tab-content.active {
+  position: relative;
+  visibility: visible;
+  height: auto;
+  opacity: 1;
 }

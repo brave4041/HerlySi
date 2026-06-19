@@ -62,34 +62,31 @@
 ---
 
 ### BAGIAN 4: DEMONSTRASI SIMULATOR WEB INTERAKTIF (04:00 - 06:15)
-**[Visual di Layar: Kembali ke atas ke bagian Simulator Dashboard. Gerakkan kursor dan lakukan klik sesuai dengan narasi di bawah ini secara langsung.]**
+**[Visual di Layar: Kembali ke atas ke bagian Simulator Dashboard. Gerakkan kursor dan tunjukkan log terminal dan grid kendaraan.]**
 
 * **Marta Saputra:**  
   > "Halo semuanya, saya Marta Saputra. Di bagian ini, saya akan mendemonstrasikan simulator interaktif dari sistem penyewaan kendaraan tugas kelompok kami.
-  > Di bagian atas dashboard simulator, kita dapat melihat form **Tambah Pelanggan Baru** dan daftar **Pelanggan Aktif**. Saat ini kita memiliki dua pelanggan bawaan, yaitu Herly Afrizal dan Marta Saputra."
+  > Di bagian atas dashboard simulator, kita memiliki form **Tambah Pelanggan Baru** dan daftar **Pilih Pelanggan Aktif**. Saat ini kita memiliki 12 pelanggan bawaan yang di-instansiasi di memori.
+  > 
+  > Jika Anda melihat di sisi kanan pada **Virtual Terminal Dart Log**, sistem secara otomatis telah mengeksekusi **15 transaksi simulasi** saat halaman dimuat pertama kali! 
+  > Mulai dari TRX-001 hingga TRX-010 di mana pelanggan menyewa kendaraan berurutan, lalu TRX-011 dan TRX-012 yang menunjukkan kegagalan sewa karena unit sedang dipakai, transaksi pengembalian TRX-013, hingga penyewaan kembali pada TRX-014."
 
-**[Tindakan: Klik tombol "Tambah Pelanggan Baru", ketik nama contoh "Budi", ketik NIK 16 digit asal (contoh: 1234567890123456), klik "Tambah".]**
+**[Tindakan: Scroll ke bawah di daftar Pelanggan Aktif, pilih pelanggan "Hendra Kusuma". Sorot Toyota Avanza yang berstatus "Sedang Disewa" oleh Hendra Kusuma.]**
 * **Marta Saputra:**  
-  > "Kita coba menambahkan pelanggan baru bernama Budi dengan NIK 16 digit. Ketika diklik Tambah, di bagian **Virtual Terminal Dart Log** sebelah kanan, akan muncul log instansiasi objek Pelanggan baru secara real-time di memori simulator."
+  > "Di sini kita bisa melihat status kendaraan sinkron secara real-time dengan log. Contohnya, Toyota Avanza saat ini sedang disewa oleh Hendra Kusuma, yang merupakan hasil dari kelanjutan transaksi 14 kita.
+  > Mari kita simulasikan proses pengembalian Avanza oleh Hendra. Kita klik tombol **Kembalikan** pada kartu Toyota Avanza."
 
-**[Tindakan: Pilih pelanggan "Herly Afrizal" dengan mengkliknya. Lalu arahkan kursor ke kartu kendaraan Toyota Avanza. Klik tombol "Sewa".]**
+**[Tindakan: Klik tombol "Kembalikan" pada Toyota Avanza. Input durasi "5" hari pada modal pop-up yang muncul. Klik "Selesaikan Pengembalian & Cetak Struk".]**
 * **Marta Saputra:**  
-  > "Selanjutnya, kita simulasikan proses penyewaan. Kita pilih pelanggan aktif yaitu Herly Afrizal, lalu kita klik tombol **Sewa** pada Toyota Avanza.
-  > Status kendaraan Avanza langsung berubah menjadi 'Sedang Disewa' (warna merah) dengan penyewa aktif Herly Afrizal. Di sisi kanan, Virtual Terminal mencetak struk transaksi aktif beserta pemberitahuannya."
+  > "Kita masukkan durasi sewa selama **5 hari**, lalu klik selesaikan. 
+  > Boom! Secara instan, website memunculkan **Invoice Transaksi Selesai** digital yang sangat detail. Terlihat ID Transaksi baru, nama penyewa Hendra Kusuma, NIK, tipe unit, durasi sewa 5 hari, dan Total Biaya otomatis terhitung Rp 1.750.000.
+  > Status unit Avanza di garasi juga otomatis kembali menjadi 'Tersedia' dengan warna hijau."
 
-**[Tindakan: Klik "Sewa" pada Honda Beat untuk pelanggan Herly Afrizal. Kemudian coba klik "Sewa" pada Civic Turbo untuk pelanggan Herly Afrizal.]**
+**[Tindakan: Close modal invoice, klik pelanggan "Gracia Putri", lalu klik "Sewa" pada Toyota Avanza yang baru saja bebas.]**
 * **Marta Saputra:**  
-  > "Kita coba sewa kendaraan kedua, yaitu Honda Beat. Berhasil. Namun, ketika Herly mencoba menyewa kendaraan ketiga yaitu Civic Turbo, sistem menolak dan memunculkan log error di terminal. Hal ini dikarenakan batasan enkapsulasi bisnis logis kita yang membatasi sewa aktif maksimal 2 unit kendaraan per pelanggan."
-
-**[Tindakan: Klik tombol "Kembalikan" pada Toyota Avanza. Input durasi "3" hari pada modal pop-up yang muncul. Klik "Selesaikan Pengembalian & Cetak Struk".]**
-* **Marta Saputra:**  
-  > "Kini kita simulasikan pengembalian. Klik tombol **Kembalikan** pada Toyota Avanza. Kita masukkan durasi sewa selama **3 hari**, lalu klik selesaikan. 
-  > Boom! Secara instan, website akan memunculkan **Invoice Transaksi Selesai** digital yang sangat detail. Terlihat ID Transaksi, Nama Pelanggan, Plat Nomor Kendaraan, Durasi Sewa 3 hari, dan Total Biaya otomatis terhitung Rp 1.050.000.
-  > Status unit Avanza di garasi juga otomatis kembali menjadi 'Tersedia' (warna hijau)."
-
-**[Tindakan: Close modal invoice, lalu scroll ke bagian Code Inspector di bawah untuk menunjukkan integrasi Dartpad.]**
-* **Marta Saputra:**  
-  > "Di bagian bawah web, kami juga menyediakan **Source Code File Inspector** di mana dosen atau pengguna bisa langsung melihat kode Dart lengkap kami, menyalinnya, atau bahkan mengklik tombol **OPEN DARTPAD** untuk menjalankan kode ini secara langsung di lingkungan compiler Dart online."
+  > "Kita tutup modal invoice. Sekarang, kita pilih pelanggan Gracia Putri, lalu kita sewa Toyota Avanza yang baru saja dikembalikan tadi.
+  > Transaksi berhasil! Avanza kembali berwarna merah dan disewa oleh Gracia Putri. Log transaksi baru langsung tercetak di virtual terminal.
+  > Di bagian bawah web, kami juga menyediakan **Source Code File Inspector** di mana dosen atau pengguna bisa langsung melihat kode Dart lengkap kami yang sudah diekspansi, menyalinnya, atau mengklik tombol **OPEN DARTPAD** untuk menjalankannya."
 
 ---
 
@@ -97,7 +94,7 @@
 **[Visual di Layar: Sorot kembali header web, goyangkan sedikit kursor pada logo SISTEM PENYEWAAN KENDARAAN (TUGAS KELOMPOK), lalu tunjukkan wajah jika merekam menggunakan webcam.]**
 
 * **Marta Saputra:**  
-  > "Kesimpulannya, melalui sistem penyewaan kendaraan ini, kami telah berhasil memetakan semua teori pilar OOP Dart dari Bab 10 ke dalam aplikasi dunia nyata. Mulai dari Class, Object, Encapsulation, Inheritance, Polymorphism, hingga Object Interaction, semuanya bekerja secara harmonis baik di sisi backend Dart maupun interaksi frontend web kami.
+  > "Kesimpulannya, melalui sistem penyewaan kendaraan berskala kelompok ini, kami telah berhasil memetakan semua teori pilar OOP Dart dari Bab 10 ke dalam aplikasi yang lebih kompleks dan realistis. Dengan mensimulasikan lebih dari 10 transaksi secara simultan pada 10 unit armada dan 12 pelanggan, integritas enkapsulasi dan interaksi objek terbukti tetap terjaga dengan baik.
   > 
   > Demikian presentasi penjelasan aplikasi dari kelompok kami. Semoga penjelasan ini dapat memberikan gambaran yang jelas mengenai implementasi OOP dalam proyek ini. Kurang lebihnya mohon maaf, terima kasih banyak atas perhatiannya, dan sampai jumpa!"
 

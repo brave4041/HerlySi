@@ -101,3 +101,18 @@ Berikut adalah tahapan pengerjaan sistem penyewaan kendaraan ini:
   * `tampilkanDetailTransaksi()`: Mencetak/menampilkan struk nota detail transaksi secara lengkap (termasuk status aktif/selesai, tanggal sewa/kembali, dan biaya).
   * `sewaKendaraan()`: Memvalidasi ketersediaan kendaraan dan batas maksimal sewa pelanggan (maksimal 2). Jika lolos validasi, mengubah status ketersediaan kendaraan menjadi tidak tersedia, memperbarui hitungan sewa aktif pelanggan, menandai transaksi aktif (`isSukses = true`), dan mencatat kendaraan ke daftar sewa pelanggan.
   * `selesaikanTransaksi(int durasiHari)`: Mengubah status ketersediaan kendaraan kembali menjadi tersedia, memperbarui hitungan dan daftar sewa aktif pelanggan, menetapkan tanggal pengembalian, serta menghitung total biaya sewa berdasarkan tarif harian.
+
+---
+
+## 5. Skenario Simulasi & Uji Coba (15 Transaksi)
+Untuk memenuhi instruksi pengujian kelompok, kami mensimulasikan skenario kompleks dengan **10 unit kendaraan** (5 mobil, 5 motor) dan **12 pelanggan** yang melakukan transaksi penyewaan secara bergantian.
+
+Berikut adalah ringkasan skenario uji coba yang diimplementasikan:
+1. **TRX-001 s/d TRX-010 (Sewa Beruntun - Sukses)**: 10 pelanggan pertama menyewa seluruh 10 unit kendaraan yang tersedia. Seluruh status unit berubah menjadi **Tidak Tersedia**.
+2. **TRX-011 s/d TRX-012 (Validasi Ketersediaan - Gagal)**: Pelanggan ke-11 dan ke-12 mencoba menyewa kendaraan yang sudah disewa (Avanza dan NMAX). Transaksi dibatalkan oleh sistem karena unit tidak tersedia.
+3. **TRX-013 (Pengembalian Unit & Hitung Biaya - Sukses)**: Pelanggan ke-1 (Herly) mengembalikan Avanza setelah 4 hari sewa. Sistem mengubah status unit menjadi **Tersedia**, menghitung total tarif (4 hari x Rp 350.000 = Rp 1.400.000), dan mencetak struk transaksi.
+4. **TRX-014 (Penyewaan Kembali Unit Bebas - Sukses)**: Pelanggan ke-11 (Hendra) yang sebelumnya gagal menyewa kini berhasil menyewa Avanza karena statusnya sudah bebas.
+5. **TRX-015 (Validasi Batasan Unit - Gagal)**: Pelanggan mencoba menyewa unit yang sedang aktif disewa orang lain. Transaksi ditolak oleh sistem.
+
+Semua alur pengujian di atas berjalan otomatis secara OOP di fungsi `main()` Dart dan langsung direpresentasikan secara dinamis pada terminal log saat visualizer web pertama kali dibuka.
+
