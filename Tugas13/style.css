@@ -1252,3 +1252,85 @@ pre {
   height: auto;
   opacity: 1;
 }
+
+/* Diagram + Pseudocode Side-by-Side Grid */
+.diagram-pseudo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 25px;
+  align-items: stretch;
+}
+
+@media (max-width: 1024px) {
+  .diagram-pseudo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.diagram-panel,
+.pseudo-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent-light-red);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.pseudocode-box {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0;
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+.pseudocode-box::before {
+  content: "PSEUDO";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  color: rgba(239, 35, 60, 0.35);
+  font-weight: 700;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.pseudocode-box pre {
+  background: transparent;
+  margin: 0;
+  padding: 22px 20px;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  max-height: none;
+  color: #e2dcd5;
+  overflow-x: auto;
+}
+
+.pseudocode-box code.pseudo-code {
+  font-family: 'Fira Code', 'Share Tech Mono', monospace;
+  font-size: 0.82rem;
+  color: #e2dcd5;
+  white-space: pre;
+  tab-size: 2;
+}
+
+/* Pseudocode syntax-like color hints via text */
+.pseudocode-box code.pseudo-code::selection {
+  background: rgba(239, 35, 60, 0.3);
+  color: #fff;
+}
