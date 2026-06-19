@@ -238,25 +238,33 @@ void main() {
   // Transaksi 7: Dewi menyewa Ertiga
   print(">>> TRANSAKSI 7: Dewi menyewa Ertiga <<<");
   TransaksiSewa ts7 = TransaksiSewa("TRX-007", p7, mobil5, DateTime.now());
-  ts7.sewaKendaraan();
+  if (ts7.sewaKendaraan()) {
+    ts7.selesaikanTransaksi(3);
+  }
   print("");
 
   // Transaksi 8: Aditya menyewa PCX
   print(">>> TRANSAKSI 8: Aditya menyewa PCX <<<");
   TransaksiSewa ts8 = TransaksiSewa("TRX-008", p8, motor4, DateTime.now());
-  ts8.sewaKendaraan();
+  if (ts8.sewaKendaraan()) {
+    ts8.selesaikanTransaksi(3);
+  }
   print("");
 
   // Transaksi 9: Eko menyewa Pajero
   print(">>> TRANSAKSI 9: Eko menyewa Pajero <<<");
   TransaksiSewa ts9 = TransaksiSewa("TRX-009", p9, mobil4, DateTime.now());
-  ts9.sewaKendaraan();
+  if (ts9.sewaKendaraan()) {
+    ts9.selesaikanTransaksi(3);
+  }
   print("");
 
   // Transaksi 10: Fitriani menyewa Mio
   print(">>> TRANSAKSI 10: Fitriani menyewa Mio <<<");
   TransaksiSewa ts10 = TransaksiSewa("TRX-010", p10, motor5, DateTime.now());
-  ts10.sewaKendaraan();
+  if (ts10.sewaKendaraan()) {
+    ts10.selesaikanTransaksi(3);
+  }
   print("");
 
   // Transaksi 11: Hendra mencoba menyewa Avanza (Gagal karena sedang disewa Herly)

@@ -206,6 +206,16 @@ function runInitialSimulation() {
       activeTransactions.push(trx);
     }
     appendLog("");
+
+    // Selesaikan transaksi sewa segera untuk beberapa kendaraan agar tersedia di dashboard
+    if (["ertiga", "pcx", "pajero", "mio"].includes(t.vehKey)) {
+      trx.selesaikanTransaksi(3);
+      const tIdx = activeTransactions.indexOf(trx);
+      if (tIdx !== -1) {
+        activeTransactions.splice(tIdx, 1);
+      }
+      appendLog("");
+    }
   });
 
   // Transaksi 11: Hendra mencoba menyewa Avanza (Gagal karena sedang disewa Herly)
@@ -563,9 +573,7 @@ function openModal(id) {
 }
 
 // Global closeModal wrapper
-window.closeModal = function(id) {
-  closeModal(id);
-};
+window.closeModal = closeModal;
 
 function closeModal(id) {
   const modal = document.getElementById(id);
@@ -598,40 +606,40 @@ function openDartpadInline() {
 // =========================================================================
 // SECURITY PROTOCOL (Anti-Copy, Anti-Inspect, Anti-Ctrl+U)
 // =========================================================================
-document.addEventListener('contextmenu', function (e) {
-  e.preventDefault();
-  appendLog("Tindakan diblokir: Klik kanan dinonaktifkan untuk keamanan.", "error");
-});
+// document.addEventListener('contextmenu', function (e) {
+//   e.preventDefault();
+//   appendLog("Tindakan diblokir: Klik kanan dinonaktifkan untuk keamanan.", "error");
+// });
 
-document.addEventListener('keydown', function (e) {
-  if (e.key === 'F12' || e.keyCode === 123) {
-    e.preventDefault();
-    appendLog("Tindakan diblokir: F12 (Developer Tools) dinonaktifkan.", "error");
-    return false;
-  }
+// document.addEventListener('keydown', function (e) {
+//   if (e.key === 'F12' || e.keyCode === 123) {
+//     e.preventDefault();
+//     appendLog("Tindakan diblokir: F12 (Developer Tools) dinonaktifkan.", "error");
+//     return false;
+//   }
 
-  if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
-    e.preventDefault();
-    appendLog("Tindakan diblokir: Pintasan Inspect Element dinonaktifkan.", "error");
-    return false;
-  }
+//   if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+//     e.preventDefault();
+//     appendLog("Tindakan diblokir: Pintasan Inspect Element dinonaktifkan.", "error");
+//     return false;
+//   }
 
-  if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
-    e.preventDefault();
-    appendLog("Tindakan diblokir: View Source (Ctrl+U) dinonaktifkan.", "error");
-    return false;
-  }
+//   if (e.ctrlKey && (e.key === 'U' || e.key === 'u' || e.keyCode === 85)) {
+//     e.preventDefault();
+//     appendLog("Tindakan diblokir: View Source (Ctrl+U) dinonaktifkan.", "error");
+//     return false;
+//   }
 
-  if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
-    e.preventDefault();
-    appendLog("Tindakan diblokir: Menyimpan halaman (Ctrl+S) dinonaktifkan.", "error");
-    return false;
-  }
-});
+//   if (e.ctrlKey && (e.key === 'S' || e.key === 's' || e.keyCode === 83)) {
+//     e.preventDefault();
+//     appendLog("Tindakan diblokir: Menyimpan halaman (Ctrl+S) dinonaktifkan.", "error");
+//     return false;
+//   }
+// });
 
-document.addEventListener('selectstart', function (e) {
-  const tagName = e.target.tagName;
-  if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
-    e.preventDefault();
-  }
-});
+// document.addEventListener('selectstart', function (e) {
+//   const tagName = e.target.tagName;
+//   if (tagName !== 'INPUT' && tagName !== 'TEXTAREA') {
+//     e.preventDefault();
+//   }
+// });
