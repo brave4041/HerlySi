@@ -145,9 +145,14 @@
 
       <!-- Tab Diagram Kelas -->
       <div class="diag-tab-content active" id="diag-class">
-        <p style="margin-bottom: 20px; color: var(--text-dim);">
-          Menunjukkan arsitektur kelas OOP (Inheritance, Association, dan Dependency) beserta atribut dan metode masing-masing kelas.
-        </p>
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+          <p style="color: var(--text-dim); margin: 0; flex: 1;">
+            Menunjukkan arsitektur kelas OOP (Inheritance, Association, dan Dependency) beserta atribut dan metode masing-masing kelas.
+          </p>
+          <button class="btn-action" style="padding: 8px 16px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;" onclick="openZoomableDiagram('diag-class', 'DIAGRAM KELAS (UML) - DETAIL')">
+            <span>🔍</span> PERBESAR DIAGRAM
+          </button>
+        </div>
         <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
           <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
 classDiagram
@@ -211,8 +216,11 @@ classDiagram
         </p>
         <div class="diagram-pseudo-grid">
           <!-- Flowchart -->
-          <div class="diagram-panel">
-            <div class="panel-label">📊 FLOWCHART ALUR PENYEWAAN</div>
+          <div class="diagram-panel" id="rent-flow-panel">
+            <div class="panel-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>📊 FLOWCHART ALUR PENYEWAAN</span>
+              <button class="btn-action" style="padding: 5px 12px; font-size: 0.75rem; text-transform: uppercase;" onclick="openZoomableDiagram('rent-flow-panel', 'FLOWCHART ALUR PENYEWAAN - DETAIL')">🔍 PERBESAR</button>
+            </div>
             <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
               <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
 flowchart TD
@@ -300,8 +308,11 @@ OUTPUT:
         </p>
         <div class="diagram-pseudo-grid">
           <!-- Flowchart -->
-          <div class="diagram-panel">
-            <div class="panel-label">📊 FLOWCHART ALUR PENGEMBALIAN</div>
+          <div class="diagram-panel" id="return-flow-panel">
+            <div class="panel-label" style="display: flex; justify-content: space-between; align-items: center;">
+              <span>📊 FLOWCHART ALUR PENGEMBALIAN</span>
+              <button class="btn-action" style="padding: 5px 12px; font-size: 0.75rem; text-transform: uppercase;" onclick="openZoomableDiagram('return-flow-panel', 'FLOWCHART ALUR PENGEMBALIAN - DETAIL')">🔍 PERBESAR</button>
+            </div>
             <div class="mermaid-container" style="display: flex; justify-content: center; background: rgba(0, 0, 0, 0.25); padding: 25px 20px; border-radius: 8px; border: 1px solid var(--border-color); overflow-x: auto;">
               <div class="mermaid" style="width: 100%; display: flex; justify-content: center;">
 flowchart TD
@@ -930,6 +941,24 @@ Berikut adalah tahapan pengerjaan sistem penyewaan kendaraan ini:
       </div>
       <div class="modal-body iframe-body" id="modalIframeContainer">
         <!-- Iframe loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Zoom Diagram -->
+  <div class="modal-overlay" id="diagramModal" onclick="if(event.target === this) closeModal('diagramModal')">
+    <div class="modal-content large-modal" style="max-width: 90vw; height: 85vh;">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-diagram-title">DETAIL DIAGRAM</div>
+        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+          <button class="btn-action" style="padding: 5px 12px; font-size: 0.8rem;" onclick="zoomDiagram(1.2)">🔍 PERBESAR</button>
+          <button class="btn-action" style="padding: 5px 12px; font-size: 0.8rem;" onclick="zoomDiagram(0.8)">🔍 PERKECIL</button>
+          <button class="btn-action" style="padding: 5px 12px; font-size: 0.8rem;" onclick="resetDiagramZoom()">RESET</button>
+          <button class="close-modal" onclick="closeModal('diagramModal')">&times;</button>
+        </div>
+      </div>
+      <div class="modal-body" style="overflow: auto; display: flex; background: #0c0607; padding: 20px; cursor: grab;" id="diagram-modal-body">
+        <!-- Content cloned here dynamically -->
       </div>
     </div>
   </div>

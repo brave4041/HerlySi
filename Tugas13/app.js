@@ -157,11 +157,12 @@ window.onload = function () {
   appendLog("SYSTEM INITIALIZED", "system");
   appendLog("SIMULASI SISTEM PENYEWAAN KENDARAAN (HERLY & MARTA)", "info");
   appendLog("Armada kendaraan (10 unit) dan Pelanggan (12 orang) berhasil di-instansiasi di memori.", "info");
-  
+
   // Menjalankan simulasi awal
   runInitialSimulation();
-  
+
   updateUI();
+  initDiagramZoomAndPan();
 };
 
 // =========================================================================
@@ -184,7 +185,7 @@ function runInitialSimulation() {
   // Transaksi 8: Aditya sewa PCX
   // Transaksi 9: Eko sewa Pajero
   // Transaksi 10: Fitriani sewa Mio
-  
+
   // Kita buat transaksi-transaksi ini
   const initialTrxs = [
     { id: "TRX-001", custIdx: 0, vehKey: "avanza" }, // Herly sewa Avanza
@@ -236,12 +237,12 @@ function runInitialSimulation() {
   if (t1Idx !== -1) {
     const trx1 = activeTransactions[t1Idx];
     trx1.selesaikanTransaksi(4);
-    
+
     // Cetak detail di virtual console
     appendLog("==================================================", "info");
     appendLog(`STRUK TRANSAKSI SEWA KENDARAAN:\nID Transaksi   : ${trx1.idTransaksi}\nPelanggan      : ${trx1.pelanggan.nama} (${trx1.pelanggan.nik})\nKendaraan      : ${trx1.kendaraan.merk} ${trx1.kendaraan.model} [${trx1.kendaraan.platNomor}]\nTanggal Sewa   : ${trx1.tanggalSewa.toISOString().split('T')[0]}\nTanggal Kembali: ${trx1.tanggalKembali.toISOString().split('T')[0]}\nTotal Biaya    : Rp ${trx1.totalBiaya.toLocaleString('id-ID')}\nStatus         : SELESAI ✅`, "info");
     appendLog("==================================================", "info");
-    
+
     // Hapus dari transaksi aktif
     activeTransactions.splice(t1Idx, 1);
   }
@@ -339,7 +340,7 @@ function toggleRent(vehicleKey) {
 
     const trxId = `TRX-` + String(transactionCounter++).padStart(3, '0');
     const transaksi = new TransaksiSewa(trxId, pelanggan, kendaraan, new Date());
-    
+
     const success = transaksi.sewaKendaraan();
     if (success) {
       activeTransactions.push(transaksi);
@@ -584,8 +585,158 @@ function closeModal(id) {
     if (iframeContainer) {
       iframeContainer.innerHTML = '';
     }
+    const diagramContainer = modal.querySelector('#diagram-modal-body');
+    if (diagramContainer) {
+      diagramContainer.innerHTML = '';
+    }
   }, 300);
   document.body.style.overflow = "";
+}
+
+// =========================================================================
+// ZOOMABLE DIAGRAM MODAL LOGIC
+// =========================================================================
+let baseWidth = 0;
+let currentZoom = 1.0;
+
+function openZoomableDiagram(diagramElementId, titleText) {
+  const sourceElement = document.querySelector(`#${diagramElementId} .mermaid`);
+  if (!sourceElement) return;
+
+  // 1. Open the modal first so that the layout engine displays the modal
+  // and computes width values (modalBody.clientWidth) correctly.
+  document.getElementById('modal-diagram-title').innerText = titleText;
+  openModal('diagramModal');
+
+  const modalBody = document.getElementById('diagram-modal-body');
+  modalBody.innerHTML = '';
+
+  // Create a centered wrapper that allows scroll boundary extension without top-left cutoff
+  const wrapper = document.createElement('div');
+  wrapper.style.margin = 'auto';
+  wrapper.style.display = 'inline-block';
+
+  // Clone the rendered diagram structure
+  const cloned = sourceElement.cloneNode(true);
+  wrapper.appendChild(cloned);
+  modalBody.appendChild(wrapper);
+
+  const svg = cloned.querySelector('svg');
+  if (svg) {
+    svg.removeAttribute('width');
+    svg.removeAttribute('height');
+
+    // Determine the base width from viewBox or style
+    let widthVal = 800; // default fallback
+    const viewBox = svg.getAttribute('viewBox');
+    if (viewBox) {
+      const parts = viewBox.split(/\s+/);
+      if (parts.length >= 3) {
+        widthVal = parseFloat(parts[2]);
+      }
+    } else {
+      const styleMaxWidth = svg.style.maxWidth;
+      if (styleMaxWidth && styleMaxWidth.includes('px')) {
+        widthVal = parseFloat(styleMaxWidth);
+      }
+    }
+
+    baseWidth = widthVal;
+
+    // Fit to container width initially (with viewport width fallback if layout is not fully painted yet)
+    let containerWidth = modalBody.clientWidth - 40;
+    if (containerWidth <= 0) {
+      containerWidth = (window.innerWidth * 0.9) - 40;
+    }
+
+    if (baseWidth > containerWidth && containerWidth > 0) {
+      currentZoom = containerWidth / baseWidth;
+    } else {
+      currentZoom = 1.0;
+    }
+
+    applyZoom();
+  }
+}
+
+function zoomDiagram(factor) {
+  currentZoom *= factor;
+  if (currentZoom < 0.1) currentZoom = 0.1;
+  if (currentZoom > 5.0) currentZoom = 5.0;
+  applyZoom();
+}
+
+function resetDiagramZoom() {
+  const modalBody = document.getElementById('diagram-modal-body');
+  if (!modalBody) return;
+  let containerWidth = modalBody.clientWidth - 40;
+  if (containerWidth <= 0) {
+    containerWidth = (window.innerWidth * 0.9) - 40;
+  }
+  if (baseWidth > containerWidth && containerWidth > 0) {
+    currentZoom = containerWidth / baseWidth;
+  } else {
+    currentZoom = 1.0;
+  }
+  applyZoom();
+}
+
+function applyZoom() {
+  const svg = document.querySelector('#diagram-modal-body .mermaid svg');
+  if (svg && baseWidth > 0) {
+    svg.style.width = (baseWidth * currentZoom) + 'px';
+    svg.style.height = 'auto';
+  }
+}
+
+function initDiagramZoomAndPan() {
+  const modalBody = document.getElementById('diagram-modal-body');
+  if (!modalBody) return;
+
+  let isDown = false;
+  let startX;
+  let startY;
+  let scrollLeft;
+  let scrollTop;
+
+  modalBody.addEventListener('mousedown', (e) => {
+    if (e.button !== 0) return; // only left click
+    isDown = true;
+    startX = e.pageX - modalBody.offsetLeft;
+    startY = e.pageY - modalBody.offsetTop;
+    scrollLeft = modalBody.scrollLeft;
+    scrollTop = modalBody.scrollTop;
+  });
+
+  modalBody.addEventListener('mouseleave', () => {
+    isDown = false;
+  });
+
+  modalBody.addEventListener('mouseup', () => {
+    isDown = false;
+  });
+
+  modalBody.addEventListener('mousemove', (e) => {
+    if (!isDown) return;
+    e.preventDefault();
+    const x = e.pageX - modalBody.offsetLeft;
+    const y = e.pageY - modalBody.offsetTop;
+    const walkX = (x - startX) * 1.5;
+    const walkY = (y - startY) * 1.5;
+    modalBody.scrollLeft = scrollLeft - walkX;
+    modalBody.scrollTop = scrollTop - walkY;
+  });
+
+  modalBody.addEventListener('wheel', (e) => {
+    if (document.getElementById('diagramModal').classList.contains('active')) {
+      e.preventDefault();
+      if (e.deltaY < 0) {
+        zoomDiagram(1.1);
+      } else {
+        zoomDiagram(0.9);
+      }
+    }
+  }, { passive: false });
 }
 
 function openDartpadInline() {

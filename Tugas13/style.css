@@ -1173,6 +1173,23 @@ pre {
   height: auto !important;
 }
 
+/* Custom styling for the zoomable diagram in the modal */
+#diagram-modal-body .mermaid svg {
+  max-width: none !important;
+  height: auto !important;
+  transition: width 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transform-origin: center center;
+}
+
+#diagram-modal-body {
+  cursor: grab;
+  user-select: none;
+}
+
+#diagram-modal-body:active {
+  cursor: grabbing;
+}
+
 .mermaid .classGroup rect {
   fill: #120b0c !important;
   stroke: #ef233c !important;
