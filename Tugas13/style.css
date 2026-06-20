@@ -139,7 +139,7 @@ header {
 /* Main Grid Layout */
 .grid-dashboard {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1.4fr 1fr;
   gap: 30px;
   margin-bottom: 50px;
 }
@@ -160,6 +160,8 @@ header {
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(12px);
+  display: flex;
+  flex-direction: column;
 }
 
 .cyber-card::before {
@@ -481,7 +483,8 @@ header {
   color: var(--text-main);
   box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.95);
   position: relative;
-  height: 380px;
+  flex: 1;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
 }
@@ -892,6 +895,8 @@ pre {
   justify-content: space-between;
   margin-bottom: 10px;
   font-size: 0.85rem;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
 .receipt-row.total {
@@ -1049,8 +1054,39 @@ pre {
   }
 
   .customer-selector {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 12px;
+  }
+
+  .tabs-container {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 5px;
+  }
+
+  .tabs-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab-btn, .diag-tab-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .mermaid-container {
+    justify-content: flex-start !important;
+  }
+
+  .mermaid {
+    min-width: 700px;
+    justify-content: flex-start !important;
   }
 
   .cust-btn {
@@ -1095,12 +1131,6 @@ pre {
     margin-bottom: 10px;
     justify-content: flex-end;
     display: flex;
-  }
-
-  .tab-btn {
-    padding: 8px 12px;
-    font-size: 0.75rem;
-    letter-spacing: 0.5px;
   }
 
   .modal-content {
